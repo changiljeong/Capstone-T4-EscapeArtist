@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+
 public class MainView {
   private JsonObject menuData;
 
@@ -83,6 +84,7 @@ public class MainView {
       e.printStackTrace();
     }
   }
+
 
   public void printMessage(String key) {
     System.out.println(menuData.get(key).getAsString());
