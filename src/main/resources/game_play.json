@@ -1,0 +1,35 @@
+{
+  "story": "“You are an explorer in search of the final clue that will lead you to a lost treasure. Your intel has led you to an\nabandoned museum. You enter the museum and close the door behind you when suddenly the ceiling collapses and\nblocks the entrance. Unfazed by this, you continue to move forward and explore the exhibits in search of the final clue.\nYou now find yourself in a room consisting of three paths...",
+  "exhibits": {
+    "riddles": {
+      "explanation": "Kingdom Exhibits [Path of Riddles]: This path will require creative and\nlateral thinking, as the solution may not be immediately obvious or straightforward.\nThis path includes the following exhibits: {exhibits.riddles.easy}, etc... .\nThese exhibits include hints. Each time you head north, you will enter a new difficulty level.",
+      "easy": "Old Kingdom Exhibit",
+      "medium": "Middle Kingdom Exhibit",
+      "hard": "New Kingdom Exhibit",
+      "boss": "Modern Egypt"
+    },
+    "trivia": {
+      "explanation": "Ages Exhibits [Path of Trivia]: This path will contain a collection of\nmiscellaneous facts and details, often obscure or of little importance,\nthat are interesting or entertaining to know.\nThis path includes the following exhibits: {exhibits.trivia.easy}, etc... .\nThese exhibits include hints. Each time you head north, you will enter a new difficulty level.",
+      "easy": "Dark Ages Exhibit",
+      "medium": "Middle Ages Exhibit",
+      "hard": "Renaissance Ages Exhibit",
+      "boss": "Modern Ages"
+    },
+    "games": {
+      "explanation": "Samari Exhibits [Path of Mini-Games]: This path challenges you to beat the\ncomputer at its own game. This path may involve elements of skill,\nstrategy, luck, or a combination of all three.\nThis path includes the following exhibits: {exhibits.games.easy}, etc... .\nThere are no hints in these exhibits. Each time you head north, you will enter a new difficulty level.",
+      "easy": "Koto Exhibit",
+      "medium": "Shinto Exhibit",
+      "hard": "Gender Exhibit",
+      "boss": "Modern Japan"
+    },
+    "items": {
+      "explanation": "Each item you collect after every level will provide you with the necessary inventory to defeat the final challenger.\nYou must complete at least one challenge per level to gain access to these exhibits. \nThe following exhibits contain inventory items: {exhibits.items.easy}, etc... .\nIn each exhibit you will find three chests. Each chest will need its\nown key for access. You will have the option to add the item from at least one chest to your inventory to help you defeat the final challenger.",
+      "easy": "Homeopathic Exhibit",
+      "medium": "Weapons Exhibit",
+      "hard": "Armor Exhibit"
+    }
+  },
+  "objective": "Objective: Your challenge is to choose a path and escape the various museum exhibits to obtain the final clue.\nYou may choose to go through all the exhibits, just the exhibits on your original path, or any combination of exhibits.\nThe only requirement is to complete at least one challenge per level.",
+
+  "outcome" : "How to Win: Once you reach the Armor Exhibit and collect your armor, you will choose a path that will direct you\nto the final challenger. Each path has a different challenger you must defeat. If you successfully defeat at least one challenger,\nyou will have acquired that which you traveled to find. If you are defeated, you will have the option to\ntry again or try another challenger. You will also have the option to go back to other exhibits\nto collect more items if you desire."
+}
