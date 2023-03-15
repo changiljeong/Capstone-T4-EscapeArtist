@@ -1,0 +1,23 @@
+{
+  "welcome_message": "Welcome to the Text Adventure Game!",
+  "options": [
+    "1. New Game"
+  ],
+  "valid_inputs": [
+    "new game",
+    "new"
+  ],
+  "invalid_option": "Invalid option.",
+  "new_game_start": "Starting a new game...",
+  "words_to_remove": [
+    "the",
+    "of",
+    "and",
+    "a",
+    "to",
+    "and",
+    "an"
+  ],
+  "command_prompt": "> ",
+
+}
