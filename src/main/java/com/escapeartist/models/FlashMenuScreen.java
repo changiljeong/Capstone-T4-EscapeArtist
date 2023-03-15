@@ -1,16 +1,18 @@
 package com.escapeartist.models;
 
+import com.escapeartist.controllers.MainController;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
 public class FlashMenuScreen {
-  public FlashMenuScreen() throws IOException {
+  public FlashMenuScreen(MainController game) throws IOException {
     clearConsole();
-    startGame();
+    startGame(game);
   }
 
-  public static void startGame() throws IOException {
+  public static void startGame(MainController game) throws IOException {
     readAsciiFile();
     String message = "Press any key to continue...";
     int length = message.length() + 4;
@@ -20,6 +22,9 @@ public class FlashMenuScreen {
     System.out.println("| " + message + " |");
     System.out.println(border);
     System.in.read(); // Wait for user to press any key
+    System.in.read(); // Skip user input into menu
+
+    game.startMenu();
   }
 
   public static void readAsciiFile() {
