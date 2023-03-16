@@ -18,6 +18,8 @@ public class MainController {
         while (!validInput) {
             // Show the welcome message and options
             mainView.showWelcomeMessage();
+            mainView.showGameInfo();
+
             String userInput = String.valueOf(mainView.getUserInput());
 
             // Check if the user input is valid
