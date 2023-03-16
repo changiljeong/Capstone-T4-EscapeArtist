@@ -25,6 +25,7 @@ repositories {
 
 dependencies {
 
+    implementation 'com.google.code.gson:gson:2.10.1'
     implementation fileTree(dir: 'libs', include: '*.jar')
 
     testImplementation "org.junit.jupiter:junit-jupiter:${project.junit5Version}"
@@ -32,6 +33,9 @@ dependencies {
     // To use JUnit4 instead of JUnit5, comment out the previous 2 lines and uncomment the following 2 lines.
     // testImplementation "junit:junit:${project.junit4Version}"
     // testRuntimeOnly "org.junit.vintage:junit-vintage-engine:${project.junit5Version}"
+
+    implementation 'com.google.code.gson:gson:2.10.1'
+
 
 }
 

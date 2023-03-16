@@ -1,0 +1,12 @@
+{
+  "quit_confirm": "Are you sure you want to quit? (yes/no)",
+  "goodbye_message": "Thanks for playing! Goodbye!",
+  "command_prompt": "What would you like to do? \n> ",
+  "invalid_input": "Invalid command. Please try again.",
+  "valid_inputs": {
+    "yes": ["yes", "y"],
+    "no": ["no", "n"],
+    "quit": ["quit", "exit"]
+  }
+}
+
