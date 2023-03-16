@@ -1,18 +1,16 @@
 package com.escapeartist.models;
 
 import com.escapeartist.controllers.MainController;
-
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class FlashMenuScreen {
-  public FlashMenuScreen(MainController game) throws IOException {
-    clearConsole();
+  public FlashMenuScreen(MainController game) throws IOException{
     startGame(game);
   }
 
-  public static void startGame(MainController game) throws IOException {
+  public void startGame(MainController game) throws IOException {
     readAsciiFile();
     String message = "Press any key to continue...";
     int length = message.length() + 4;
@@ -22,15 +20,15 @@ public class FlashMenuScreen {
     System.out.println("| " + message + " |");
     System.out.println(border);
     System.in.read(); // Wait for user to press any key
-//    System.in.read(); // Skip user input into menu
-
+    clearConsole();
     game.startMenu();
   }
 
-  public static void readAsciiFile() {
-    String fileName = "src/main/resources/title_screen.txt";
+  public void readAsciiFile() {
+    String fileName = "title_screen.txt";
 
-    try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+    //noinspection ConstantConditions
+    try (BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream(fileName)))) {
       String line;
       while ((line = br.readLine()) != null) {
         System.out.println(line);
@@ -41,7 +39,17 @@ public class FlashMenuScreen {
   }
 
   public static void clearConsole() {
-    System.out.print("\033[H\033[2J");
-    System.out.flush();
+    try {
+      String os = System.getProperty("os.name");
+
+      if (os.contains("Windows")) {
+        new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+      } else {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+      }
+    } catch (IOException | InterruptedException e) {
+      e.printStackTrace();
+    }
   }
 }
