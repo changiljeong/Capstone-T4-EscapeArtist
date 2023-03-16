@@ -22,7 +22,7 @@ public class FlashMenuScreen {
     System.out.println("| " + message + " |");
     System.out.println(border);
     System.in.read(); // Wait for user to press any key
-    System.in.read(); // Skip user input into menu
+//    System.in.read(); // Skip user input into menu
 
     game.startMenu();
   }
