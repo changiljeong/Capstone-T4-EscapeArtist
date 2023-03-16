@@ -104,14 +104,15 @@ public class MainView {
     return cleanedInput.toString().trim();
   }
 
-  public boolean isValidInput(String userInput) {
+
+  public String isValidInput(String userInput) {
     JsonArray validInputs = menuData.getAsJsonArray("valid_inputs");
     for (int i = 0; i < validInputs.size(); i++) {
       if (userInput.equals(validInputs.get(i).getAsString())) {
-        return true;
+        return validInputs.get(i).getAsString();
       }
     }
-    return false;
+    return "";
   }
 
   public void clear() {
