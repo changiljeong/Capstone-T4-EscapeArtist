@@ -2,6 +2,7 @@ package com.escapeartist.views;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
@@ -9,11 +10,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 
 public class MainView {
   private JsonObject menuData;
+  private JsonObject basicGameInfo;
+  int delay = 1500;
 
   public MainView() {
     loadMenuData();
@@ -23,6 +27,8 @@ public class MainView {
     Gson gson = new Gson();
     InputStream inputStream = getClass().getClassLoader().getResourceAsStream("menu_dialogue.json");
     menuData = gson.fromJson(new InputStreamReader(inputStream), JsonObject.class);
+    InputStream inputStreamInfo = getClass().getClassLoader().getResourceAsStream("game_play.json");
+    basicGameInfo = gson.fromJson(new InputStreamReader(inputStreamInfo), JsonObject.class);
   }
 
   public void showWelcomeMessage() {
@@ -30,6 +36,44 @@ public class MainView {
     JsonArray options = menuData.getAsJsonArray("options");
     for (int i = 0; i < options.size(); i++) {
       System.out.println(options.get(i).getAsString());
+    }
+  }
+
+  public void showGameInfo() {
+    System.out.println(basicGameInfo.get("story").getAsString());
+    toContinue();
+    formatExplanation();
+    System.out.println(basicGameInfo.get("objective").getAsString());
+    toContinue();
+    System.out.println(basicGameInfo.get("outcome").getAsString());
+    toContinue();
+
+  }
+
+
+  public void formatExplanation() {
+    JsonObject exhibits = basicGameInfo.getAsJsonObject("exhibits");
+    for (Map.Entry<String, JsonElement> entry : exhibits.entrySet()) {
+      JsonObject exhibit = entry.getValue().getAsJsonObject();
+      String explanation = exhibit.get("explanation").getAsString();
+      String easy = exhibit.get("easy").getAsString();
+      String medium = exhibit.get("medium").getAsString();
+      String hard = exhibit.get("hard").getAsString();
+      explanation = explanation
+          .replace("{easy}", easy)
+          .replace("{medium}", medium)
+          .replace("{hard}", hard);
+      System.out.println(explanation);
+      toContinue();
+    }
+  }
+
+  public void toContinue() {
+    System.out.println("Press enter to continue...");
+    try {
+      System.in.read();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
   }
 
@@ -89,4 +133,6 @@ public class MainView {
   public void printMessage(String key) {
     System.out.println(menuData.get(key).getAsString());
   }
+
+
 }
