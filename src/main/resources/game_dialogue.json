@@ -6,7 +6,10 @@
   "valid_inputs": {
     "yes": ["yes", "y"],
     "no": ["no", "n"],
-    "quit": ["quit", "exit"]
+    "quit": ["quit", "exit"],
+    "help": ["help", "h", "?"]
+  },
+    "help_menu": "Acceptable commands\n'go'-used to move to another location\n'get': used to pickup an item\n'talk: allows you to interact\n'look': allows you to look around a room\n'use': allows you to use the items in you inventory\n'quit':  allows you to exit the game\n'new': allows you to start a new game\n'help': brings you to this menu\nAcceptable directions to use with 'go' and 'look':\n'north'\n'east'\n'south'\n'west'"
   }
-}
+
 
