@@ -1,5 +1,6 @@
 package com.escapeartist.controllers;
 
+import com.escapeartist.models.TextParser;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -9,8 +10,10 @@ import java.util.Scanner;
 
 public class GameController {
     private JsonObject gameData;
+    private final TextParser parser;
 
     public GameController() {
+        parser = new TextParser(gameData);
         loadGameData();
     }
 
@@ -26,24 +29,19 @@ public class GameController {
 
         while (running) {
             System.out.print(gameData.get("command_prompt").getAsString());
-            String userInput = scanner.nextLine().trim().toLowerCase();
-            JsonElement inputElement = new Gson().toJsonTree(userInput);
+            String userInput = scanner.nextLine();
+            JsonElement inputElement = parser.cleanInput(userInput);
 
             JsonObject validInputs = gameData.getAsJsonObject("valid_inputs");
 
-            if (validInputs.getAsJsonArray("quit").contains(inputElement)) {
-                boolean confirmQuit = getConfirmation(gameData.get("quit_confirm").getAsString());
+            if (parser.handleQuit(validInputs, inputElement, gameData.get("quit_confirm").getAsString(), gameData.get("command_prompt").getAsString(), gameData.get("invalid_input").getAsString(), scanner)) {
+                System.out.println(gameData.get("goodbye_message").getAsString());
+                running = false;
 
-                if (confirmQuit) {
-                    System.out.println(gameData.get("goodbye_message").getAsString());
-                    running = false;
-                }
             } else {
-                if (!isValidInput(validInputs, inputElement)) {
+                if (!parser.isValidInput(validInputs, inputElement)) {
                     System.out.println(gameData.get("invalid_input").getAsString());
                 }
-
-                // TODO: 3/16/23   Add game logic here
             }
             scanner = new Scanner(System.in);
         }
