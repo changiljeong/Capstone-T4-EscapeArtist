@@ -60,4 +60,9 @@ public class TextParser {
       }
     }
   }
+
+  public boolean isHelpCommand(JsonElement inputElement) {
+    JsonObject validInputs = gameData.getAsJsonObject("valid_inputs");
+    return validInputs.getAsJsonArray("help").contains(inputElement);
+  }
 }

@@ -43,6 +43,9 @@ public class GameController {
                     System.out.println(gameData.get("goodbye_message").getAsString());
                     running = false;
                 }
+            } else if (textParser.isHelpCommand(inputElement)) {
+                System.out.println(gameData.get("help_menu").getAsString());
+
             } else {
                 if (!textParser.isValidInput(inputElement)) {
                     System.out.println(gameData.get("invalid_input").getAsString());
