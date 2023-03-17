@@ -7,6 +7,14 @@
     "yes": ["yes", "y"],
     "no": ["no", "n"],
     "quit": ["quit", "exit"]
+  },
+  "words_to_remove": [
+    "the",
+    "of",
+    "a",
+    "to",
+    "and",
+    "an"
+    ]
   }
-}
 
