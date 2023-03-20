@@ -84,7 +84,7 @@ public class TextParser {
     return validInputs.getAsJsonArray("help").contains(inputElement);
   }
 
-  public boolean isLookCommand(JsonElement inputElement){
+  public boolean isGoCommand(JsonElement inputElement) {
     if (inputElement == null) {
       return false;
     }
@@ -98,12 +98,21 @@ public class TextParser {
     if (validInputs == null) {
       return false;
     }
-    JsonArray lookCommands = validInputs.getAsJsonArray("look");
-    for(JsonElement word : lookCommands){
-      if(inputElement.getAsString().startsWith(word.getAsString())){
-        return false;
+
+    JsonArray goCommands = validInputs.getAsJsonArray("go");
+    for (JsonElement word : goCommands) {
+      if (inputElement.getAsString().startsWith(word.getAsString())) {
+        return true;
       }
     }
-    return validInputs.getAsJsonArray("look").contains(inputElement);
+    return false;
+  }
+
+  public String getSecondWord(String userInput) {
+    String[] words = userInput.split(" ");
+    if (words.length > 1) {
+      return words[1];
+    }
+    return "";
   }
 }

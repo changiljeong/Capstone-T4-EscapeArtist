@@ -5,8 +5,10 @@ import com.escapeartist.views.GameView;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Scanner;
 import com.escapeartist.models.TextParser;
 
@@ -22,16 +24,30 @@ public class GameController {
         loadGameData();
         textParser = new TextParser(gameData);
         gameView = new GameView(gameData);
-        player = new Player(100, 10, 5); // Initialize player with starting HP, attack, and defense values
+        player = new Player(100, 10,
+            5); // Initialize player with starting HP, attack, and defense values
         currentLocationId = 1; // Start in Museum Lobby
     }
 
     private void loadGameData() {
+        //noinspection DataFlowIssue
+//        try(Reader reader = new InputStreamReader(getClass().getClassLoader().getResourceAsStream("game_dialogue.json"))) {
+//            Gson gson = new Gson();
+//            GameDialogue dialogue = gson.fromJson(reader, GameDialogue.class);
+//            System.out.println();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+
         Gson gson = new Gson();
-        InputStream dialogueInputStream = getClass().getClassLoader().getResourceAsStream("game_dialogue.json");
-        InputStream locationsInputStream = getClass().getClassLoader().getResourceAsStream("locations.json");
-        JsonObject dialogueData = gson.fromJson(new InputStreamReader(dialogueInputStream), JsonObject.class);
-        JsonObject locationsData = gson.fromJson(new InputStreamReader(locationsInputStream), JsonObject.class);
+        InputStream dialogueInputStream = getClass().getClassLoader()
+            .getResourceAsStream("game_dialogue.json");
+        InputStream locationsInputStream = getClass().getClassLoader()
+            .getResourceAsStream("locations.json");
+        JsonObject dialogueData = gson.fromJson(new InputStreamReader(dialogueInputStream),
+            JsonObject.class);
+        JsonObject locationsData = gson.fromJson(new InputStreamReader(locationsInputStream),
+            JsonObject.class);
 
         gameData = new JsonObject();
         gameData.add("dialogue", dialogueData);
@@ -46,30 +62,31 @@ public class GameController {
         while (running) {
             JsonObject currentLocation = getLocationById(currentLocationId);
             gameView.displayLocation(currentLocation);
-            System.out.print(gameData.getAsJsonObject("dialogue").get("command_prompt").getAsString());
+            System.out.print(
+                gameData.getAsJsonObject("dialogue").get("command_prompt").getAsString());
             String userInput = scanner.nextLine();
             String cleanedInput = textParser.cleanUserInput(userInput);
             JsonElement inputElement = new Gson().toJsonTree(cleanedInput);
 
             if (textParser.isQuitCommand(inputElement)) {
                 boolean confirmQuit = textParser.getConfirmation(
-                        gameData.getAsJsonObject("dialogue").get("quit_confirm").getAsString());
-
+                    gameData.getAsJsonObject("dialogue").get("quit_confirm").getAsString());
 
                 if (confirmQuit) {
-                    System.out.println(gameData.getAsJsonObject("dialogue").get("goodbye_message").getAsString());
+                    System.out.println(
+                        gameData.getAsJsonObject("dialogue").get("goodbye_message").getAsString());
                     running = false;
                 }
             } else if (textParser.isHelpCommand(inputElement)) {
-                System.out.println(gameData.getAsJsonObject("dialogue").get("help_menu").getAsString());
+                System.out.println(
+                    gameData.getAsJsonObject("dialogue").get("help_menu").getAsString());
+            } else if (textParser.isGoCommand(inputElement)) {
+                moveLocation(userInput, currentLocationId);
 
-            } else if (textParser.isLookCommand(inputElement)){
-                // TODO: 3/20/23 logic if the player is looking at npc, item, or room
-                System.out.println(gameData.getAsJsonObject("locations").get("npcs").getAsString());
-            }
-            else {
+        } else {
                 if (!textParser.isValidInput(inputElement)) {
-                    System.out.println(gameData.getAsJsonObject("dialogue").get("invalid_input").getAsString());
+                    System.out.println(
+                        gameData.getAsJsonObject("dialogue").get("invalid_input").getAsString());
                 }
 
                 // TODO: Add game logic here
@@ -85,5 +102,23 @@ public class GameController {
             }
         }
         return null;
+    }
+
+    public void moveLocation(String userInput, int currentLocationId) {
+        String direction = textParser.getSecondWord(userInput); // Assumes the second word is the direction
+        JsonObject currentLocation = gameData.getAsJsonArray("locations").get(currentLocationId - 1).getAsJsonObject();
+        JsonObject exits = currentLocation.getAsJsonObject("exits");
+        // Check if the direction is a valid exit from the current location
+        if (exits.has(direction)) {
+            int newLocationId = exits.get(direction).getAsInt();
+            JsonObject newLocation = gameData.getAsJsonArray("locations").get(newLocationId - 1).getAsJsonObject();
+            setCurrentLocationId(newLocationId);
+        } else {
+            System.out.println(gameData.getAsJsonObject("dialogue").get("invalid_exit").getAsString());
+        }
+    }
+
+    public void setCurrentLocationId(int currentLocationId) {
+        this.currentLocationId = currentLocationId;
     }
 }
