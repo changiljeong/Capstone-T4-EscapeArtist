@@ -83,4 +83,36 @@ public class TextParser {
     JsonObject validInputs = gameData.getAsJsonObject("dialogue").getAsJsonObject("valid_inputs");
     return validInputs.getAsJsonArray("help").contains(inputElement);
   }
+
+  public boolean isGoCommand(JsonElement inputElement) {
+    if (inputElement == null) {
+      return false;
+    }
+
+    JsonObject dialogue = gameData.getAsJsonObject("dialogue");
+    if (dialogue == null) {
+      return false;
+    }
+
+    JsonObject validInputs = dialogue.getAsJsonObject("valid_inputs");
+    if (validInputs == null) {
+      return false;
+    }
+
+    JsonArray goCommands = validInputs.getAsJsonArray("go");
+    for (JsonElement word : goCommands) {
+      if (inputElement.getAsString().startsWith(word.getAsString())) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public String getSecondWord(String userInput) {
+    String[] words = userInput.split(" ");
+    if (words.length > 1) {
+      return words[1];
+    }
+    return "";
+  }
 }
