@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "Museum Lobby",
-      "description": "The lobby of the museum.\n The main entrance is blocked by debris.\n There are three exits (North, East, and West)",
+      "description": "The lobby of the museum.\nThe main entrance is blocked by debris.\nThere are three exits (North, East, and West)",
       "exits": {
         "west": 2,
         "north": 3,

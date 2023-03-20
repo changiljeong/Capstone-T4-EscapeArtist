@@ -16,18 +16,21 @@ public class TextParser {
 
   public String cleanUserInput(String userInput) {
     userInput = userInput.trim().toLowerCase();
-    JsonArray wordsToRemove = gameData.getAsJsonArray("words_to_remove");
+    JsonArray wordsToRemove = gameData.getAsJsonObject("dialogue").getAsJsonArray("words_to_remove");
 
-    for (JsonElement wordToRemove : wordsToRemove) {
-      String word = wordToRemove.getAsString();
-      userInput = userInput.replaceAll("\\b" + word + "\\b", "").trim();
+    if (wordsToRemove != null) {
+      for (JsonElement wordToRemove : wordsToRemove) {
+        String word = wordToRemove.getAsString();
+        userInput = userInput.replaceAll("\\b" + word + "\\b", "").trim();
+      }
     }
 
     return userInput;
   }
 
+
   public boolean isValidInput(JsonElement inputElement) {
-    JsonObject validInputs = gameData.getAsJsonObject("valid_inputs");
+    JsonObject validInputs = gameData.getAsJsonObject("dialogue").getAsJsonObject("valid_inputs");
     for (String key : validInputs.keySet()) {
       if (validInputs.getAsJsonArray(key).contains(inputElement)) {
         return true;
@@ -37,17 +40,32 @@ public class TextParser {
   }
 
   public boolean isQuitCommand(JsonElement inputElement) {
-    JsonObject validInputs = gameData.getAsJsonObject("valid_inputs");
+    if (inputElement == null) {
+      return false;
+    }
+
+    JsonObject dialogue = gameData.getAsJsonObject("dialogue");
+    if (dialogue == null) {
+      return false;
+    }
+
+    JsonObject validInputs = dialogue.getAsJsonObject("valid_inputs");
+    if (validInputs == null) {
+      return false;
+    }
+
     return validInputs.getAsJsonArray("quit").contains(inputElement);
   }
 
+
+
   public boolean getConfirmation(String prompt) {
     Scanner scanner = new Scanner(System.in);
-    JsonObject validInputs = gameData.getAsJsonObject("valid_inputs");
+    JsonObject validInputs = gameData.getAsJsonObject("dialogue").getAsJsonObject("valid_inputs");
 
     while (true) {
       System.out.println(prompt);
-      System.out.print(gameData.get("command_prompt").getAsString());
+      System.out.print(gameData.getAsJsonObject("dialogue").get("command_prompt").getAsString());
       String userInput = scanner.nextLine().trim().toLowerCase();
       JsonElement inputElement = new Gson().toJsonTree(userInput);
 
@@ -56,13 +74,13 @@ public class TextParser {
       } else if (validInputs.getAsJsonArray("no").contains(inputElement)) {
         return false;
       } else {
-        System.out.println(gameData.get("invalid_input").getAsString());
+        System.out.println(gameData.getAsJsonObject("dialogue").get("invalid_input").getAsString());
       }
     }
   }
 
   public boolean isHelpCommand(JsonElement inputElement) {
-    JsonObject validInputs = gameData.getAsJsonObject("valid_inputs");
+    JsonObject validInputs = gameData.getAsJsonObject("dialogue").getAsJsonObject("valid_inputs");
     return validInputs.getAsJsonArray("help").contains(inputElement);
   }
 }
