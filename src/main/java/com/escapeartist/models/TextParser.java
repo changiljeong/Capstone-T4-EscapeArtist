@@ -115,4 +115,9 @@ public class TextParser {
     }
     return "";
   }
+
+  public boolean isLookCommand(JsonElement inputElement){
+    JsonObject validInputs = gameData.getAsJsonObject("dialogue").getAsJsonObject("valid_inputs");
+    return validInputs.getAsJsonArray("look").contains(inputElement);
+  }
 }
