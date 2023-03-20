@@ -63,8 +63,11 @@ public class GameController {
             } else if (textParser.isHelpCommand(inputElement)) {
                 System.out.println(gameData.getAsJsonObject("dialogue").get("help_menu").getAsString());
 
-
-            } else {
+            } else if (textParser.isLookCommand(inputElement)){
+                // TODO: 3/20/23 logic if the player is looking at npc, item, or room
+                System.out.println(gameData.getAsJsonObject("locations").get("npcs").getAsString());
+            }
+            else {
                 if (!textParser.isValidInput(inputElement)) {
                     System.out.println(gameData.getAsJsonObject("dialogue").get("invalid_input").getAsString());
                 }

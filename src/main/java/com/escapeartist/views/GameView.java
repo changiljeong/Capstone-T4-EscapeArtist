@@ -17,7 +17,7 @@ public class GameView {
         System.out.println(location.get("description").getAsString());
         System.out.println(getExitText() + " " + getExits(location));
         System.out.println(getItemText() + location.get("items").getAsJsonArray());
-        System.out.println(getNPCText() + location.get("items").getAsJsonArray());
+        System.out.println(getNPCText() + location.get("npcs").getAsJsonArray());
     }
 
     private String getExitText() {

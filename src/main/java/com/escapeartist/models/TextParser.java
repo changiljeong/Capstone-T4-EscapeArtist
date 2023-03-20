@@ -83,4 +83,9 @@ public class TextParser {
     JsonObject validInputs = gameData.getAsJsonObject("dialogue").getAsJsonObject("valid_inputs");
     return validInputs.getAsJsonArray("help").contains(inputElement);
   }
+
+  public boolean isLookCommand(JsonElement inputElement){
+    JsonObject validInputs = gameData.getAsJsonObject("dialogue").getAsJsonObject("valid_inputs");
+    return validInputs.getAsJsonArray("look").contains(inputElement);
+  }
 }

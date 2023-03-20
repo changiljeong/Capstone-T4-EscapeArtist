@@ -10,7 +10,12 @@
     "yes": ["yes", "y"],
     "no": ["no", "n"],
     "quit": ["quit", "exit"],
-    "help": ["help", "h", "?"]
+    "help": ["help", "h", "?"],
+    "get":  ["get", "take"],
+    "talk" : ["talk", "speak", "chat"],
+    "go" : ["go", "enter"],
+    "look" : ["look", "inspect", "view"],
+    "use" : ["use", "consume"]
   },
   "words_to_remove": [
     "the",
