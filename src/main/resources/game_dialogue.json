@@ -26,27 +26,8 @@
     "to",
     "and",
     "an"
-    ],
-  "verbs_to_remove" : [
-    "go",
-    "move",
-    "look",
-    "view",
-    "inspect",
-    "use",
-    "consume",
-    "talk",
-    "speak",
-    "interact",
-    "chat",
-    "equip",
-    "arm",
-    "get",
-    "take",
-    "grab",
-    "pickup"
   ],
   "help_menu": "Acceptable commands\n'go': used to move to another location\n'get': used to pickup an item\n'talk: allows you to interact\n'look': allows you to look around a room\n'use': allows you to use the items in your inventory\n'equip': allows you to equip yourself with the equipment in your inventory\n'quit':  allows you to exit the game\n'new': allows you to start a new game\n'help': brings you to this menu\nAcceptable directions to use with 'go':\n'north'\n'east'\n'south'\n'west'"
-  }
+}
 
 

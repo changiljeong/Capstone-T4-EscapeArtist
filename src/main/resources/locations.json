@@ -10,10 +10,7 @@
         "east": 4
       },
       "npcs": [],
-      "items": [{
-        "item_name" : "backpack",
-        "item_description" : "A durable bag that can hold treasure that you may discover"
-      }]
+      "items": []
     },
     {
       "id": 2,
