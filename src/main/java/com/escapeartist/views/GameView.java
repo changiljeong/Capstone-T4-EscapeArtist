@@ -23,69 +23,41 @@ public class GameView {
         JsonObject locationObject = location.getAsJsonObject();
         System.out.println(locationObject.get("name").getAsString());
         System.out.println(locationObject.get("description").getAsString());
-        System.out.print(gameData.getAsJsonObject("dialogue").get("exits_text").getAsString() + " ");
+        System.out.print(gameData.getAsJsonObject("dialogue").get("exits_text").getAsString());
         locationObject.get("exits").getAsJsonObject().entrySet().forEach(entry -> System.out.print(entry.getKey() + ", "));
         System.out.println();
 
         JsonArray itemsArray = new JsonArray();
         if (locationObject.has("items")) {
-            itemsArray = new Gson().toJsonTree(locationObject.get("items").getAsJsonArray()).getAsJsonArray();
+            itemsArray = locationObject.get("items").getAsJsonArray();
         }
-        System.out.println(gameData.getAsJsonObject("dialogue").get("items_text").getAsString() + " " + itemsArray);
+        String itemsText = gameData.getAsJsonObject("dialogue").get("items_text").getAsString();
+        itemsText += getJsonArray(itemsArray, "name");
+        System.out.println(itemsText);
 
         JsonArray npcsArray = new JsonArray();
         if (locationObject.has("npcs")) {
-            npcsArray = new Gson().toJsonTree(locationObject.get("npcs").getAsJsonArray()).getAsJsonArray();
+            npcsArray = locationObject.get("npcs").getAsJsonArray();
         }
-        System.out.println(gameData.getAsJsonObject("dialogue").get("npcs_text").getAsString() + " " + npcsArray);
+        String npcsText = gameData.getAsJsonObject("dialogue").get("npcs_text").getAsString();
+        npcsText += getJsonArray(npcsArray, "name");
+        System.out.println(npcsText);
     }
 
 
-    private String getExits(Location location) {
-        Map<String, Integer> exits = location.getExits();
-        StringBuilder exitString = new StringBuilder();
-        int exitCount = 0;
 
-        for (Map.Entry<String, Integer> entry : exits.entrySet()) {
-            exitString.append(entry.getKey());
-            exitCount++;
+    private String getJsonArray(JsonArray jsonArray, String fieldName) {
+        StringBuilder stringArray = new StringBuilder();
 
-            if (exitCount < exits.size()) {
-                exitString.append(", ");
+        for (int i = 0; i < jsonArray.size(); i ++) {
+            JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+            stringArray.append(jsonObject.get(fieldName).getAsString());
+            if(i < jsonArray.size() - 1 ){
+                stringArray.append(", ");
             }
         }
-
-        return exitString.toString();
+        return stringArray.toString();
     }
 
-    private String getItems(List<Item> items) {
-        StringBuilder itemText = new StringBuilder();
-
-        for (Item item : items) {
-            itemText.append(item.getName());
-            itemText.append(", ");
-        }
-
-        if (items.size() > 0) {
-            itemText.setLength(itemText.length() - 2); // remove the last comma and space
-        }
-
-        return itemText.toString();
-    }
-
-    private String getNPCs(List<NPC> npcs) {
-        StringBuilder npcText = new StringBuilder();
-
-        for (NPC npc : npcs) {
-            npcText.append(npc.getName());
-            npcText.append(", ");
-        }
-
-        if (npcs.size() > 0) {
-            npcText.setLength(npcText.length() - 2); // remove the last comma and space
-        }
-
-        return npcText.toString();
-    }
 
 }

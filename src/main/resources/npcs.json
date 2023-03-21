@@ -8,13 +8,13 @@
     },
     {
       "interactive" : true,
-      "name" : "Armed Guard",
+      "name" : "Guard",
       "description" : "An imposing figure who wields a sharp curved blade",
       "reply" : "State your purpose, don't delay or roam,\nOr else you'll face my blade alone."
     },
     {
      "interactive" : true,
-      "name" : "Teutonic Knight",
+      "name" : "Knight",
       "description" : "A noble Knight whose weapon has fell many an enemy.",
       "reply" : "Greetings, adventurer, with a heart full of might,\nMy blade has vanquished foes both evil and blight."
     },
@@ -26,7 +26,7 @@
     },
     {
       "interactive" : true,
-      "name" : "Weary Explorer",
+      "name" : "Merchant",
       "description" : "A traveler who is too exhausted to go forward. He sees great potential in you.",
       "reply" : "Greetings, adventurer, with a heart full of hope,\nBut my journey has drained me, and I am struggling to cope. I seek a treasure of immense value and might,\nBut my strength is waning, and my resolve is losing the fight. Your journey is inspiring, and your spirit so bright,\nI see great potential in you, and your will to fight"
     }

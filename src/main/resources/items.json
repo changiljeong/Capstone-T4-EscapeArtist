@@ -9,7 +9,7 @@
     },
     {
       "id": 2,
-      "name": "Healing Potion",
+      "name": "Potion",
       "description": "A healing potion is a potion that can be healed by a player.",
       "type": "item",
       "equippable": false
@@ -23,7 +23,7 @@
     },
     {
       "id": 4,
-      "name": "LongSword",
+      "name": "Longsword",
       "description": "A blade with long reach",
       "type": "weapon",
       "equippable": true

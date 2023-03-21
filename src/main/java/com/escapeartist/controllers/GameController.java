@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import com.google.gson.reflect.TypeToken;
 import java.util.List;
 import java.util.Scanner;
 
@@ -71,9 +72,16 @@ public class GameController {
                 moveLocation(userInput, currentLocation);
 
             } else if (textParser.isLookCommand(inputElement)){
-                lookItem(userInput, currentLocation);
-
-            }else {
+                String secondWord = textParser.getSecondWord(userInput);
+                if(currentLocation.getNpcs().stream().anyMatch(npc -> npc.getName().equalsIgnoreCase(secondWord))){
+                    lookNpc(userInput, gameData);
+                } else if(currentLocation.getItems().stream().anyMatch(item -> item.getName().equalsIgnoreCase(secondWord))){
+                    lookItem(userInput, gameData);
+                } else{
+                    System.out.println(gameDialogue.getInvalidInput());
+                }
+            }
+            else {
                 if (!textParser.isValidInput(inputElement)) {
                     System.out.println(gameData.getAsJsonObject("dialogue").get("invalid_input").getAsString());
                 }
@@ -103,22 +111,53 @@ public class GameController {
         }
     }
 
-    public void lookItem(String userInput, Location currentLocation){
-        String itemWord = textParser.getSecondWord(userInput); //second word will be an item
-        List<Item> items = currentLocation.getItems();
-        boolean itemFound = false;
+//    public void lookItem(String userInput, Location currentLocation){
+//        String itemWord = textParser.getSecondWord(userInput); //second word will be an item
+//        List<Item> items = currentLocation.getItems();
+//        boolean itemFound = false;
+//
+//        for(Item item : items) {
+//            if (item.getName().equalsIgnoreCase(itemWord)) {
+//                itemFound = true;
+//                System.out.println(item.getDescription());
+//            }
+//        }
+//        if (!itemFound) {
+//            System.out.println(gameDialogue.getInvalidInput());
+//        }
+//    }
+     public void lookItem(String userInput, JsonObject gameData){
+        String itemWord = textParser.getSecondWord(userInput);
+         List<Item> items = new Gson().fromJson(gameData.getAsJsonArray("items"), new TypeToken<List<Item>>() {}.getType());
+         boolean itemFound = false;
 
         for(Item item : items) {
             if (item.getName().equalsIgnoreCase(itemWord)) {
-                System.out.println(item.getDescription());
                 itemFound = true;
+                System.out.println(item.getDescription());
             }
         }
-
         if (!itemFound) {
             System.out.println(gameDialogue.getInvalidInput());
         }
-    }
+     }
+
+     public void lookNpc(String userInput, JsonObject gameData){
+        String npcWord = textParser.getSecondWord(userInput);
+        List<NPC> npcs = new Gson().fromJson(gameData.getAsJsonArray("npcs"), new TypeToken<List<NPC>>() {}.getType());
+        boolean npcFound = false;
+
+        for (NPC npc : npcs){
+            if(npc.getName().equalsIgnoreCase(npcWord)){
+                npcFound = true;
+                System.out.println(npc.getDescription());
+            }
+        }
+        if(!npcFound){
+            System.out.println(gameDialogue.getInvalidInput());
+        }
+     }
+
 
     public void setCurrentLocationId(int currentLocationId) {
         this.currentLocationId = currentLocationId;
