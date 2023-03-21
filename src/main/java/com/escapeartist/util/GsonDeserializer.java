@@ -50,7 +50,7 @@ public class GsonDeserializer {
         try (Reader reader = new InputStreamReader(GsonDeserializer.class.getClassLoader().getResourceAsStream("npcs.json"))) {
             Gson gson = new Gson();
             JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
-            JsonArray npcsArray = jsonObject.getAsJsonArray("npc");
+            JsonArray npcsArray = jsonObject.getAsJsonArray("npcs");
             Type listType = new TypeToken<List<NPC>>() {
             }.getType();
             return gson.fromJson(npcsArray, listType);
