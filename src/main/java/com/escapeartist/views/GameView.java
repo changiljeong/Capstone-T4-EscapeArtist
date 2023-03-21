@@ -16,8 +16,8 @@ public class GameView {
     public void displayLocation(JsonObject location) {
         System.out.println(location.get("description").getAsString());
         System.out.println(getExitText() + " " + getExits(location));
-        System.out.println(getItemText() + location.get("items").getAsJsonArray());
-        System.out.println(getNPCText() + location.get("items").getAsJsonArray());
+        System.out.println(getItemText() + " " + getItems(location));
+        System.out.println(getNPCText() + location.get("npcs").getAsJsonArray());
     }
 
     private String getExitText() {
@@ -49,6 +49,17 @@ public class GameView {
         return exitString.toString();
     }
 
+    public String getItems(JsonObject location){
+        StringBuilder itemText = new StringBuilder();
+        JsonArray items = location.get("items").getAsJsonArray();
+
+        for(JsonElement item : items) {
+            JsonObject itemObj = item.getAsJsonObject();
+            String itemName = itemObj.get("item_name").getAsString();
+            itemText.append(itemName);
+        }
+        return itemText.toString();
+    }
 
 
 }

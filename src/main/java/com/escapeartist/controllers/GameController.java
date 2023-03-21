@@ -4,6 +4,7 @@ import com.escapeartist.models.GameDialogue;
 import com.escapeartist.models.Player;
 import com.escapeartist.views.GameView;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.io.IOException;
@@ -84,8 +85,11 @@ public class GameController {
             } else if (textParser.isGoCommand(inputElement)) {
                 moveLocation(userInput, currentLocationId);
 
-        } else {
-                if (!textParser.isValidInput(inputElement)) {
+            } else if (textParser.isLookCommand(inputElement)){
+                lookItem(userInput, currentLocationId);
+                
+            }else {
+            if (!textParser.isValidInput(inputElement)) {
                     System.out.println(
                         gameData.getAsJsonObject("dialogue").get("invalid_input").getAsString());
                 }
@@ -118,6 +122,23 @@ public class GameController {
             System.out.println(gameData.getAsJsonObject("dialogue").get("invalid_exit").getAsString());
         }
     }
+
+    public void lookItem(String userInput, int currentLocationId){
+        String itemWord = textParser.getSecondWord(userInput); //second word will be an item
+        JsonObject currentLocation = getLocationById(currentLocationId);
+        JsonArray items = currentLocation.getAsJsonArray("items");
+        for(JsonElement item : items) {
+            JsonObject itemJson = item.getAsJsonObject();
+
+            if (itemJson.get("item_name").getAsString().equalsIgnoreCase(itemWord)) {
+                System.out.println(itemJson.get("item_description").getAsString());
+            } else {
+                System.out.println(
+                    gameData.getAsJsonObject("dialogue").get("invalid_input").getAsString());
+            }
+        }
+    }
+
 
     public void setCurrentLocationId(int currentLocationId) {
         this.currentLocationId = currentLocationId;

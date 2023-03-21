@@ -10,7 +10,10 @@
         "east": 4
       },
       "npcs": [],
-      "items": []
+      "items": [{
+        "item_name" : "backpack",
+        "item_description" : "A durable bag that can hold treasure that you may discover"
+      }]
     },
     {
       "id": 2,
@@ -166,7 +169,7 @@
     },
     {
       "id": 14,
-      "name": "Gender Exhibit",
+      "name": "Gendaito Exhibit",
       "description": "You are in the Gender Exhibit.\nThere are three exits (North, South, and West).",
       "exits": {
         "west": 13,
