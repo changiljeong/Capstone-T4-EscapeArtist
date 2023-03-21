@@ -84,11 +84,12 @@ public class GameController {
                     gameData.getAsJsonObject("dialogue").get("help_menu").getAsString());
             } else if (textParser.isGoCommand(inputElement)) {
                 moveLocation(userInput, currentLocationId);
+
             } else if (textParser.isLookCommand(inputElement)){
                 lookItem(userInput, currentLocationId);
-            }
-            else {
-                if (!textParser.isValidInput(inputElement)) {
+                
+            }else {
+            if (!textParser.isValidInput(inputElement)) {
                     System.out.println(
                         gameData.getAsJsonObject("dialogue").get("invalid_input").getAsString());
                 }
@@ -137,6 +138,7 @@ public class GameController {
             }
         }
     }
+
 
     public void setCurrentLocationId(int currentLocationId) {
         this.currentLocationId = currentLocationId;

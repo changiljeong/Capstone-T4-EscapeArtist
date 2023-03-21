@@ -116,6 +116,7 @@ public class TextParser {
     return "";
   }
 
+
   public boolean isLookCommand(JsonElement inputElement){
     if (inputElement == null) {
       return false;

@@ -12,11 +12,12 @@
     "no": ["no", "n"],
     "quit": ["quit", "exit", "q"],
     "help": ["help", "h", "?"],
-    "get":  ["get"],
-    "talk" : ["talk"],
-    "go" : ["go"],
-    "look" : ["look"],
-    "use" : ["use"]
+    "get":  ["get", "take", "grab", "pickup"],
+    "talk" : ["talk", "speak", "chat", "interact"],
+    "go" : ["go", "move"],
+    "look" : ["look", "inspect", "view"],
+    "use" : ["use", "consume"],
+    "equip" : ["equip", "arm"]
   },
   "words_to_remove": [
     "the",
