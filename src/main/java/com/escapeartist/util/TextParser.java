@@ -108,14 +108,6 @@ public class TextParser {
     return false;
   }
 
-  public String getSecondWord(String userInput) {
-    String[] words = userInput.split(" ");
-    if (words.length > 1) {
-      return words[1];
-    }
-    return "";
-  }
-
 
   public boolean isLookCommand(JsonElement inputElement){
     if (inputElement == null) {
@@ -138,5 +130,36 @@ public class TextParser {
       }
     }
     return false;
+  }
+
+  public boolean isTalkCommand(JsonElement inputElement){
+    if (inputElement == null) {
+      return false;
+    }
+
+    JsonObject dialogue = gameData.getAsJsonObject("dialogue");
+    if (dialogue == null) {
+      return false;
+    }
+
+    JsonObject validInputs = dialogue.getAsJsonObject("valid_inputs");
+    if (validInputs == null) {
+      return false;
+    }
+    JsonArray lookCommands = validInputs.getAsJsonArray("talk");
+    for(JsonElement word : lookCommands){
+      if(inputElement.getAsString().startsWith(word.getAsString())){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public String getSecondWord(String userInput) {
+    String[] words = userInput.split(" ");
+    if (words.length > 1) {
+      return words[1];
+    }
+    return "";
   }
 }

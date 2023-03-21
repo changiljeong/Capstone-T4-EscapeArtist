@@ -4,11 +4,13 @@ import com.escapeartist.models.*;
 import com.escapeartist.util.GsonDeserializer;
 import com.escapeartist.views.GameView;
 import com.escapeartist.util.TextParser;
+import com.escapeartist.views.MainView;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import com.google.gson.reflect.TypeToken;
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -80,8 +82,9 @@ public class GameController {
                 } else{
                     System.out.println(gameDialogue.getInvalidInput());
                 }
-            }
-            else {
+            }  else if(textParser.isTalkCommand(inputElement)) {
+                talkNpc(userInput, gameData);
+            } else {
                 if (!textParser.isValidInput(inputElement)) {
                     System.out.println(gameData.getAsJsonObject("dialogue").get("invalid_input").getAsString());
                 }
@@ -111,21 +114,18 @@ public class GameController {
         }
     }
 
-//    public void lookItem(String userInput, Location currentLocation){
-//        String itemWord = textParser.getSecondWord(userInput); //second word will be an item
-//        List<Item> items = currentLocation.getItems();
-//        boolean itemFound = false;
-//
-//        for(Item item : items) {
-//            if (item.getName().equalsIgnoreCase(itemWord)) {
-//                itemFound = true;
-//                System.out.println(item.getDescription());
-//            }
-//        }
-//        if (!itemFound) {
-//            System.out.println(gameDialogue.getInvalidInput());
-//        }
-//    }
+    public void talkNpc(String userInput, JsonObject gameData) {
+        String talkWord = textParser.getSecondWord(userInput);
+        List<NPC> npcs = new Gson().fromJson(gameData.getAsJsonArray("npcs"), new TypeToken<List<NPC>>() {}.getType());
+        for (NPC npc : npcs) {
+            if (npc.getName().equalsIgnoreCase(talkWord)) {
+                System.out.println(npc.getReply());
+                toContinue();
+                // ask if want to play... add method to go into mini game
+            }
+        }
+    }
+
      public void lookItem(String userInput, JsonObject gameData){
         String itemWord = textParser.getSecondWord(userInput);
          List<Item> items = new Gson().fromJson(gameData.getAsJsonArray("items"), new TypeToken<List<Item>>() {}.getType());
@@ -162,6 +162,15 @@ public class GameController {
     public void setCurrentLocationId(int currentLocationId) {
         this.currentLocationId = currentLocationId;
         gameView.displayLocation(new Gson().toJsonTree(getLocationById(currentLocationId)).getAsJsonObject()); // Update the game view with the new location
+    }
+
+    public void toContinue() {
+        System.out.println("Press enter to continue...");
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 //    public void playerStatus() {
