@@ -28,7 +28,8 @@
     "go" : ["go", "move"],
     "look" : ["look", "inspect", "view"],
     "use" : ["use", "consume"],
-    "equip" : ["equip", "arm"]
+    "equip" : ["equip", "arm"],
+    "drop": ["drop", "discard"]
   },
   "words_to_remove": [
     "the",

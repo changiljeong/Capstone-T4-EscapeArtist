@@ -85,6 +85,8 @@ public class GameController {
                 }
             }  else if(textParser.isTalkCommand(inputElement)) {
                 talkNpc(userInput, gameData);
+            }  else if (textParser.isDropCommand(inputElement)) {
+                dropItem(userInput, currentLocation);
             } else {
                 if (!textParser.isValidInput(inputElement)) {
                     System.out.println(gameData.getAsJsonObject("dialogue").get("invalid_input").getAsString());
@@ -158,6 +160,26 @@ public class GameController {
             System.out.println(gameDialogue.getInvalidInput());
         }
      }
+
+    public void dropItem(String userInput, Location currentLocation){
+        String dropWord = textParser.getSecondWord(userInput);
+        List<Item> inventory = player.getInventory();
+        Item itemToRemove = null;
+
+        for(Item item : inventory) {
+            if (item.getName().equalsIgnoreCase(dropWord)) {
+                itemToRemove = item;
+                break;
+            }
+        }
+        if (itemToRemove == null) {
+            //print message if not there
+        } else {
+            player.dropItem(itemToRemove);
+            currentLocation.addItemToLocation(itemToRemove);
+
+        }
+    }
 
 
     public void setCurrentLocationId(int currentLocationId) {

@@ -2,7 +2,7 @@
   "hp": 100,
   "attack": 10,
   "defense": 5,
-  "inventory": [],
+  "inventory": [{"name":  "potion"}],
   "equippedArmor": {
     "name": "Leather armor",
     "description": "A set of armor made from tough leather."

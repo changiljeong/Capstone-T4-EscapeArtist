@@ -63,9 +63,9 @@ public class Player {
     }
 
 
-
-
-
+    public void dropItem(Item item) {
+        inventory.remove(item);
+    }
 
     public int getHp() {
         return hp;

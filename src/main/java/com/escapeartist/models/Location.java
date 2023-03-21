@@ -24,6 +24,10 @@ public class Location {
     @SerializedName("npcs")
     private List<NPC> npcs;
 
+    public void addItemToLocation(Item item) {
+        items.add(item);
+    }
+
     public int getId() {
         return id;
     }
