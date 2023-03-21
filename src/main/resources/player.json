@@ -1,0 +1,17 @@
+{
+  "hp": 100,
+  "attack": 10,
+  "defense": 5,
+  "inventory": [],
+  "equipped": {
+    "equippedArmor": {
+      "name": "Leather armor",
+      "description": "A set of armor made from tough leather."
+    },
+    "equippedWeapon": {
+      "name": "Short sword",
+      "description": "A short sword that is easy to wield."
+    }
+  },
+  "currentLocation": 1
+}

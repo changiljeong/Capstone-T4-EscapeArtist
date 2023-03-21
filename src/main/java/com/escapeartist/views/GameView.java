@@ -1,10 +1,16 @@
 package com.escapeartist.views;
 
+import java.util.List;
+import java.util.Map;
+
+import com.escapeartist.models.Item;
+import com.escapeartist.models.Location;
+import com.escapeartist.models.NPC;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-
-import java.util.Map;
+import com.google.gson.reflect.TypeToken;
 
 public class GameView {
     private JsonObject gameData;
@@ -13,31 +19,34 @@ public class GameView {
         this.gameData = gameData;
     }
 
-    public void displayLocation(JsonObject location) {
-        System.out.println(location.get("description").getAsString());
-        System.out.println(getExitText() + " " + getExits(location));
-        System.out.println(getItemText() + " " + getItems(location));
-        System.out.println(getNPCText() + location.get("npcs").getAsJsonArray());
+    public void displayLocation(JsonElement location) {
+        JsonObject locationObject = location.getAsJsonObject();
+        System.out.println(locationObject.get("name").getAsString());
+        System.out.println(locationObject.get("description").getAsString());
+        System.out.print(gameData.getAsJsonObject("dialogue").get("exits_text").getAsString() + " ");
+        locationObject.get("exits").getAsJsonObject().entrySet().forEach(entry -> System.out.print(entry.getKey() + ", "));
+        System.out.println();
+
+        JsonArray itemsArray = new JsonArray();
+        if (locationObject.has("items")) {
+            itemsArray = new Gson().toJsonTree(locationObject.get("items").getAsJsonArray()).getAsJsonArray();
+        }
+        System.out.println(gameData.getAsJsonObject("dialogue").get("items_text").getAsString() + " " + itemsArray);
+
+        JsonArray npcsArray = new JsonArray();
+        if (locationObject.has("npcs")) {
+            npcsArray = new Gson().toJsonTree(locationObject.get("npcs").getAsJsonArray()).getAsJsonArray();
+        }
+        System.out.println(gameData.getAsJsonObject("dialogue").get("npcs_text").getAsString() + " " + npcsArray);
     }
 
-    private String getExitText() {
-        return gameData.getAsJsonObject("dialogue").get("exits_text").getAsString();
-    }
 
-    private String getItemText() {
-        return gameData.getAsJsonObject("dialogue").get("items_text").getAsString();
-    }
-
-    private String getNPCText() {
-        return gameData.getAsJsonObject("dialogue").get("npcs_text").getAsString();
-    }
-
-    public String getExits(JsonObject location) {
-        JsonObject exits = location.getAsJsonObject("exits");
+    private String getExits(Location location) {
+        Map<String, Integer> exits = location.getExits();
         StringBuilder exitString = new StringBuilder();
         int exitCount = 0;
 
-        for (Map.Entry<String, JsonElement> entry : exits.entrySet()) {
+        for (Map.Entry<String, Integer> entry : exits.entrySet()) {
             exitString.append(entry.getKey());
             exitCount++;
 
@@ -49,17 +58,34 @@ public class GameView {
         return exitString.toString();
     }
 
-    public String getItems(JsonObject location){
+    private String getItems(List<Item> items) {
         StringBuilder itemText = new StringBuilder();
-        JsonArray items = location.get("items").getAsJsonArray();
 
-        for(JsonElement item : items) {
-            JsonObject itemObj = item.getAsJsonObject();
-            String itemName = itemObj.get("item_name").getAsString();
-            itemText.append(itemName);
+        for (Item item : items) {
+            itemText.append(item.getName());
+            itemText.append(", ");
         }
+
+        if (items.size() > 0) {
+            itemText.setLength(itemText.length() - 2); // remove the last comma and space
+        }
+
         return itemText.toString();
     }
 
+    private String getNPCs(List<NPC> npcs) {
+        StringBuilder npcText = new StringBuilder();
+
+        for (NPC npc : npcs) {
+            npcText.append(npc.getName());
+            npcText.append(", ");
+        }
+
+        if (npcs.size() > 0) {
+            npcText.setLength(npcText.length() - 2); // remove the last comma and space
+        }
+
+        return npcText.toString();
+    }
 
 }

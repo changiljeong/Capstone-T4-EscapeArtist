@@ -1,4 +1,4 @@
-package com.escapeartist.models;
+package com.escapeartist.util;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
