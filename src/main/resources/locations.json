@@ -21,8 +21,10 @@
         "east": 3,
         "north": 5
       },
-      "npcs": [],
-      "items": []
+      "npcs": [{
+        "name": "Ghost"}],
+      "items": [{
+        "name":"Key"}]
     },
     {
       "id": 3,
@@ -35,7 +37,8 @@
         "east": 4
       },
       "npcs": [],
-      "items": []
+      "items": [{
+        "name":"Key"}]
     },
     {
       "id": 4,
@@ -47,7 +50,8 @@
         "west": 3
       },
       "npcs": [],
-      "items": []
+      "items": [{
+        "name": "Key"}]
     },
     {
       "id": 5,
@@ -85,8 +89,10 @@
         "north": 10,
         "east": 8
       },
-      "npcs": [],
-      "items": []
+      "npcs": [{
+        "name": "Guard"}],
+      "items": [{
+        "name": "Key"}]
     },
     {
       "id": 8,
@@ -98,8 +104,10 @@
         "east": 9,
         "south": 6
       },
-      "npcs": [],
-      "items": []
+      "npcs": [{
+        "name": "Knight"}],
+      "items": [{
+        "name":"Key"}]
     },
     {
       "id": 9,
@@ -110,8 +118,10 @@
         "north": 10,
         "south": 6
       },
-      "npcs": [],
-      "items": []
+      "npcs": [{
+        "name": "Samurai"}],
+      "items": [{
+        "name":"Key"}]
     },
     {
       "id": 10,
@@ -149,7 +159,8 @@
         "east": 13
       },
       "npcs": [],
-      "items": []
+      "items": [{
+        "name":"Key"}]
     },
     {
       "id": 13,
@@ -162,7 +173,8 @@
         "east": 14
       },
       "npcs": [],
-      "items": []
+      "items": [{
+        "name":"Key"}]
     },
     {
       "id": 14,
@@ -174,7 +186,8 @@
         "south": 11
       },
       "npcs": [],
-      "items": []
+      "items": [{
+        "name": "Key"}]
     },
     {
       "id": 15,
@@ -188,7 +201,8 @@
         "south": 13,
         "east": 14
       },
-      "npcs": [],
+      "npcs": [{
+        "name": "Merchant"}],
       "items": []
     },
     {
