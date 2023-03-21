@@ -54,6 +54,7 @@ public class GameController {
         boolean running = true;
 
         while (running) {
+            player.playerStatus(gameData);
             Location currentLocation = getLocationById(currentLocationId);
             gameView.displayLocation(new Gson().toJsonTree(currentLocation).getAsJsonObject());
             System.out.print(gameDialogue.getCommandPrompt());
@@ -172,27 +173,5 @@ public class GameController {
             throw new RuntimeException(e);
         }
     }
-
-//    public void playerStatus() {
-//        // TODO: 3/21/23 Refactor this to be able to display the player's status for appropriate ticket'
-//        System.out.println("Current HP: " + player.getHp());
-//        System.out.println("Attack: " + player.getAttack());
-//        System.out.println("Defense: " + player.getDefense());
-//        System.out.println("Inventory: " + player.getInventory());
-//
-//        Item equippedWeapon = player.getEquippedWeapon();
-//        if (equippedWeapon != null) {
-//            System.out.println("Equipped weapon: " + equippedWeapon.getName());
-//        } else {
-//            System.out.println("No weapon equipped.");
-//        }
-//
-//        Item equippedArmor = player.getEquippedArmor();
-//        if (equippedArmor != null) {
-//            System.out.println("Equipped armor: " + equippedArmor.getName());
-//        } else {
-//            System.out.println("No armor equipped.");
-//        }
-//    }
 
 }

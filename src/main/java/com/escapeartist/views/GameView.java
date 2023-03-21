@@ -21,8 +21,10 @@ public class GameView {
 
     public void displayLocation(JsonElement location) {
         JsonObject locationObject = location.getAsJsonObject();
-        System.out.println(locationObject.get("name").getAsString());
+        System.out.println(gameData.getAsJsonObject("dialogue").get("current_location").getAsString() + locationObject.get("name").getAsString());
+        System.out.println(gameData.getAsJsonObject("dialogue").get("player_status_end").getAsString());
         System.out.println(locationObject.get("description").getAsString());
+        System.out.println(gameData.getAsJsonObject("dialogue").get("player_status_end").getAsString());
         System.out.print(gameData.getAsJsonObject("dialogue").get("exits_text").getAsString());
         locationObject.get("exits").getAsJsonObject().entrySet().forEach(entry -> System.out.print(entry.getKey() + ", "));
         System.out.println();
@@ -42,6 +44,7 @@ public class GameView {
         String npcsText = gameData.getAsJsonObject("dialogue").get("npcs_text").getAsString();
         npcsText += getJsonArray(npcsArray, "name");
         System.out.println(npcsText);
+        System.out.println(gameData.getAsJsonObject("dialogue").get("player_status_end").getAsString());
     }
 
 
