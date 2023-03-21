@@ -1,7 +1,10 @@
 package com.escapeartist.models;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Player {
 
@@ -35,6 +38,34 @@ public class Player {
         this.equippedArmor = equippedArmor;
         this.equippedWeapon = equippedWeapon;
     }
+
+    public void playerStatus(JsonObject gameData) {
+        System.out.println(gameData.getAsJsonObject("dialogue").get("player_status_start").getAsString());
+        System.out.println(gameData.getAsJsonObject("dialogue").get("player_status_hp").getAsString() + getHp());
+        System.out.println(gameData.getAsJsonObject("dialogue").get("player_status_attack").getAsString() + getAttack());
+        System.out.println(gameData.getAsJsonObject("dialogue").get("player_status_defense").getAsString() + getDefense());
+        List<String> inventoryNames = inventory.stream().map(Item::getName).collect(Collectors.toList());
+        String inventoryString = String.join(", ", inventoryNames);
+        System.out.println(gameData.getAsJsonObject("dialogue").get("player_status_inventory").getAsString() + inventoryString);
+
+        if (equippedWeapon != null) {
+            System.out.println(gameData.getAsJsonObject("dialogue").get("player_status_weapon_equipped").getAsString() + getEquippedWeapon().getName());
+        } else {
+            System.out.println(gameData.getAsJsonObject("dialogue").get("player_status_weapon_not_equipped").getAsString());
+        }
+
+        if (equippedArmor != null) {
+            System.out.println(gameData.getAsJsonObject("dialogue").get("player_status_armor_equipped").getAsString() + getEquippedArmor().getName());
+        } else {
+            System.out.println(gameData.getAsJsonObject("dialogue").get("player_status_armor_not_equipped").getAsString());
+        }
+        System.out.println(gameData.getAsJsonObject("dialogue").get("player_status_end").getAsString());
+    }
+
+
+
+
+
 
     public int getHp() {
         return hp;
