@@ -20,6 +20,7 @@
   "player_status_armor_equipped": "Equipped armor: ",
   "player_status_armor_not_equipped": "No armor equipped.",
   "player_picked_up_item" : "Item has been added to your inventory",
+  "player_moved_location" : "You are now in: ",
   "valid_inputs": {
     "yes": ["yes", "y"],
     "no": ["no", "n"],
@@ -41,7 +42,7 @@
     "and",
     "an"
   ],
-  "help_menu": "Acceptable commands\n'go': used to move to another location\n'get': used to pickup an item\n'talk: allows you to interact\n'look': allows you to look around a room\n'use': allows you to use the items in your inventory\n'equip': allows you to equip yourself with the equipment in your inventory\n'quit':  allows you to exit the game\n'new': allows you to start a new game\n'help': brings you to this menu\nAcceptable directions to use with 'go':\n'north'\n'east'\n'south'\n'west'"
+  "help_menu": "Acceptable commands\n'go': used to move to another location\n'get': used to pickup an item\n'talk: allows you to interact\n'look': allows you to look around a room\n'use': allows you to use the items in your inventory\n'drop': allows you to drop an item from your inventory\n'equip': allows you to equip yourself with the equipment in your inventory\n'quit':  allows you to exit the game\n'new': allows you to start a new game\n'help': brings you to this menu\nAcceptable directions to use with 'go':\n'north'\n'east'\n'south'\n'west'"
 }
 
 

@@ -194,9 +194,9 @@
       "name": "Armor Exhibit",
       "description": "You are in the Armor Exhibit.\nThere are three exits (East, South, and West).\nTo the North there are three doorways. (Door 1, Door 2, and Door 3)",
       "exits": {
-        "path 1": 16,
-        "path 2": 17,
-        "path 3": 18,
+        "1": 16,
+        "2": 17,
+        "3": 18,
         "west": 12,
         "south": 13,
         "east": 14

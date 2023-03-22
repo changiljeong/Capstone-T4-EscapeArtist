@@ -2,14 +2,8 @@
   "hp": 100,
   "attack": 10,
   "defense": 5,
-  "inventory": [{"name":  "potion"}],
-  "equippedArmor": {
-    "name": "Leather armor",
-    "description": "A set of armor made from tough leather."
-    },
-  "equippedWeapon": {
-    "name": "Short sword",
-    "description": "A short sword that is easy to wield."
-    },
+  "inventory": [],
+  "equippedArmor": null,
+  "equippedWeapon": null,
   "currentLocation": 1
 }
