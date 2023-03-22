@@ -85,6 +85,8 @@ public class GameController {
                 }
             }  else if(textParser.isTalkCommand(inputElement)) {
                 talkNpc(userInput, gameData);
+            }else if(textParser.isGetCommand(inputElement)){
+                getItem(userInput, gameData);
             } else {
                 if (!textParser.isValidInput(inputElement)) {
                     System.out.println(gameData.getAsJsonObject("dialogue").get("invalid_input").getAsString());
@@ -167,8 +169,14 @@ public class GameController {
         for(Item item : items){
             if(item.getName().equalsIgnoreCase(itemWord)){
                 itemFound = true;
-                player.getInventory();
+                List<Item> inventory = player.getInventory();
+                inventory.add(item);
+//                gameData.getAsJsonObject("locations").getAsJsonArray("items");
+                System.out.println(player.getInventory());
             }
+        }
+        if(!itemFound){
+            System.out.println(gameDialogue.getInvalidInput());
         }
     }
 
