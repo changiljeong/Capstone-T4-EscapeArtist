@@ -1,6 +1,7 @@
 package com.escapeartist.controllers;
 
 import com.escapeartist.models.*;
+import com.escapeartist.util.Clear;
 import com.escapeartist.util.GsonDeserializer;
 import com.escapeartist.views.GameView;
 import com.escapeartist.util.TextParser;
@@ -65,6 +66,7 @@ public class GameController {
       JsonElement inputElement = new Gson().toJsonTree(cleanedInput);
 
       if (textParser.isQuitCommand(inputElement)) {
+        Clear.clearConsole();
         boolean confirmQuit = textParser.getConfirmation(
             gameData.getAsJsonObject("dialogue").get("quit_confirm").getAsString());
 
@@ -74,11 +76,14 @@ public class GameController {
           running = false;
         }
       } else if (textParser.isHelpCommand(inputElement)) {
+        Clear.clearConsole();
         System.out.println(gameData.getAsJsonObject("dialogue").get("help_menu").getAsString());
       } else if (textParser.isGoCommand(inputElement)) {
+        Clear.clearConsole();
         moveLocation(userInput, currentLocation);
 
       } else if (textParser.isLookCommand(inputElement)) {
+        Clear.clearConsole();
         String secondWord = textParser.getSecondWord(userInput);
         if (currentLocation.getNpcs().stream()
             .anyMatch(npc -> npc.getName().equalsIgnoreCase(secondWord))) {
@@ -90,14 +95,18 @@ public class GameController {
           System.out.println(gameDialogue.getInvalidInput());
         }
       } else if (textParser.isTalkCommand(inputElement)) {
+        Clear.clearConsole();
         talkNpc(userInput, gameData);
       } else if (textParser.isGetCommand(inputElement)) {
+        Clear.clearConsole();
         getItem(userInput, gameData, currentLocation);
       }else if (textParser.isDropCommand(inputElement)) {
+        Clear.clearConsole();
         dropItem(userInput, currentLocation);
       }
       else {
         if (!textParser.isValidInput(inputElement)) {
+          Clear.clearConsole();
           System.out.println(
               gameData.getAsJsonObject("dialogue").get("invalid_input").getAsString());
         }
@@ -121,9 +130,7 @@ public class GameController {
     Integer newLocationId = currentLocation.getExits().get(direction);
     // Check if the direction is a valid exit from the current location
     if (newLocationId != null) {
-      setCurrentLocationId(newLocationId);
-      gameView.displayLocation(new Gson().toJsonTree(getLocationById(newLocationId))
-          .getAsJsonObject()); // Update the game view with the new location
+      setCurrentLocationId(newLocationId); // Update the game view with the new location
     } else {
       System.out.println(gameDialogue.getInvalidExit());
     }
@@ -223,8 +230,6 @@ public class GameController {
 
   public void setCurrentLocationId(int currentLocationId) {
     this.currentLocationId = currentLocationId;
-    gameView.displayLocation(new Gson().toJsonTree(getLocationById(currentLocationId))
-        .getAsJsonObject()); // Update the game view with the new location
   }
 
   public void toContinue() {
