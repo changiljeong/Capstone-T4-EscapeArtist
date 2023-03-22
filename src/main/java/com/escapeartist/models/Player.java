@@ -63,6 +63,11 @@ public class Player {
     }
 
 
+    public void addItem(Item item){
+        inventory.add(item);
+    }
+
+
     public void dropItem(Item item) {
         inventory.remove(item);
     }

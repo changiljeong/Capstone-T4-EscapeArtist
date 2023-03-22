@@ -69,4 +69,5 @@ public class Item {
     public void setEquippable(Boolean equippable) {
         this.equippable = equippable;
     }
+
 }

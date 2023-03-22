@@ -19,6 +19,7 @@
   "player_status_weapon_not_equipped": "No weapon equipped.",
   "player_status_armor_equipped": "Equipped armor: ",
   "player_status_armor_not_equipped": "No armor equipped.",
+  "player_picked_up_item" : "Item has been added to your inventory",
   "valid_inputs": {
     "yes": ["yes", "y"],
     "no": ["no", "n"],

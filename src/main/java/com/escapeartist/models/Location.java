@@ -51,4 +51,8 @@ public class Location {
     public List<NPC> getNpcs() {
         return npcs;
     }
+
+    public void removeItem(Item item){
+        items.remove(item);
+    }
 }

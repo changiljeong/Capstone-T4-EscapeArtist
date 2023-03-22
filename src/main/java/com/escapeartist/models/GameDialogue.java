@@ -75,6 +75,9 @@ public class GameDialogue {
   @SerializedName("player_status_end")
   private String playerStatusEnd;
 
+  @SerializedName("player_picked_up_item")
+  private String playerPickedUpItem;
+
   public String getQuitConfirm() {
     return quitConfirm;
   }
@@ -242,4 +245,13 @@ public class GameDialogue {
   public void setPlayerStatusEnd(String playerStatusEnd) {
     this.playerStatusEnd = playerStatusEnd;
   }
+
+  public String getPlayerPickedUpItem() {
+    return playerPickedUpItem;
+  }
+
+  public void setPlayerPickedUpItem(String playerPickedUpItem) {
+    this.playerPickedUpItem = playerPickedUpItem;
+  }
 }
+
