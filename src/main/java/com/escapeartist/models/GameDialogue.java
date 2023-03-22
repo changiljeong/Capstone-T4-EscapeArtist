@@ -30,6 +30,9 @@ public class GameDialogue {
   @SerializedName("items_text")
   private String itemsText;
 
+  @SerializedName("items_dropped")
+  private String itemsDropped;
+
   @SerializedName("npcs_text")
   private String npcsText;
 

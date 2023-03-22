@@ -86,6 +86,8 @@ public class GameController {
         } else if (currentLocation.getItems().stream()
             .anyMatch(item -> item.getName().equalsIgnoreCase(secondWord))) {
           lookItem(userInput, gameData);
+        }else if (textParser.isDropCommand(inputElement)) {
+            dropItem(userInput, currentLocation);
         } else {
           System.out.println(gameDialogue.getInvalidInput());
         }
@@ -196,6 +198,32 @@ public class GameController {
     }
   }
 
+    public void dropItem(String userInput, Location currentLocation){
+        String dropWord = textParser.getSecondWord(userInput);
+        List<Item> inventory = player.getInventory();
+        Item itemToRemove = null;
+
+        for(Item item : inventory) {
+            if (item.getName().equalsIgnoreCase(dropWord)) {
+                itemToRemove = item;
+                break;
+            }
+        }
+        if (itemToRemove == null){
+            System.out.print(gameData.getAsJsonObject("dialogue").get("items_dropped").getAsString());
+            toContinue();
+        } else {
+            player.dropItem(itemToRemove);
+            currentLocation.addItemToLocation(itemToRemove);
+
+        }
+    }
+
+
+    public void setCurrentLocationId(int currentLocationId) {
+        this.currentLocationId = currentLocationId;
+        gameView.displayLocation(new Gson().toJsonTree(getLocationById(currentLocationId)).getAsJsonObject()); // Update the game view with the new location
+    }
   public void setCurrentLocationId(int currentLocationId) {
     this.currentLocationId = currentLocationId;
     gameView.displayLocation(new Gson().toJsonTree(getLocationById(currentLocationId))
