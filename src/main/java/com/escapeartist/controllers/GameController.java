@@ -86,8 +86,6 @@ public class GameController {
         } else if (currentLocation.getItems().stream()
             .anyMatch(item -> item.getName().equalsIgnoreCase(secondWord))) {
           lookItem(userInput, gameData);
-        }else if (textParser.isDropCommand(inputElement)) {
-            dropItem(userInput, currentLocation);
         } else {
           System.out.println(gameDialogue.getInvalidInput());
         }
@@ -95,7 +93,10 @@ public class GameController {
         talkNpc(userInput, gameData);
       } else if (textParser.isGetCommand(inputElement)) {
         getItem(userInput, gameData, currentLocation);
-      } else {
+      }else if (textParser.isDropCommand(inputElement)) {
+        dropItem(userInput, currentLocation);
+      }
+      else {
         if (!textParser.isValidInput(inputElement)) {
           System.out.println(
               gameData.getAsJsonObject("dialogue").get("invalid_input").getAsString());
@@ -189,7 +190,8 @@ public class GameController {
         Item itemToAdd = new Item(item.getId(), item.getName(), item.getDescription());
         player.addItem(itemToAdd);
         currentLocation.removeItem(item);
-        System.out.println(gameData.getAsJsonObject("dialogue").get("player_picked_up_item").getAsString());
+        System.out.println(
+            gameData.getAsJsonObject("dialogue").get("player_picked_up_item").getAsString());
         break;
       }
     }
@@ -198,32 +200,27 @@ public class GameController {
     }
   }
 
-    public void dropItem(String userInput, Location currentLocation){
-        String dropWord = textParser.getSecondWord(userInput);
-        List<Item> inventory = player.getInventory();
-        Item itemToRemove = null;
+  public void dropItem(String userInput, Location currentLocation) {
+    String dropWord = textParser.getSecondWord(userInput);
+    List<Item> inventory = player.getInventory();
+    Item itemToRemove = null;
 
-        for(Item item : inventory) {
-            if (item.getName().equalsIgnoreCase(dropWord)) {
-                itemToRemove = item;
-                break;
-            }
-        }
-        if (itemToRemove == null){
-            System.out.print(gameData.getAsJsonObject("dialogue").get("items_dropped").getAsString());
-            toContinue();
-        } else {
-            player.dropItem(itemToRemove);
-            currentLocation.addItemToLocation(itemToRemove);
-
-        }
+    for (Item item : inventory) {
+      if (item.getName().equalsIgnoreCase(dropWord)) {
+        itemToRemove = item;
+        break;
+      }
     }
+    if (itemToRemove == null) {
+      System.out.print(gameData.getAsJsonObject("dialogue").get("items_dropped").getAsString());
+      toContinue();
+    } else {
+      player.dropItem(itemToRemove);
+      currentLocation.addItemToLocation(itemToRemove);
 
-
-    public void setCurrentLocationId(int currentLocationId) {
-        this.currentLocationId = currentLocationId;
-        gameView.displayLocation(new Gson().toJsonTree(getLocationById(currentLocationId)).getAsJsonObject()); // Update the game view with the new location
     }
+  }
+
   public void setCurrentLocationId(int currentLocationId) {
     this.currentLocationId = currentLocationId;
     gameView.displayLocation(new Gson().toJsonTree(getLocationById(currentLocationId))
