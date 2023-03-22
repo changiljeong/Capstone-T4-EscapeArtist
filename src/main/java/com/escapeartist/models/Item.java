@@ -1,5 +1,6 @@
 package com.escapeartist.models;
 
+import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 
 public class Item {
@@ -65,4 +66,5 @@ public class Item {
     public void setEquippable(Boolean equippable) {
         this.equippable = equippable;
     }
+
 }

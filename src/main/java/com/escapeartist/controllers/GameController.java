@@ -159,6 +159,18 @@ public class GameController {
         }
      }
 
+    public void getItem(String userInput, JsonObject gameData){
+        String itemWord = textParser.getSecondWord(userInput);
+        List<Item> items = new Gson().fromJson(gameData.getAsJsonArray("items"), new TypeToken<List<Item>>() {}.getType());
+        boolean itemFound = false;
+
+        for(Item item : items){
+            if(item.getName().equalsIgnoreCase(itemWord)){
+                itemFound = true;
+                player.getInventory();
+            }
+        }
+    }
 
     public void setCurrentLocationId(int currentLocationId) {
         this.currentLocationId = currentLocationId;
