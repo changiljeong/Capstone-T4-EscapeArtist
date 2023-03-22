@@ -76,17 +76,22 @@ public class GameController {
 
             } else if (textParser.isLookCommand(inputElement)){
                 String secondWord = textParser.getSecondWord(userInput);
+
                 if(currentLocation.getNpcs().stream().anyMatch(npc -> npc.getName().equalsIgnoreCase(secondWord))){
                     lookNpc(userInput, gameData);
+
                 } else if(currentLocation.getItems().stream().anyMatch(item -> item.getName().equalsIgnoreCase(secondWord))){
                     lookItem(userInput, gameData);
+
                 } else{
                     System.out.println(gameDialogue.getInvalidInput());
                 }
             }  else if(textParser.isTalkCommand(inputElement)) {
                 talkNpc(userInput, gameData);
+
             }  else if (textParser.isDropCommand(inputElement)) {
                 dropItem(userInput, currentLocation);
+
             } else {
                 if (!textParser.isValidInput(inputElement)) {
                     System.out.println(gameData.getAsJsonObject("dialogue").get("invalid_input").getAsString());
@@ -172,8 +177,9 @@ public class GameController {
                 break;
             }
         }
-        if (itemToRemove == null) {
-            //print message if not there
+        if (itemToRemove == null){
+            System.out.print(gameData.getAsJsonObject("dialogue").get("items_dropped").getAsString());
+            toContinue();
         } else {
             player.dropItem(itemToRemove);
             currentLocation.addItemToLocation(itemToRemove);
