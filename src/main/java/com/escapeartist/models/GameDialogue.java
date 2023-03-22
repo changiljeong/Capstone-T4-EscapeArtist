@@ -78,12 +78,23 @@ public class GameDialogue {
   @SerializedName("player_picked_up_item")
   private String playerPickedUpItem;
 
+  @SerializedName("player_moved_location")
+  private String playerMovedLocation;
+
   public String getQuitConfirm() {
     return quitConfirm;
   }
 
   public String getGoodbyeMessage() {
     return goodbyeMessage;
+  }
+
+  public String getPlayerMovedLocation() {
+    return playerMovedLocation;
+  }
+
+  public void setPlayerMovedLocation(String playerMovedLocation) {
+    this.playerMovedLocation = playerMovedLocation;
   }
 
   public String getCommandPrompt() {

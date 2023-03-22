@@ -131,6 +131,8 @@ public class GameController {
     // Check if the direction is a valid exit from the current location
     if (newLocationId != null) {
       setCurrentLocationId(newLocationId); // Update the game view with the new location
+      String currentLocationName = getLocationById(currentLocationId).getName();
+      System.out.println(gameData.getAsJsonObject("dialogue").get("player_moved_location").getAsString() + currentLocationName);
     } else {
       System.out.println(gameDialogue.getInvalidExit());
     }
