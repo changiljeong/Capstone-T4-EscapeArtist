@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -75,8 +76,20 @@ public class GsonDeserializer {
         return gson.fromJson(playerJson, Player.class);
     }
 
-
+    public List<Riddle> deserializeRiddles() {
+        try (Reader reader = new InputStreamReader(GsonDeserializer.class.getClassLoader().getResourceAsStream("riddle.json"))) {
+            Gson gson = new Gson();
+            JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+            JsonArray riddlesArray = jsonObject.getAsJsonArray("riddles");
+            Type listType = new TypeToken<List<Riddle>>() {
+            }.getType();
+            return gson.fromJson(riddlesArray, listType);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
+
 
 
