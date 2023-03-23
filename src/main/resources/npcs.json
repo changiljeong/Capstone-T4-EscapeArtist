@@ -17,10 +17,11 @@
     {
      "interactive" : true,
       "name" : "Knight",
+      "solved" : false,
       "description" : "A noble Knight whose weapon has fell many an enemy.",
       "reply" : "Greetings, adventurer, with a heart full of might,\nMy blade has vanquished foes both evil and blight.",
       "game_invitation": "Would you like to test your knowledge in a game of trivia?\nIf you answer my questions correctly, I'll reward you with a valuable item.\nWhat do you say, are you up for the challenge (yes or no)?",
-      "goodbye_message": "I see, you have other important matters to attend to. Well, I wish you\n the best of luck on your travels, adventurer. May the road ahead be kind to you."
+      "goodbye_message": "I see, you have other important matters to attend to. Well, I wish you\nthe best of luck on your travels, adventurer. May the road ahead be kind to you."
     },
     {
       "interactive" : true,

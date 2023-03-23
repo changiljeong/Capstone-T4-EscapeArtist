@@ -56,6 +56,7 @@ public class GameController {
     gameData.add("items", new Gson().toJsonTree(items));
     gameData.add("npcs", new Gson().toJsonTree(npcs));
     gameData.add("riddle", new Gson().toJsonTree(riddles));
+    gameData.add("trivia", new Gson().toJsonTree(trivias));
 
     this.currentLocationId = player.getCurrentLocation();
 
@@ -207,9 +208,9 @@ public class GameController {
     //if knight npc is found
     if(knight != null){
       System.out.println(knight.getGameInvitation());
-      System.out.println(gameDialogue.getCommandPrompt());
+      System.out.print(gameDialogue.getCommandPrompt());
       Scanner scanner = new Scanner(System.in);
-      String choice = scanner.nextLine();
+      String choice = scanner.next();
       // get the trivia the json file, hardcoding to id 1
       if(gameDialogue.getValidInputs().get("yes").contains((choice.toLowerCase()))){
         int triviaId = 1;
@@ -229,7 +230,6 @@ public class GameController {
       System.out.println(gameDialogue.getInvalidInput());
     }
   }
-
 
   public void lookItem(String userInput, JsonObject gameData) {
     String itemWord = textParser.getSecondWord(userInput);
@@ -352,7 +352,7 @@ public class GameController {
   }
 
   public void playTrivia(int triviaID) {
-    JsonArray triviaJsonArray = gameData.getAsJsonArray("riddles");
+    JsonArray triviaJsonArray = gameData.getAsJsonArray("trivia");
     Type listType = new TypeToken<List<Trivia>>() {
     }.getType();
     List<Trivia> triviasList = new Gson().fromJson(triviaJsonArray, listType);
@@ -366,11 +366,10 @@ public class GameController {
 
     while (true) {
       System.out.println(trivia.getQuestion());
-      System.out.println(gameDialogue.getCommandPrompt());
-      String answer = scanner.nextLine();
-      textParser.cleanUserInput(answer);
+      System.out.print(gameDialogue.getCommandPrompt());
+      String answer = scanner.nextLine().toLowerCase();
 
-      if (answer.equals(trivia.getAnswer())) {
+      if (answer.equalsIgnoreCase(trivia.getAnswer())) {
         System.out.println(gameDialogue.getPlayerSolvedTrivia());
         break;
       } else {
