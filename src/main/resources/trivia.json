@@ -1,0 +1,26 @@
+{
+  "trivia": [
+    {
+      "id": 1,
+      "question": "How many continents are there?",
+      "answer": [
+        "seven",
+        "7"
+      ]
+    },
+    {
+      "id": 2,
+      "question": "What is the largest planet in our solar system?",
+      "answer": [
+        "jupiter"
+      ]
+    },
+    {
+      "id": 3,
+      "question" : "What is the name of the world's largest ocean?",
+      "answer": [
+        "pacific ocean"
+      ]
+    }
+  ]
+}
