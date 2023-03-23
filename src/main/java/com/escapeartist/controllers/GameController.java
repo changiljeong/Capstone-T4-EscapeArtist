@@ -203,7 +203,29 @@ public class GameController {
       } else {
         System.out.println(gameDialogue.getInvalidInput());
       }
-    } else {
+    }
+    //if knight npc is found
+    if(knight != null){
+      System.out.println(knight.getGameInvitation());
+      System.out.println(gameDialogue.getCommandPrompt());
+      Scanner scanner = new Scanner(System.in);
+      String choice = scanner.nextLine();
+      // get the trivia the json file, hardcoding to id 1
+      if(gameDialogue.getValidInputs().get("yes").contains((choice.toLowerCase()))){
+        int triviaId = 1;
+        JsonArray triviasJsonArray = gameData.getAsJsonArray("trivia");
+        Type listType = new TypeToken<List<Trivia>>(){}.getType();
+        List<Trivia> triviaList = new Gson().fromJson(triviasJsonArray, listType);
+        Trivia trivia = Trivia.getTriviaByID(triviaList, triviaId);
+
+        //play the trivia game for the knight
+        playTrivia(trivia.getId());
+      } else if (gameDialogue.getValidInputs().get("no").contains(choice.toLowerCase())){
+        System.out.println(knight.getGoodbyeMessage());
+      } else {
+        System.out.println(gameDialogue.getInvalidInput());
+      }
+    }else {
       System.out.println(gameDialogue.getInvalidInput());
     }
   }
