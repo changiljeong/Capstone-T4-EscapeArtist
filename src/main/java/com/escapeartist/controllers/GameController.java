@@ -18,7 +18,6 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Scanner;
 
-@SuppressWarnings("SpellCheckingInspection")
 public class GameController {
 
   private JsonObject gameData;
@@ -62,7 +61,6 @@ public class GameController {
 
   }
 
-  @SuppressWarnings("DataFlowIssue")
   public void run() {
     loadGameData();
     Scanner scanner = new Scanner(System.in);
