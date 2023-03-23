@@ -27,7 +27,9 @@
       "interactive" : true,
       "name" : "Samurai",
       "description" : "A skilled warrior who lives by a code of honor that is known as bushido.",
-      "reply" : "Greetings, adventurer, with respect to unfold,\nI am bound by bushido, a code so bold."
+      "reply" :"Here in this space you find a sight.\nAll askew, a topsy-turvy blight.\nThe ceiling holds the door, the floor the window pane.\nPictures are reversed, and nothing's quite the same.\nTo restore order, unscramble the word.\nFive guesses are that will be heard.",
+      "game_invitation": "Would you like to play? (Yes or No)\n>",
+      "goodbye_message": "Goodbye!"
     },
     {
       "interactive" : true,

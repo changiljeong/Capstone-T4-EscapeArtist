@@ -95,6 +95,11 @@ public class GsonDeserializer {
         }
     }
 
+    public Unscramble deserializeUnscramble() {
+        Reader reader = new InputStreamReader(GsonDeserializer.class.getClassLoader().getResourceAsStream("unscramble.json"));
+        Gson gson = new GsonBuilder().create();
+        return gson.fromJson(reader, Unscramble.class);
+    }
     public List<Trivia> deserializeTrivia() {
         try (Reader reader = new InputStreamReader(
             GsonDeserializer.class.getClassLoader().getResourceAsStream("trivia.json"))) {
@@ -109,7 +114,6 @@ public class GsonDeserializer {
         }
     }
 }
-
 
 
 

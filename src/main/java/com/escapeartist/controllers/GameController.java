@@ -13,11 +13,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import com.google.gson.reflect.TypeToken;
-import com.sun.source.tree.WhileLoopTree;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class GameController {
@@ -30,6 +28,7 @@ public class GameController {
   private List<Location> locations;
   private GameDialogue gameDialogue;
   private List<Riddle> riddles;
+  private Unscramble unscramble;
   private List<Trivia> trivias;
 
   public GameController(JsonObject gameData) {
@@ -47,6 +46,8 @@ public class GameController {
     JsonObject playerJson = deserializer.deserializePlayerJson();
     player = deserializer.deserializePlayer(
         playerJson); // Deserialize the player using the JsonObject
+    unscramble = deserializer.deserializeUnscramble();
+    player = deserializer.deserializePlayer(playerJson); // Deserialize the player using the JsonObject
     riddles = deserializer.deserializeRiddles();
     trivias = deserializer.deserializeTrivia();
 
@@ -55,6 +56,7 @@ public class GameController {
     gameData.add("locations", new Gson().toJsonTree(locations));
     gameData.add("items", new Gson().toJsonTree(items));
     gameData.add("npcs", new Gson().toJsonTree(npcs));
+    gameData.add("unscramble", new Gson().toJsonTree(unscramble));
     gameData.add("riddle", new Gson().toJsonTree(riddles));
     gameData.add("trivia", new Gson().toJsonTree(trivias));
 
@@ -111,10 +113,11 @@ public class GameController {
       } else if (textParser.isGetCommand(inputElement)) {
         Clear.clearConsole();
         getItem(userInput, gameData, currentLocation);
-      } else if (textParser.isDropCommand(inputElement)) {
+      }else if (textParser.isDropCommand(inputElement)) {
         Clear.clearConsole();
         dropItem(userInput, currentLocation);
-      } else {
+      }
+      else {
         if (!textParser.isValidInput(inputElement)) {
           Clear.clearConsole();
           System.out.println(
@@ -153,11 +156,11 @@ public class GameController {
   public void talkNpc(String userInput, JsonObject gameData) {
     String talkWord = textParser.getSecondWord(userInput);
     List<NPC> npcs = new Gson().fromJson(gameData.getAsJsonArray("npcs"),
-        new TypeToken<List<NPC>>() {
-        }.getType());
+        new TypeToken<List<NPC>>() {}.getType());
 
     NPC ghost = null;
     NPC knight = null;
+    NPC samurai = null;
 
     // Check if the NPC is in the current location before talking to them
     Location currentLocation = getLocationById(currentLocationId);
@@ -170,43 +173,57 @@ public class GameController {
     for (NPC npc : npcs) {
       if (npc.getName().equalsIgnoreCase(talkWord)) {
         System.out.println(npc.getReply());
-        toContinue();
-
         if (npc.getName().equalsIgnoreCase("ghost")) {
           ghost = npc;
+        } else if (npc.getName().equalsIgnoreCase("samurai")) {
+          samurai = npc;
+        }
         }else if (npc.getName().equalsIgnoreCase("knight")){
           knight = npc;
         }else
         break;
       }
-    }
 
-    if (ghost != null) {
-      System.out.println(ghost.getGameInvitation());
-      System.out.print(gameDialogue.getCommandPrompt());
-      Scanner scanner = new Scanner(System.in);
-      String choice = scanner.nextLine();
 
-      if (gameDialogue.getValidInputs().get("yes").contains(choice.toLowerCase())) {
-        // get a riddle from the game data based on its ID
-        int riddleId = 1;
-        JsonArray riddlesJsonArray = gameData.getAsJsonArray("riddle");
-        Type listType = new TypeToken<List<Riddle>>() {
-        }.getType();
-        List<Riddle> riddlesList = new Gson().fromJson(riddlesJsonArray, listType);
+      if (ghost != null) {
+        System.out.println(ghost.getGameInvitation());
+        System.out.print(gameDialogue.getCommandPrompt());
+        Scanner scanner = new Scanner(System.in);
+        String choice = scanner.nextLine();
 
-        Riddle riddle = Riddle.getRiddleById(riddlesList, riddleId);
+        if (gameDialogue.getValidInputs().get("yes").contains(choice.toLowerCase())) {
+          // get a riddle from the game data based on its ID
+          int riddleId = 1;
+          JsonArray riddlesJsonArray = gameData.getAsJsonArray("riddle");
+          Type listType = new TypeToken<List<Riddle>>() {
+          }.getType();
+          List<Riddle> riddlesList = new Gson().fromJson(riddlesJsonArray, listType);
 
-        // play the riddle mini-game
-        playRiddle(riddle.getId());
-      } else if (gameDialogue.getValidInputs().get("no").contains(choice.toLowerCase())) {
-        System.out.println(ghost.getGoodbyeMessage());
-      } else {
-        System.out.println(gameDialogue.getInvalidInput());
+          Riddle riddle = Riddle.getRiddleById(riddlesList, riddleId);
+
+          // play the riddle mini-game
+          playRiddle(riddle.getId());
+        } else if (gameDialogue.getValidInputs().get("no").contains(choice.toLowerCase())) {
+          System.out.println(ghost.getGoodbyeMessage());
+        } else {
+          System.out.println(gameDialogue.getInvalidInput());
+        }
+      } else if (samurai != null) {
+        System.out.print(samurai.getGameInvitation());
+        Scanner scanner = new Scanner(System.in);
+        String choice = scanner.nextLine();
+
+          if (gameDialogue.getValidInputs().get("yes").contains(choice.toLowerCase())) {
+            JsonArray wordsJsonArray = gameData.getAsJsonObject("unscramble").getAsJsonArray("words");
+            Type listType = new TypeToken<List<String>>() {}.getType();
+            List<String> wordsList = new Gson().fromJson(wordsJsonArray, listType);
+            playUnscramble(wordsList);
+          } else if (gameDialogue.getValidInputs().get("no").contains(choice.toLowerCase())) {
+            System.out.println(samurai.getGoodbyeMessage());
+          } else {
+            System.out.println(gameDialogue.getInvalidInput());
       }
-    }
-    //if knight npc is found
-    if(knight != null){
+    }else if(knight != null){
       System.out.println(knight.getGameInvitation());
       System.out.print(gameDialogue.getCommandPrompt());
       Scanner scanner = new Scanner(System.in);
@@ -226,10 +243,8 @@ public class GameController {
       } else {
         System.out.println(gameDialogue.getInvalidInput());
       }
-    }else {
-      System.out.println(gameDialogue.getInvalidInput());
-    }
   }
+
 
   public void lookItem(String userInput, JsonObject gameData) {
     String itemWord = textParser.getSecondWord(userInput);
@@ -377,4 +392,50 @@ public class GameController {
       }
     }
   }
+
+  public void playUnscramble(List<String> wordsList) {
+    int count = 0;
+    boolean won = false;
+    boolean quit = false;
+    Scanner scanner = new Scanner(System.in);
+    unscramble.randomizeWord(wordsList);
+    System.out.println(
+        gameData.getAsJsonObject("unscramble").get("scrambled") + unscramble.scrambleWord());
+    while (count < 5 && !won) {
+      System.out.print(unscramble.getAnswer());
+      String guess = scanner.nextLine();
+      unscramble.guesses(guess);
+
+
+      if (!unscramble.guesses(guess) && !guess.isEmpty()) {
+        System.out.println(unscramble.getTryAgain());
+        count++;
+        if (gameDialogue.getValidInputs().get("quit").contains(guess.toLowerCase())){
+          System.out.println(unscramble.getGiveUp());
+          quit = true;
+          break;
+        }
+      } else if (unscramble.guesses(guess)) {
+        System.out.println(unscramble.getWin());
+        won = true;
+      }else {
+        System.out.println(unscramble.getNoAnswer());
+      }
+    }
+    if (!won && !quit) {
+      System.out.print(unscramble.getLose());
+      String answer = scanner.nextLine();
+      if (gameDialogue.getValidInputs().get("yes").contains(answer.toLowerCase())) {
+        JsonArray wordsJsonArray = gameData.getAsJsonObject("unscramble").getAsJsonArray("words");
+        Type listType = new TypeToken<List<String>>() {}.getType();
+        List<String> anotherList = new Gson().fromJson(wordsJsonArray, listType);
+        playUnscramble(anotherList);
+      } else if (gameDialogue.getValidInputs().get("no").contains(answer.toLowerCase())) {
+        System.out.println(unscramble.getNoPlayAgain());
+      } else {
+        System.out.println(gameDialogue.getInvalidInput());
+      }
+    }
+  }
 }
+

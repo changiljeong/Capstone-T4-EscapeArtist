@@ -9,7 +9,8 @@
         "north": 3,
         "east": 4
       },
-      "npcs": [],
+      "npcs": [{
+        "name": "Samurai"}],
       "items": []
     },
     {
@@ -118,8 +119,7 @@
         "north": 10,
         "south": 6
       },
-      "npcs": [{
-        "name": "Samurai"}],
+      "npcs": [],
       "items": [{
         "name":"Key"}]
     },
@@ -185,7 +185,8 @@
         "north": 15,
         "south": 11
       },
-      "npcs": [],
+      "npcs": [{
+        "name": "Samurai"}],
       "items": [{
         "name": "Key"}]
     },
