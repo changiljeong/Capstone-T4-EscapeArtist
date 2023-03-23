@@ -13,6 +13,7 @@ import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.List;
 
+@SuppressWarnings("DataFlowIssue")
 public class GsonDeserializer {
 
     public GameDialogue deserializeGameDialogue() {
@@ -89,6 +90,11 @@ public class GsonDeserializer {
         }
     }
 
+    public Unscramble deserializeUnscramble() {
+        Reader reader = new InputStreamReader(GsonDeserializer.class.getClassLoader().getResourceAsStream("unscramble.json"));
+        Gson gson = new GsonBuilder().create();
+        return gson.fromJson(reader, Unscramble.class);
+    }
 }
 
 
