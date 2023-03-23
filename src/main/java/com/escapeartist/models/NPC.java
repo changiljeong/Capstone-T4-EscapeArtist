@@ -16,6 +16,12 @@ public class NPC {
     @SerializedName("reply")
     private String reply;
 
+    @SerializedName("game_invitation")
+    private String gameInvitation;
+
+    @SerializedName("goodbye_message")
+    private String goodbyeMessage;
+
     // Getters, setters, and other methods
 
     public boolean isInteractive() {
@@ -48,5 +54,21 @@ public class NPC {
 
     public void setReply(String reply) {
         this.reply = reply;
+    }
+
+    public String getGameInvitation() {
+        return gameInvitation;
+    }
+
+    public void setGameInvitation(String gameInvitation) {
+        this.gameInvitation = gameInvitation;
+    }
+
+    public String getGoodbyeMessage() {
+        return goodbyeMessage;
+    }
+
+    public void setGoodbyeMessage(String goodbyeMessage) {
+        this.goodbyeMessage = goodbyeMessage;
     }
 }

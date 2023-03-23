@@ -7,11 +7,13 @@ import com.escapeartist.views.GameView;
 import com.escapeartist.util.TextParser;
 import com.escapeartist.views.MainView;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Scanner;
 
@@ -24,6 +26,7 @@ public class GameController {
   private int currentLocationId;
   private List<Location> locations;
   private GameDialogue gameDialogue;
+  private List<Riddle> riddles;
 
   public GameController(JsonObject gameData) {
     this.gameData = gameData;
@@ -38,14 +41,15 @@ public class GameController {
     List<NPC> npcs = deserializer.deserializeNPCs();
     gameDialogue = deserializer.deserializeGameDialogue();
     JsonObject playerJson = deserializer.deserializePlayerJson();
-    player = deserializer.deserializePlayer(
-        playerJson); // Deserialize the player using the JsonObject
+    player = deserializer.deserializePlayer(playerJson); // Deserialize the player using the JsonObject
+    riddles = deserializer.deserializeRiddles();
 
     gameData.add("player", new Gson().toJsonTree(player));
     gameData.add("dialogue", new Gson().toJsonTree(gameDialogue));
     gameData.add("locations", new Gson().toJsonTree(locations));
     gameData.add("items", new Gson().toJsonTree(items));
     gameData.add("npcs", new Gson().toJsonTree(npcs));
+    gameData.add("riddle", new Gson().toJsonTree(riddles));
 
     this.currentLocationId = player.getCurrentLocation();
 
@@ -141,16 +145,56 @@ public class GameController {
   public void talkNpc(String userInput, JsonObject gameData) {
     String talkWord = textParser.getSecondWord(userInput);
     List<NPC> npcs = new Gson().fromJson(gameData.getAsJsonArray("npcs"),
-        new TypeToken<List<NPC>>() {
-        }.getType());
+            new TypeToken<List<NPC>>() {}.getType());
+
+    NPC ghost = null;
+
+    // Check if the NPC is in the current location before talking to them
+    Location currentLocation = getLocationById(currentLocationId);
+    if (currentLocation.getNpcs().stream().noneMatch(npc -> npc.getName().equalsIgnoreCase(talkWord))) {
+      System.out.println(gameDialogue.getInvalidInput());
+      return;
+    }
+
     for (NPC npc : npcs) {
       if (npc.getName().equalsIgnoreCase(talkWord)) {
         System.out.println(npc.getReply());
         toContinue();
-        // ask if want to play... add method to go into mini game
+
+        if (npc.getName().equalsIgnoreCase("ghost")) {
+          ghost = npc;
+        }
+        break;
       }
     }
+
+    if (ghost != null) {
+      System.out.println(ghost.getGameInvitation());
+      System.out.print(gameDialogue.getCommandPrompt());
+      Scanner scanner = new Scanner(System.in);
+      String choice = scanner.nextLine();
+
+      if (gameDialogue.getValidInputs().get("yes").contains(choice.toLowerCase())) {
+        // get a riddle from the game data based on its ID
+        int riddleId = 1;
+        JsonArray riddlesJsonArray = gameData.getAsJsonArray("riddle");
+        Type listType = new TypeToken<List<Riddle>>() {}.getType();
+        List<Riddle> riddlesList = new Gson().fromJson(riddlesJsonArray, listType);
+
+        Riddle riddle = Riddle.getRiddleById(riddlesList, riddleId);
+
+        // play the riddle mini-game
+        playRiddle(riddle.getId());
+      } else if (gameDialogue.getValidInputs().get("no").contains(choice.toLowerCase())) {
+        System.out.println(ghost.getGoodbyeMessage());
+      } else {
+        System.out.println(gameDialogue.getInvalidInput());
+      }
+    } else {
+      System.out.println(gameDialogue.getInvalidInput());
+    }
   }
+
 
   public void lookItem(String userInput, JsonObject gameData) {
     String itemWord = textParser.getSecondWord(userInput);
@@ -242,5 +286,35 @@ public class GameController {
       throw new RuntimeException(e);
     }
   }
+
+  public void playRiddle(int riddleId) {
+    JsonArray riddlesJsonArray = gameData.getAsJsonArray("riddle");
+    Type listType = new TypeToken<List<Riddle>>(){}.getType();
+    List<Riddle> riddlesList = new Gson().fromJson(riddlesJsonArray, listType);
+
+    Riddle riddle = Riddle.getRiddleById(riddlesList, riddleId);
+
+    if (riddle == null) {
+      System.out.println("Invalid riddle ID");
+      return;
+    }
+
+    Scanner scanner = new Scanner(System.in);
+
+    while (true) {
+      System.out.println(riddle.getQuestion());
+      System.out.print(gameDialogue.getCommandPrompt());
+      String answer = scanner.nextLine().toLowerCase();
+
+      if (answer.equals(riddle.getAnswer())) {
+        System.out.println("You solved the riddle!");
+        break;
+      } else {
+        System.out.println("Incorrect answer. Try again.");
+      }
+    }
+  }
+
+
 
 }
