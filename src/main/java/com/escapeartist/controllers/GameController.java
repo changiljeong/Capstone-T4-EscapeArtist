@@ -2,6 +2,7 @@ package com.escapeartist.controllers;
 
 import com.escapeartist.models.*;
 import com.escapeartist.util.Clear;
+import com.escapeartist.util.GameMusic;
 import com.escapeartist.util.GsonDeserializer;
 import com.escapeartist.views.GameView;
 import com.escapeartist.util.TextParser;
