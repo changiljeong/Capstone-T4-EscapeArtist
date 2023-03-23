@@ -21,6 +21,9 @@
   "player_status_armor_not_equipped": "No armor equipped.",
   "player_picked_up_item" : "Item has been added to your inventory",
   "player_moved_location" : "You are now in: ",
+  "correct_riddle" : "You solved the riddle!",
+  "correct_trivia" : "You answered all questions correctly!",
+  "incorrect_answer" : "Incorrect answer. Please try again",
   "valid_inputs": {
     "yes": ["yes", "y"],
     "no": ["no", "n"],

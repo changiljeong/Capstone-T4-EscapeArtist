@@ -81,6 +81,39 @@ public class GameDialogue {
   @SerializedName("player_moved_location")
   private String playerMovedLocation;
 
+  @SerializedName("correct_riddle")
+  private String playerSolvedRiddle;
+
+  @SerializedName("correct_trivia")
+  private String playerSolvedTrivia;
+
+  @SerializedName("incorrect_answer")
+  private String playerGaveIncorrectAnswer;
+
+  public String getPlayerSolvedRiddle() {
+    return playerSolvedRiddle;
+  }
+
+  public void setPlayerSolvedRiddle(String playerSolvedRiddle) {
+    this.playerSolvedRiddle = playerSolvedRiddle;
+  }
+
+  public String getPlayerSolvedTrivia() {
+    return playerSolvedTrivia;
+  }
+
+  public void setPlayerSolvedTrivia(String playerSolvedTrivia) {
+    this.playerSolvedTrivia = playerSolvedTrivia;
+  }
+
+  public String getPlayerGaveIncorrectAnswer() {
+    return playerGaveIncorrectAnswer;
+  }
+
+  public void setPlayerGaveIncorrectAnswer(String playerGaveIncorrectAnswer) {
+    this.playerGaveIncorrectAnswer = playerGaveIncorrectAnswer;
+  }
+
   public String getQuitConfirm() {
     return quitConfirm;
   }
