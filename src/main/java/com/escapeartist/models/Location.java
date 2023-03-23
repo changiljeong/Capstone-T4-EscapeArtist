@@ -28,6 +28,10 @@ public class Location {
         items.add(item);
     }
 
+    public void removeItem(Item item){
+        items.remove(item);
+    }
+
     public int getId() {
         return id;
     }
@@ -52,7 +56,5 @@ public class Location {
         return npcs;
     }
 
-    public void removeItem(Item item){
-        items.remove(item);
-    }
+
 }
