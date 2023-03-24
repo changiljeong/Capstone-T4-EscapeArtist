@@ -47,6 +47,7 @@ public class MainController {
                     case "new":
                         // Start a new game
                         newGame();
+
                         validInput = true;
                         break;
                     case "quit":
