@@ -22,6 +22,9 @@ public class NPC {
     @SerializedName("goodbye_message")
     private String goodbyeMessage;
 
+    @SerializedName("goodbye_message_2")
+    private String goodbyeMessage2;
+
     @SerializedName("solved")
     private boolean solved;
 
@@ -73,6 +76,14 @@ public class NPC {
 
     public void setGoodbyeMessage(String goodbyeMessage) {
         this.goodbyeMessage = goodbyeMessage;
+    }
+
+    public String getGoodbyeMessage2() {
+        return goodbyeMessage2;
+    }
+
+    public void setGoodbyeMessage2(String goodbyeMessage2) {
+        this.goodbyeMessage2 = goodbyeMessage2;
     }
 
 
