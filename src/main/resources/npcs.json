@@ -6,7 +6,8 @@
       "description" : "A tired ghost of a a lost explorer; will this be your fate?",
       "reply" : "I once was an explorer, looking for treasures unknown,\nWho got lost in this maze, my fate all my own.\nTrapped in this labyrinth, now a ghostly guide\nA puzzling place where time coincides\nNow I guard these secrets with my soul,\nAnd won't let you pass without a toll.\nSolve the riddle and pass you shall,\nBut should you fail, your journey ends here, with no avail.",
       "game_invitation": "Would you like to play a game? (Yes or No)",
-      "goodbye_message": "I understand that this place can be quite confusing\n and treacherous. But fear not, for perhaps another time,\n with a different approach, you may find success. Until then, farewell and safe travels"
+      "goodbye_message": "Goodbye!",
+      "goodbye_message_2": "Thanks for playing!\nI bid you farewell and wish you best on your journey.\nThe ghost will be gone forever."
     },
     {
       "interactive" : true,
