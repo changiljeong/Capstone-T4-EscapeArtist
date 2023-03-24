@@ -12,7 +12,7 @@ public class GameMusic {
 
   public void playMusic() {
     try {
-      InputStream audioFile = GameMusic.class.getResourceAsStream("game_music.mp3");
+      InputStream audioFile = GameMusic.class.getResourceAsStream("/game_music.wav");
       InputStream bufferedStream = new BufferedInputStream(audioFile);
       AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(bufferedStream);
       clip = AudioSystem.getClip();
@@ -21,7 +21,14 @@ public class GameMusic {
     } catch (Exception ex) {
       System.out.println("Error playing sound.");
       ex.printStackTrace();
+      // TODO: 3/24/23 background sound using Loop continously, adding volum options
     }
   }
+  public void stopMusic() {
+    if (clip != null && clip.isRunning()) {
+      clip.stop();
+    }
+  }
+
 }
 
