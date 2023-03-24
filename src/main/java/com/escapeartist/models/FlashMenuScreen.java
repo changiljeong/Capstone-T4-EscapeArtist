@@ -17,7 +17,8 @@ public class FlashMenuScreen {
   }
 
   public void startGame(MainController game) throws IOException {
-    new Thread (()->gameMusic.playMusic()).start();
+//    new Thread (()->gameMusic.playMusic()).start();
+    gameMusic.playMusic();
     readAsciiFile();
     String message = "Press any key to continue...";
     int length = message.length() + 4;
