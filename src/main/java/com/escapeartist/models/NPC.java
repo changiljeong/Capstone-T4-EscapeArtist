@@ -22,6 +22,9 @@ public class NPC {
     @SerializedName("goodbye_message")
     private String goodbyeMessage;
 
+    @SerializedName("solved")
+    private boolean solved;
+
     // Getters, setters, and other methods
 
     public boolean isInteractive() {
@@ -71,4 +74,14 @@ public class NPC {
     public void setGoodbyeMessage(String goodbyeMessage) {
         this.goodbyeMessage = goodbyeMessage;
     }
+
+
+    public boolean getSolved() {
+        return solved;
+    }
+
+    public void setSolved(boolean solved) {
+        this.solved = solved;
+    }
+
 }
