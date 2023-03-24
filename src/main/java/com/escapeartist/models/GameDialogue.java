@@ -15,6 +15,9 @@ public class GameDialogue {
   @SerializedName("command_prompt")
   private String commandPrompt;
 
+  @SerializedName("user_prompt")
+  private String userPrompt;
+
   @SerializedName("invalid_input")
   private String invalidInput;
 
@@ -125,6 +128,15 @@ public class GameDialogue {
   public void setPlayerGaveIncorrectAnswer(String playerGaveIncorrectAnswer) {
     this.playerGaveIncorrectAnswer = playerGaveIncorrectAnswer;
   }
+
+  @SerializedName("riddle_solved")
+  private String riddleSolved;
+
+  @SerializedName("riddle_incorrect")
+  private String riddleIncorrect;
+
+  @SerializedName("riddle_not_solved")
+  private String riddleNotSolved;
 
   public String getQuitConfirm() {
     return quitConfirm;
@@ -309,5 +321,54 @@ public class GameDialogue {
   public void setPlayerPickedUpItem(String playerPickedUpItem) {
     this.playerPickedUpItem = playerPickedUpItem;
   }
+
+  public String getUserPrompt() {
+    return userPrompt;
+  }
+
+  public void setUserPrompt(String userPrompt) {
+    this.userPrompt = userPrompt;
+  }
+
+  public String getCurrentLocation() {
+    return currentLocation;
+  }
+
+  public void setCurrentLocation(String currentLocation) {
+    this.currentLocation = currentLocation;
+  }
+
+  public String getItemsDropped() {
+    return itemsDropped;
+  }
+
+  public void setItemsDropped(String itemsDropped) {
+    this.itemsDropped = itemsDropped;
+  }
+
+  public String getRiddleSolved() {
+    return riddleSolved;
+  }
+
+  public void setRiddleSolved(String riddleSolved) {
+    this.riddleSolved = riddleSolved;
+  }
+
+  public String getRiddleIncorrect() {
+    return riddleIncorrect;
+  }
+
+  public void setRiddleIncorrect(String riddleIncorrect) {
+    this.riddleIncorrect = riddleIncorrect;
+  }
+
+  public String getRiddleNotSolved() {
+    return riddleNotSolved;
+  }
+
+  public void setRiddleNotSolved(String riddleNotSolved) {
+    this.riddleNotSolved = riddleNotSolved;
+  }
+
 }
 

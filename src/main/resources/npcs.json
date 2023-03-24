@@ -29,7 +29,8 @@
       "description" : "A skilled warrior who lives by a code of honor that is known as bushido.",
       "reply" :"Here in this space you find a sight.\nAll askew, a topsy-turvy blight.\nThe ceiling holds the door, the floor the window pane.\nPictures are reversed, and nothing's quite the same.\nTo restore order, unscramble the word.\nFive guesses are that will be heard.",
       "game_invitation": "Would you like to play? (Yes or No)\n>",
-      "goodbye_message": "Goodbye!"
+      "goodbye_message": "Goodbye!",
+      "goodbye_message_2": "Thanks for playing!\nHere is a key.\nI bid you farewell and wish you best on your journey.\nThe ghost will be gone forever."
     },
     {
       "interactive" : true,
