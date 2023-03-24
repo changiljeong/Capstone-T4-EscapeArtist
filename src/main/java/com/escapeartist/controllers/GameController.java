@@ -208,9 +208,9 @@ public class GameController {
         // play the riddle mini-game
         boolean riddleSolved = playRiddle(riddle.getId());
         if (riddleSolved) {
-          gamesCompleted(riddleSolved);
           currentLocation.removeNPC("Ghost");
           System.out.println(ghost.getGoodbyeMessage2());
+          gamesCompleted(riddleSolved);
         }
       } else if (gameDialogue.getValidInputs().get("no").contains(choice.toLowerCase())) {
         System.out.println(ghost.getGoodbyeMessage());
