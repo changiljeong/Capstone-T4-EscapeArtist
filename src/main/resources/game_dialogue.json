@@ -24,6 +24,7 @@
   "correct_riddle" : "You solved the riddle!",
   "correct_trivia" : "You answered all questions correctly!",
   "incorrect_answer" : "Incorrect answer. Please try again",
+  "final_incorrect_answer" : "You're all out of guesses!. Better luck next time!",
   "valid_inputs": {
     "yes": ["yes", "y"],
     "no": ["no", "n"],

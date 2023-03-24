@@ -90,6 +90,18 @@ public class GameDialogue {
   @SerializedName("incorrect_answer")
   private String playerGaveIncorrectAnswer;
 
+
+  @SerializedName("final_incorrect_answer")
+  private String finalIncorrectAnswer;
+
+  public String getFinalIncorrectAnswer() {
+    return finalIncorrectAnswer;
+  }
+
+  public void setFinalIncorrectAnswer(String finalIncorrectAnswer) {
+    this.finalIncorrectAnswer = finalIncorrectAnswer;
+  }
+
   public String getPlayerSolvedRiddle() {
     return playerSolvedRiddle;
   }

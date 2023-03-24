@@ -10,7 +10,7 @@
         "east": 4
       },
       "npcs": [{
-        "name": "Samurai"}],
+        "name": "Samurai"}, {"name": "Knight"}],
       "items": []
     },
     {

@@ -47,7 +47,8 @@ public class GameController {
     player = deserializer.deserializePlayer(
         playerJson); // Deserialize the player using the JsonObject
     unscramble = deserializer.deserializeUnscramble();
-    player = deserializer.deserializePlayer(playerJson); // Deserialize the player using the JsonObject
+    player = deserializer.deserializePlayer(
+        playerJson); // Deserialize the player using the JsonObject
     riddles = deserializer.deserializeRiddles();
     trivias = deserializer.deserializeTrivia();
 
@@ -113,11 +114,10 @@ public class GameController {
       } else if (textParser.isGetCommand(inputElement)) {
         Clear.clearConsole();
         getItem(userInput, gameData, currentLocation);
-      }else if (textParser.isDropCommand(inputElement)) {
+      } else if (textParser.isDropCommand(inputElement)) {
         Clear.clearConsole();
         dropItem(userInput, currentLocation);
-      }
-      else {
+      } else {
         if (!textParser.isValidInput(inputElement)) {
           Clear.clearConsole();
           System.out.println(
@@ -156,7 +156,8 @@ public class GameController {
   public void talkNpc(String userInput, JsonObject gameData) {
     String talkWord = textParser.getSecondWord(userInput);
     List<NPC> npcs = new Gson().fromJson(gameData.getAsJsonArray("npcs"),
-        new TypeToken<List<NPC>>() {}.getType());
+        new TypeToken<List<NPC>>() {
+        }.getType());
 
     NPC ghost = null;
     NPC knight = null;
@@ -177,74 +178,75 @@ public class GameController {
           ghost = npc;
         } else if (npc.getName().equalsIgnoreCase("samurai")) {
           samurai = npc;
-        }
-        }else if (npc.getName().equalsIgnoreCase("knight")){
+        } else if (npc.getName().equalsIgnoreCase("knight")) {
           knight = npc;
-        }else
-        break;
-      }
-
-
-      if (ghost != null) {
-        System.out.println(ghost.getGameInvitation());
-        System.out.print(gameDialogue.getCommandPrompt());
-        Scanner scanner = new Scanner(System.in);
-        String choice = scanner.nextLine();
-
-        if (gameDialogue.getValidInputs().get("yes").contains(choice.toLowerCase())) {
-          // get a riddle from the game data based on its ID
-          int riddleId = 1;
-          JsonArray riddlesJsonArray = gameData.getAsJsonArray("riddle");
-          Type listType = new TypeToken<List<Riddle>>() {
-          }.getType();
-          List<Riddle> riddlesList = new Gson().fromJson(riddlesJsonArray, listType);
-
-          Riddle riddle = Riddle.getRiddleById(riddlesList, riddleId);
-
-          // play the riddle mini-game
-          playRiddle(riddle.getId());
-        } else if (gameDialogue.getValidInputs().get("no").contains(choice.toLowerCase())) {
-          System.out.println(ghost.getGoodbyeMessage());
-        } else {
-          System.out.println(gameDialogue.getInvalidInput());
+          break;
         }
-      } else if (samurai != null) {
-        System.out.print(samurai.getGameInvitation());
-        Scanner scanner = new Scanner(System.in);
-        String choice = scanner.nextLine();
-
-          if (gameDialogue.getValidInputs().get("yes").contains(choice.toLowerCase())) {
-            JsonArray wordsJsonArray = gameData.getAsJsonObject("unscramble").getAsJsonArray("words");
-            Type listType = new TypeToken<List<String>>() {}.getType();
-            List<String> wordsList = new Gson().fromJson(wordsJsonArray, listType);
-            playUnscramble(wordsList);
-          } else if (gameDialogue.getValidInputs().get("no").contains(choice.toLowerCase())) {
-            System.out.println(samurai.getGoodbyeMessage());
-          } else {
-            System.out.println(gameDialogue.getInvalidInput());
       }
-    }else if(knight != null){
+    }
+
+    if (ghost != null) {
+      System.out.println(ghost.getGameInvitation());
+      System.out.print(gameDialogue.getCommandPrompt());
+      Scanner scanner = new Scanner(System.in);
+      String choice = scanner.nextLine();
+
+      if (gameDialogue.getValidInputs().get("yes").contains(choice.toLowerCase())) {
+        // get a riddle from the game data based on its ID
+        int riddleId = 1;
+        JsonArray riddlesJsonArray = gameData.getAsJsonArray("riddle");
+        Type listType = new TypeToken<List<Riddle>>() {
+        }.getType();
+        List<Riddle> riddlesList = new Gson().fromJson(riddlesJsonArray, listType);
+
+        Riddle riddle = Riddle.getRiddleById(riddlesList, riddleId);
+
+        // play the riddle mini-game
+        playRiddle(riddle.getId());
+      } else if (gameDialogue.getValidInputs().get("no").contains(choice.toLowerCase())) {
+        System.out.println(ghost.getGoodbyeMessage());
+      } else {
+        System.out.println(gameDialogue.getInvalidInput());
+      }
+    } else if (samurai != null) {
+      System.out.print(samurai.getGameInvitation());
+      Scanner scanner = new Scanner(System.in);
+      String choice = scanner.nextLine();
+
+      if (gameDialogue.getValidInputs().get("yes").contains(choice.toLowerCase())) {
+        JsonArray wordsJsonArray = gameData.getAsJsonObject("unscramble").getAsJsonArray("words");
+        Type listType = new TypeToken<List<String>>() {
+        }.getType();
+        List<String> wordsList = new Gson().fromJson(wordsJsonArray, listType);
+        playUnscramble(wordsList);
+      } else if (gameDialogue.getValidInputs().get("no").contains(choice.toLowerCase())) {
+        System.out.println(samurai.getGoodbyeMessage());
+      } else {
+        System.out.println(gameDialogue.getInvalidInput());
+      }
+    } else if (knight != null) {
       System.out.println(knight.getGameInvitation());
       System.out.print(gameDialogue.getCommandPrompt());
       Scanner scanner = new Scanner(System.in);
       String choice = scanner.next();
       // get the trivia the json file, hardcoding to id 1
-      if(gameDialogue.getValidInputs().get("yes").contains((choice.toLowerCase()))){
+      if (gameDialogue.getValidInputs().get("yes").contains((choice.toLowerCase()))) {
         int triviaId = 1;
         JsonArray triviasJsonArray = gameData.getAsJsonArray("trivia");
-        Type listType = new TypeToken<List<Trivia>>(){}.getType();
+        Type listType = new TypeToken<List<Trivia>>() {
+        }.getType();
         List<Trivia> triviaList = new Gson().fromJson(triviasJsonArray, listType);
         Trivia trivia = Trivia.getTriviaByID(triviaList, triviaId);
 
         //play the trivia game for the knight
         playTrivia(trivia.getId());
-      } else if (gameDialogue.getValidInputs().get("no").contains(choice.toLowerCase())){
+      } else if (gameDialogue.getValidInputs().get("no").contains(choice.toLowerCase())) {
         System.out.println(knight.getGoodbyeMessage());
       } else {
         System.out.println(gameDialogue.getInvalidInput());
       }
+    }
   }
-
 
   public void lookItem(String userInput, JsonObject gameData) {
     String itemWord = textParser.getSecondWord(userInput);
@@ -379,19 +381,24 @@ public class GameController {
     }
     Scanner scanner = new Scanner(System.in);
 
-    while (true) {
-      System.out.println(trivia.getQuestion());
-      System.out.print(gameDialogue.getCommandPrompt());
-      String answer = scanner.nextLine().toLowerCase();
+    int numAttempts = 0;
+      while (numAttempts <= 2) {
+        System.out.println(trivia.getQuestion());
+        System.out.print(gameDialogue.getCommandPrompt());
+        String answer = scanner.nextLine().toLowerCase();
 
-      if (answer.equalsIgnoreCase(trivia.getAnswer())) {
-        System.out.println(gameDialogue.getPlayerSolvedTrivia());
-        break;
-      } else {
+        if (answer.equalsIgnoreCase(trivia.getAnswer())) {
+          System.out.println(gameDialogue.getPlayerSolvedTrivia());
+          break;
+        } else if (numAttempts == 2) {
+          System.out.println(gameDialogue.getFinalIncorrectAnswer());
+          break;
+        }
         System.out.println(gameDialogue.getPlayerGaveIncorrectAnswer());
+        numAttempts++;
       }
-    }
   }
+
 
   public void playUnscramble(List<String> wordsList) {
     int count = 0;
@@ -406,11 +413,10 @@ public class GameController {
       String guess = scanner.nextLine();
       unscramble.guesses(guess);
 
-
       if (!unscramble.guesses(guess) && !guess.isEmpty()) {
         System.out.println(unscramble.getTryAgain());
         count++;
-        if (gameDialogue.getValidInputs().get("quit").contains(guess.toLowerCase())){
+        if (gameDialogue.getValidInputs().get("quit").contains(guess.toLowerCase())) {
           System.out.println(unscramble.getGiveUp());
           quit = true;
           break;
@@ -418,7 +424,7 @@ public class GameController {
       } else if (unscramble.guesses(guess)) {
         System.out.println(unscramble.getWin());
         won = true;
-      }else {
+      } else {
         System.out.println(unscramble.getNoAnswer());
       }
     }
@@ -427,7 +433,8 @@ public class GameController {
       String answer = scanner.nextLine();
       if (gameDialogue.getValidInputs().get("yes").contains(answer.toLowerCase())) {
         JsonArray wordsJsonArray = gameData.getAsJsonObject("unscramble").getAsJsonArray("words");
-        Type listType = new TypeToken<List<String>>() {}.getType();
+        Type listType = new TypeToken<List<String>>() {
+        }.getType();
         List<String> anotherList = new Gson().fromJson(wordsJsonArray, listType);
         playUnscramble(anotherList);
       } else if (gameDialogue.getValidInputs().get("no").contains(answer.toLowerCase())) {
@@ -438,4 +445,6 @@ public class GameController {
     }
   }
 }
+
+
 
