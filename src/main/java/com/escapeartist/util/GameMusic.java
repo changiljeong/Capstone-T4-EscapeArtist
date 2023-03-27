@@ -21,7 +21,7 @@ public class GameMusic {
     } catch (Exception ex) {
       System.out.println("Error playing sound.");
       ex.printStackTrace();
-      // TODO: 3/24/23 background sound using Loop continously, adding volum options
+      // TODO: 3/24/23 background sound using Loop continously, adding volume options
     }
   }
   public void stopMusic() {
