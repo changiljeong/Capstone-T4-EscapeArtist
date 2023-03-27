@@ -30,6 +30,7 @@ public class GameController {
   private List<Riddle> riddles;
   private Unscramble unscramble;
   private List<Trivia> trivias;
+  private GameMap gameMap;
 
   public GameController(JsonObject gameData) {
     this.gameData = gameData;
@@ -38,6 +39,7 @@ public class GameController {
   public void loadGameData() {
     textParser = new TextParser(gameData);
     gameView = new GameView(gameData);
+    gameMap = new GameMap();
     GsonDeserializer deserializer = new GsonDeserializer();
     locations = deserializer.deserializeLocations();
     List<Item> items = deserializer.deserializeItems();
@@ -109,7 +111,15 @@ public class GameController {
         } else if (currentLocation.getItems().stream()
             .anyMatch(item -> item.getName().equalsIgnoreCase(secondWord))) {
           lookItem(userInput, gameData);
-        } else {
+        } else if(player.getInventory().stream()
+            .anyMatch(item -> item.getName().equalsIgnoreCase(secondWord))){
+          if(secondWord.equalsIgnoreCase("map")){
+            lookMap(userInput);
+          } else {
+            lookItemInInventory(userInput);
+          }
+        }
+        else {
           System.out.println(gameDialogue.getInvalidInput());
         }
       } else if (textParser.isTalkCommand(inputElement)) {
@@ -293,6 +303,39 @@ public class GameController {
     }
   }
 
+  public void lookMap(String userInput) {
+    String mapWord = textParser.getSecondWord(userInput);
+    List<Item> maps = player.getInventory();
+    boolean mapFound = false;
+
+    for (Item map : maps){
+      if(map.getName().equalsIgnoreCase(mapWord)){
+        mapFound = true;
+        gameMap.readMap();
+      }
+    }
+    if(!mapFound){
+      System.out.println(gameDialogue.getInvalidInput());
+      System.out.println("Map not found in inventory");
+    }
+  }
+
+  public void lookItemInInventory(String userInput){
+    String itemWord = textParser.getSecondWord(userInput);
+    List<Item> items = player.getInventory();
+    boolean itemFound = false;
+
+    for (Item item : items) {
+      if (item.getName().equalsIgnoreCase(itemWord)) {
+        itemFound = true;
+        System.out.println(item.getDescription());
+      }
+    }
+    if (!itemFound) {
+      System.out.println(gameDialogue.getInvalidInput());
+    }
+  }
+
   public void getItem(String userInput, JsonObject gameData, Location currentLocation) {
     String itemWord = textParser.getSecondWord(userInput);
     List<Item> itemsLocation = currentLocation.getItems();
@@ -424,7 +467,7 @@ public class GameController {
   public void gamesCompleted(boolean completed) {
       if (completed){
         System.out.println("You now have access to the key.");
-        Item item = new Item(1, "Key", "");
+        Item item = new Item(1, "Key", "A key. Maybe I can use it to unlock something.");
         player.getInventory().add(item);
       } else{
         System.out.println("You need to complete the challenge before you can access this key.");

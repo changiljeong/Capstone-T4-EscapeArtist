@@ -10,7 +10,7 @@
         "east": 4
       },
       "npcs": [],
-      "items": []
+      "items": [{"name": "Map"}]
     },
     {
       "id": 2,
