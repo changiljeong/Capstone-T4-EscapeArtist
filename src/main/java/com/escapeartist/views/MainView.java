@@ -37,6 +37,7 @@ public class MainView {
     for (int i = 0; i < options.size(); i++) {
       System.out.println(options.get(i).getAsString());
     }
+    System.out.println("3. Music Controls"); // Added music control option
   }
 
   public void showGameInfo() {
@@ -113,6 +114,10 @@ public class MainView {
       if (userInput.equals(validInputs.get(i).getAsString())) {
         return validInputs.get(i).getAsString();
       }
+    }
+    // Added the case for the "music" option
+    if (userInput.equals("music") || userInput.equals("3")) {
+      return "music";
     }
     return "";
   }
