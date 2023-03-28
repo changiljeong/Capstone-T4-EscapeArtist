@@ -30,7 +30,7 @@ public class GameController {
   private List<Riddle> riddles;
   private Unscramble unscramble;
   private List<Trivia> trivias;
-  private GameMap gameMap;
+//  private GameMap gameMap;
 
   public GameController(JsonObject gameData) {
     this.gameData = gameData;
@@ -39,7 +39,8 @@ public class GameController {
   public void loadGameData() {
     textParser = new TextParser(gameData);
     gameView = new GameView(gameData);
-    gameMap = new GameMap();
+    //gameMap = new GameMap();
+    //MapFrame frame = new MapFrame();
     GsonDeserializer deserializer = new GsonDeserializer();
     locations = deserializer.deserializeLocations();
     List<Item> items = deserializer.deserializeItems();
@@ -114,7 +115,8 @@ public class GameController {
         } else if(player.getInventory().stream()
             .anyMatch(item -> item.getName().equalsIgnoreCase(secondWord))){
           if(secondWord.equalsIgnoreCase("map")){
-            lookMap(userInput);
+            MapFrame frame = new MapFrame();
+            frame.readMap();
           } else {
             lookItemInInventory(userInput);
           }
@@ -311,7 +313,9 @@ public class GameController {
     for (Item map : maps){
       if(map.getName().equalsIgnoreCase(mapWord)){
         mapFound = true;
-        gameMap.readMap();
+        MapFrame frame = new MapFrame();
+        frame.readMap();
+        //gameMap.readMap();
       }
     }
     if(!mapFound){
