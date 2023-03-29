@@ -45,5 +45,4 @@ public class FlashMenuScreen {
       e.printStackTrace();
     }
   }
-
 }

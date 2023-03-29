@@ -47,8 +47,6 @@ public class GameView {
         System.out.println(gameData.getAsJsonObject("dialogue").get("player_status_end").getAsString());
     }
 
-
-
     private String getJsonArray(JsonArray jsonArray, String fieldName) {
         StringBuilder stringArray = new StringBuilder();
 
@@ -61,6 +59,4 @@ public class GameView {
         }
         return stringArray.toString();
     }
-
-
 }

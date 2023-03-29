@@ -12,6 +12,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+
 import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -47,8 +48,6 @@ public class GameController {
     List<NPC> npcs = deserializer.deserializeNPCs();
     gameDialogue = deserializer.deserializeGameDialogue();
     JsonObject playerJson = deserializer.deserializePlayerJson();
-    player = deserializer.deserializePlayer(
-        playerJson); // Deserialize the player using the JsonObject
     unscramble = deserializer.deserializeUnscramble();
     player = deserializer.deserializePlayer(
         playerJson); // Deserialize the player using the JsonObject
@@ -68,9 +67,10 @@ public class GameController {
 
   }
 
-  public void setCurrentLocationId(int currentLocationId) {
-    this.currentLocationId = currentLocationId;
+    public void setCurrentLocationId(int currentLocationId) {
+      this.currentLocationId = currentLocationId;
   }
+
 
   public void run() {
     loadGameData();

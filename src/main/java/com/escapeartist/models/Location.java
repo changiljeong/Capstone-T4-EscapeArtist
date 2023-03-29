@@ -60,6 +60,4 @@ public class Location {
     public List<NPC> getNpcs() {
         return npcs;
     }
-
-
 }

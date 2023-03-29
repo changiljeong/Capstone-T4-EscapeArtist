@@ -1,6 +1,7 @@
 package com.escapeartist.controllers;
 
 import com.escapeartist.models.*;
+import com.escapeartist.util.Clear;
 import com.escapeartist.util.GameMusic;
 import com.escapeartist.util.GsonDeserializer;
 import com.escapeartist.util.MusicController;
@@ -25,7 +26,6 @@ public class MainController {
         gameData.add("locations", new Gson().toJsonTree(deserializer.deserializeLocations()));
         gameData.add("items", new Gson().toJsonTree(deserializer.deserializeItems()));
         gameData.add("npcs", new Gson().toJsonTree(deserializer.deserializeNPCs()));
-
         gameController = new GameController(gameData);
     }
 
@@ -38,6 +38,11 @@ public class MainController {
             mainView.showWelcomeMessage();
 
             String userInput = String.valueOf(mainView.getUserInput());
+
+            if (userInput.trim().isEmpty()) {
+                Clear.clearConsole(); // Clear the console when "Return" key is pressed.
+                continue;
+            }
 
             String validCommand = mainView.isValidInput(userInput);
             if (!validCommand.isEmpty()) {

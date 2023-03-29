@@ -13,6 +13,5 @@ public class Main {
     GameMusic music = new GameMusic();
     GUI gui = new GUI();
     FlashMenuScreen flashmenu = new FlashMenuScreen(game, music );
-
   }
 }
