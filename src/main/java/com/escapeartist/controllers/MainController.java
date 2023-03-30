@@ -5,6 +5,7 @@ import com.escapeartist.util.Clear;
 import com.escapeartist.util.GameMusic;
 import com.escapeartist.util.GsonDeserializer;
 import com.escapeartist.util.MusicController;
+import com.escapeartist.views.GUI;
 import com.escapeartist.views.MainView;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -14,11 +15,13 @@ public class MainController {
     private GameController gameController;
     private GameMusic gameMusic;
     private MusicController musicController;
+    private GUI gui;
 
     public MainController() {
         mainView = new MainView();
         gameMusic = new GameMusic();
         musicController = new MusicController(gameMusic);
+        gui = new GUI();
 
         GsonDeserializer deserializer = new GsonDeserializer();
         JsonObject gameData = new JsonObject();
@@ -26,10 +29,13 @@ public class MainController {
         gameData.add("locations", new Gson().toJsonTree(deserializer.deserializeLocations()));
         gameData.add("items", new Gson().toJsonTree(deserializer.deserializeItems()));
         gameData.add("npcs", new Gson().toJsonTree(deserializer.deserializeNPCs()));
-        gameController = new GameController(gameData);
+        gameController = new GameController(gameData, gui);
+        displayGameIntro();
+        startMenu();
     }
 
     public void startMenu() {
+        displayGameIntro();
         boolean validInput = false;
         mainView.showGameInfo();
         gameMusic.playMusic();
@@ -80,5 +86,16 @@ public class MainController {
         mainView.clear();
         mainView.printMessage("new_game_start");
         gameController.run();
+    }
+
+    public void displayGameIntro() {
+        String introText = mainView.readTitleScreenFile() +"\n\n" +
+            "Welcome to the Escape Artist! \n\n" +
+            "Here are the instructions:\n" +
+            "1. Use the buttons to navigate through the game.\n" +
+            "2. Interact with NPCs and items using the text input.\n" +
+            "3. Solve puzzles, fight enemies and complete tasks to progress.\n\n" +
+            "Good luck and have fun!";
+        gui.showGameIntro(introText);
     }
 }

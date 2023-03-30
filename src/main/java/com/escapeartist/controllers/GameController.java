@@ -4,6 +4,7 @@ import com.escapeartist.models.*;
 import com.escapeartist.util.Clear;
 import com.escapeartist.util.GameMusic;
 import com.escapeartist.util.GsonDeserializer;
+import com.escapeartist.views.GUI;
 import com.escapeartist.views.GameView;
 import com.escapeartist.util.TextParser;
 import com.escapeartist.views.MainView;
@@ -31,10 +32,12 @@ public class GameController {
   private List<Riddle> riddles;
   private Unscramble unscramble;
   private List<Trivia> trivias;
+  private GUI gui;
 //  private GameMap gameMap;
 
-  public GameController(JsonObject gameData) {
+  public GameController(JsonObject gameData, GUI gui) {
     this.gameData = gameData;
+    this.gui = gui;
   }
 
   public void loadGameData() {
@@ -165,7 +168,7 @@ public class GameController {
           gameData.getAsJsonObject("dialogue").get("player_moved_location").getAsString()
               + currentLocationName);
     } else {
-      System.out.println(gameDialogue.getInvalidExit());
+      gui.textArea.append(gameDialogue.getInvalidExit() + "\n");
     }
   }
 

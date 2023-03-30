@@ -20,7 +20,7 @@ public class GUI extends JFrame {
   private JButton addToListButton;
 
   private JPanel textPanel;
-  private JTextArea textArea;
+  public JTextArea textArea;
 
   public GUI() {
     buttonPanel = new JPanel();
@@ -97,5 +97,9 @@ public class GUI extends JFrame {
     setSize(800, 400);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setVisible(true);
+  }
+
+  public void showGameIntro(String introText) {
+    JOptionPane.showMessageDialog(this, introText, "Game Introduction", JOptionPane.INFORMATION_MESSAGE);
   }
 }

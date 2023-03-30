@@ -6,6 +6,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -142,5 +143,20 @@ public class MainView {
     System.out.println(menuData.get(key).getAsString());
   }
 
+  public String readTitleScreenFile() {
+    StringBuilder titleScreenText = new StringBuilder();
+    String fileName = "title_screen.txt";
+
+    try (BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("title_screen.txt")))) {
+      String line;
+      while ((line = br.readLine()) != null) {
+        titleScreenText.append(line).append("\n");
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    return titleScreenText.toString();
+  }
 
 }
