@@ -65,6 +65,36 @@ public class Player {
         System.out.println(gameData.getAsJsonObject("dialogue").get("player_status_end").getAsString());
     }
 
+    // Attack method
+    public int attack() {
+        int attackValue = attack;
+        if (equippedWeapon != null) {
+            attackValue += equippedWeapon.getAttackBonus(); // Item class weapon has an attack attribute or how much damage it deals
+        }
+        // customize the attack logic here like add random damage variation
+        return attackValue;
+    }
+
+    // Receive damage method
+    public void receiveDamage(int damage) {
+        int damageTaken = damage;
+        if (equippedArmor != null) {
+            damageTaken -= equippedArmor.getDefenseBonus(); // Assuming Item class with the armor you pick up has a defense bonus attribute
+            if (damageTaken < 0) {
+                damageTaken = 0;
+            }
+        }
+        hp -= damageTaken;
+        if (hp < 0) {
+            hp = 0;
+        }
+    }
+
+    // Check if the player is defeated
+    public boolean isDefeated() {
+        return hp <= 0;
+    }
+
 
     public void addItem(Item item){
         inventory.add(item);

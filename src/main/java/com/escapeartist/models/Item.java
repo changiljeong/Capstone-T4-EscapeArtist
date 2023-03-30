@@ -70,4 +70,13 @@ public class Item {
         this.equippable = equippable;
     }
 
+    // Uses damage from whatever weapons the player uses
+    public int getAttackBonus() {
+        return 0;
+    }
+
+    // Uses the defense from the armor that the player can pick up in the game as seen from previous code
+    public int getDefenseBonus() {
+        return 0;
+    }
 }
