@@ -15,6 +15,7 @@ public class GUI extends JFrame {
   private JButton button3;
   private JButton button4;
   private JButton button5;
+  private JButton button6;
 
   private JPanel listPanel;
   private DefaultListModel<String> listModel;

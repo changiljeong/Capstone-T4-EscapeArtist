@@ -9,9 +9,12 @@ import java.io.IOException;
 public class Main {
 
   public static void main(String[] args) throws IOException {
+    // Create instances of the main game components
     MainController game = new MainController();
     GameMusic music = new GameMusic();
     GUI gui = new GUI();
+
+    // Display the game's title screen and start the game
     FlashMenuScreen flashmenu = new FlashMenuScreen(game, music );
   }
 }

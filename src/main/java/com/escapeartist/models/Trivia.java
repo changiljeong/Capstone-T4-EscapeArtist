@@ -15,6 +15,7 @@ public class Trivia {
   private String answer;
 
 
+  // Method to get the trivia question by its ID from a list of trivia objects
   public static Trivia getTriviaByID(List<Trivia> trivias, int id) {
     for (Trivia trivia : trivias) {
       if (trivia.getId() == id) {
@@ -25,14 +26,17 @@ public class Trivia {
   }
 
 
+  // Getter method for the id field
   public int getId() {
     return id;
   }
 
+  // Getter method for the question field
   public String getQuestion() {
     return question;
   }
 
+  // Getter method for the answer field
   public String getAnswer() {
     return answer;
   }

@@ -17,25 +17,29 @@ public class FlashMenuScreen {
   }
 
   public void startGame(MainController game) throws IOException {
-//    new Thread (()->gameMusic.playMusic()).start();
+    // Play the game music
     gameMusic.playMusic();
+
+    // Display the title screen
     readAsciiFile();
+
+    // Prompt the user to press any key to continue
     String message = "Press any key to continue...";
     int length = message.length() + 4;
     String border = "+".repeat(length);
-
     System.out.println(border);
     System.out.println("| " + message + " |");
     System.out.println(border);
     System.in.read(); // Wait for user to press any key
+
+    // Clear the console and start the game menu
     Clear.clearConsole();
     game.startMenu();
   }
 
   public void readAsciiFile() {
+    // Read and display the ASCII art title screen from a file
     String fileName = "title_screen.txt";
-
-    //noinspection ConstantConditions
     try (BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream(fileName)))) {
       String line;
       while ((line = br.readLine()) != null) {

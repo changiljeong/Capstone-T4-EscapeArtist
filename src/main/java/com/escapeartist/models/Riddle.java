@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Riddle {
+    // Fields
     @SerializedName("id")
     private int id;
 
@@ -15,6 +16,7 @@ public class Riddle {
     @SerializedName("answer")
     private String answer;
 
+    // Static Method: Get Riddle by ID
     public static Riddle getRiddleById(List<Riddle> riddles, int id) {
         for (Riddle riddle : riddles) {
             if (riddle.getId() == id) {
@@ -24,6 +26,7 @@ public class Riddle {
         return null;
     }
 
+    // Getter Methods
     public int getId() {
         return id;
     }
@@ -36,6 +39,7 @@ public class Riddle {
         return answer;
     }
 
+    // Setter Methods
     public void setId(int id) {
         this.id = id;
     }
@@ -48,4 +52,3 @@ public class Riddle {
         this.answer = answer;
     }
 }
-
