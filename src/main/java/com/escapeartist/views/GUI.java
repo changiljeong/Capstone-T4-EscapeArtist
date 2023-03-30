@@ -1,5 +1,8 @@
 package com.escapeartist.views;
 
+import java.io.IOException;
+import java.io.InputStream;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -100,6 +103,31 @@ public class GUI extends JFrame {
   }
 
   public void showGameIntro(String introText) {
-    JOptionPane.showMessageDialog(this, introText, "Game Introduction", JOptionPane.INFORMATION_MESSAGE);
+    InputStream imageUrl = getClass().getClassLoader().getResourceAsStream("sprite_image1.png");
+    Image image;
+    try {
+      image = ImageIO.read(imageUrl);
+    } catch (IOException e) {
+      throw new RuntimeException("Error loading image", e);
+    }
+
+    ImageIcon imageIcon = new ImageIcon(image);
+    JLabel imageLabel = new JLabel(imageIcon);
+
+    JTextArea introTextArea = new JTextArea(introText);
+    introTextArea.setLineWrap(true);
+    introTextArea.setWrapStyleWord(true);
+    introTextArea.setEditable(false);
+    introTextArea.setFont(new Font("Arial", Font.PLAIN, 12));
+    introTextArea.setColumns(30);
+    introTextArea.setRows(10);
+
+    JScrollPane scrollPane = new JScrollPane(introTextArea);
+
+    JPanel introPanel = new JPanel(new BorderLayout());
+    introPanel.add(imageLabel, BorderLayout.NORTH);
+    introPanel.add(scrollPane, BorderLayout.CENTER);
+
+    JOptionPane.showMessageDialog(this, introPanel, "Game Introduction", JOptionPane.INFORMATION_MESSAGE);
   }
 }

@@ -7,6 +7,7 @@ import com.escapeartist.util.GsonDeserializer;
 import com.escapeartist.util.MusicController;
 import com.escapeartist.views.GUI;
 import com.escapeartist.views.MainView;
+import com.escapeartist.views.SpriteImageFrame;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 

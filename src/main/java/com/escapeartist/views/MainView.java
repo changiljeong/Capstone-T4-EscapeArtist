@@ -144,19 +144,6 @@ public class MainView {
   }
 
   public String readTitleScreenFile() {
-    StringBuilder titleScreenText = new StringBuilder();
-    String fileName = "title_screen.txt";
-
-    try (BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("title_screen.txt")))) {
-      String line;
-      while ((line = br.readLine()) != null) {
-        titleScreenText.append(line).append("\n");
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    return titleScreenText.toString();
+    return "";
   }
-
 }
