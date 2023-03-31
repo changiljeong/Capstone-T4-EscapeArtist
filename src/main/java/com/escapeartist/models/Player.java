@@ -183,6 +183,10 @@ public class Player {
         return currentLocation;
     }
 
+    public void getRoomItems(){
+
+    }
+
     public void setCurrentLocation(int currentLocation) {
         // Set the player's current location
         this.currentLocation = currentLocation;

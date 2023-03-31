@@ -10,8 +10,16 @@ public class Item {
 
     public Item(int id, int value, String name, String description, String type, Boolean equippable) {
         this.id = id;
+        this.value = value;
         this.name = name;
         this.description = description;
+        this.type = type;
+        this.equippable = equippable;
+
+    }
+
+    public Item(int id){
+        this.id =id;
     }
 
     @SerializedName("id")

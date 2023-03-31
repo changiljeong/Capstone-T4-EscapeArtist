@@ -534,11 +534,17 @@ public class GameController {
     }
     else if(itemToEquip.getEquippable()){
       if(itemToEquip.getType().equals("weapon")){
+        if(player.getEquippedWeapon()!=null){
+          player.setAttack(player.getAttack()-player.getEquippedWeapon().getValue());
+        }
         player.setEquippedWeapon(itemToEquip);
         player.setAttack(player.getAttack()+itemToEquip.getValue());
         System.out.println("You have equipped the " + itemToEquip.getName());
       }
       else if(itemToEquip.getType().equals("armor")){
+        if(player.getEquippedArmor()!=null){
+          player.setDefense(player.getAttack()-player.getEquippedWeapon().getValue());
+        }
         player.setEquippedArmor(itemToEquip);
         player.setDefense(player.getDefense()+itemToEquip.getValue());
         System.out.println("You have equipped the " + itemToEquip.getName());
@@ -549,6 +555,7 @@ public class GameController {
   public void useItem(String userInput){
     String itemUse = textParser.getSecondWord(userInput);
     List<Item> inventory = player.getInventory();
+    System.out.println(itemUse);
     Item itemToUse = null;
     for(Item item : inventory){
       if(item.getName().equalsIgnoreCase(itemUse)){
@@ -566,6 +573,192 @@ public class GameController {
     else if(itemToUse.getType().equalsIgnoreCase("map")){
       //TODO link logic to james' map feature
       System.out.println("map function");
+    }
+    else if(itemToUse.getType().equalsIgnoreCase("potionkey")){
+      openPotionChest();
+    }
+    else if(itemToUse.getType().equalsIgnoreCase("armorkey")){
+      openArmorChest();
+    }
+    else if(itemToUse.getType().equalsIgnoreCase("weaponkey")){
+      openWeaponChest();
+    }
+  }
+
+  public void openArmorChest() {
+    Location currentLocation = getLocationById(currentLocationId);
+    if(currentLocationId!=15){
+      System.out.println("You cannot use the armor key here");
+    }
+    else{
+      Scanner scanner = new Scanner(System.in);
+      while(true) {
+        System.out.println("Which chest do you want to open? (open left, open middle, open right)");
+        String userInput = scanner.nextLine();
+        if(userInput.equalsIgnoreCase("open left")){
+          if(isItemIdInRoom(currentLocation, 23)){
+            Item jazerant = new Item(6,10, "Jazerant", "A medieval light coat of armour consisting of mail between layers of fabric or leather.", "armor", true);
+            player.addItem(jazerant);
+            System.out.println("Acquired Jazerant!");
+            removeChest(currentLocation, 23);
+          }
+          else{
+            System.out.println("that chest has already been opened.");
+          }
+          break;
+        }
+        else if(userInput.equalsIgnoreCase("open middle")){
+          if(isItemIdInRoom(currentLocation, 24)){
+            Item chainmail = new Item(7,12, "Chainmail", "A armor consisting of small metal rings linked together in a pattern to form a mesh", "armor", true);
+            player.addItem(chainmail);
+            System.out.println("Acquired Chainmail!");
+            removeChest(currentLocation, 24);
+          }
+          else{
+            System.out.println("that chest has already been opened.");
+          }
+          break;
+        }
+        else if(userInput.equalsIgnoreCase("open right")){
+          if(isItemIdInRoom(currentLocation, 25)){
+            Item katana = new Item(8,22, "Yoroi", "Armor made of small pieces of lacquered metal that were connected with silk laces and cords", "armor", true);
+            player.addItem(katana);
+            System.out.println("Acquired Yoroi!");
+            removeChest(currentLocation, 25);
+          }
+          else{
+            System.out.println("that chest has already been opened.");
+          }
+          break;
+        }
+        else{
+          System.out.println("Invalid input.");
+        }
+      }
+    }
+  }
+
+  public void openWeaponChest() {
+    Location currentLocation = getLocationById(currentLocationId);
+    if(currentLocationId!=11){
+      System.out.println("You cannot use the weapons key here");
+    }
+    else{
+      Scanner scanner = new Scanner(System.in);
+      while(true) {
+        System.out.println("Which chest do you want to open? (open left, open middle, open right)");
+        String userInput = scanner.nextLine();
+        if(userInput.equalsIgnoreCase("open left")){
+          if(isItemIdInRoom(currentLocation, 20)){
+            Item scimitar = new Item(3,10, "Scimitar", "A sword with a curved blade.", "weapon", true);
+            player.addItem(scimitar);
+            System.out.println("Acquired Scimitar!");
+            removeChest(currentLocation, 20);
+          }
+          else{
+            System.out.println("that chest has already been opened.");
+          }
+          break;
+        }
+        else if(userInput.equalsIgnoreCase("open middle")){
+          if(isItemIdInRoom(currentLocation, 21)){
+            Item longsword = new Item(4,13, "Longsword", "A blade with long reach", "weapon", true);
+            player.addItem(longsword);
+            System.out.println("Acquired Longsword!");
+            removeChest(currentLocation, 21);
+          }
+          else{
+            System.out.println("that chest has already been opened.");
+          }
+          break;
+        }
+        else if(userInput.equalsIgnoreCase("open right")){
+          if(isItemIdInRoom(currentLocation, 22)){
+            Item katana = new Item(5,20, "Katana", "A weapon specialized in mid-range combat and are capable of inflicting slash and thrust", "weapon", true);
+            player.addItem(katana);
+            System.out.println("Acquired Katana!");
+            removeChest(currentLocation, 22);
+          }
+          else{
+            System.out.println("that chest has already been opened.");
+          }
+          break;
+        }
+        else{
+          System.out.println("Invalid input.");
+        }
+      }
+    }
+  }
+
+  public void openPotionChest() {
+    Location currentLocation = getLocationById(currentLocationId);
+    if(currentLocationId!=6){
+      System.out.println("You cannot use the potions key here");
+    }
+    else{
+      Scanner scanner = new Scanner(System.in);
+      while(true) {
+        System.out.println("Which chest do you want to open? (open left, open middle, open right)");
+        String userInput = scanner.nextLine();
+        if(userInput.equalsIgnoreCase("open left")){
+          if(isItemIdInRoom(currentLocation, 26)){
+            Item smallPotion = new Item(30,8, "Small Potion", "A small healing potion is a potion that can be healed by a player.", "heal", false);
+            player.addItem(smallPotion);
+            System.out.println("Acquired small potion!");
+            removeChest(currentLocation, 26);
+          }
+          else{
+            System.out.println("that chest has already been opened.");
+          }
+          break;
+        }
+        else if(userInput.equalsIgnoreCase("open middle")){
+          if(isItemIdInRoom(currentLocation, 27)){
+            Item potion = new Item(31,14, "Potion", "A healing potion is a potion that can be healed by a player.", "heal", false);
+            player.addItem(potion);
+            System.out.println("Acquired potion!");
+            removeChest(currentLocation, 27);
+          }
+          else{
+            System.out.println("that chest has already been opened.");
+          }
+          break;
+        }
+        else if(userInput.equalsIgnoreCase("open right")){
+          if(isItemIdInRoom(currentLocation, 28)){
+            Item bigPotion = new Item(32,20, "Big Potion", "A big healing potion is a potion that can be healed by a player.", "heal", false);
+            player.addItem(bigPotion);
+            System.out.println("Acquired big potion!");
+            removeChest(currentLocation, 28);
+          }
+          else{
+            System.out.println("that chest has already been opened.");
+          }
+          break;
+        }
+        else{
+          System.out.println("Invalid input.");
+        }
+      }
+    }
+  }
+
+  public Boolean isItemIdInRoom(Location location, int test){
+    for(Item item : location.getItems()){
+      if(item.getId()==test){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public void removeChest(Location location, int test){
+    for(Item item : location.getItems()){
+      if(item.getId()==test){
+        location.removeItem(item);
+        break;
+      }
     }
   }
 

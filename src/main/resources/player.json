@@ -2,7 +2,80 @@
   "hp": 100,
   "attack": 10,
   "defense": 5,
-  "inventory": [],
+  "inventory": [
+    {
+      "id":40,
+      "value": 1,
+      "name": "armorkey",
+      "description": "an armor key",
+      "type": "armorkey",
+      "equippable": false
+    },
+    {
+      "id":41,
+      "value": 1,
+      "name": "armorkey",
+      "description": "an armor key",
+      "type": "armorkey",
+      "equippable": false
+    },
+    {
+      "id":42,
+      "value": 1,
+      "name": "armorkey",
+      "description": "an armor key",
+      "type": "armorkey",
+      "equippable": false
+    },
+    {
+      "id":43,
+      "value": 1,
+      "name": "weaponkey",
+      "description": "a weapon key",
+      "type": "weaponkey",
+      "equippable": false
+    },
+    {
+      "id":44,
+      "value": 1,
+      "name": "weaponkey",
+      "description": "a weapon key",
+      "type": "weaponkey",
+      "equippable": false
+    },
+    {
+      "id":45,
+      "value": 1,
+      "name": "weaponkey",
+      "description": "a weapon key",
+      "type": "weaponkey",
+      "equippable": false
+    },
+    {
+      "id":46,
+      "value": 1,
+      "name": "potionkey",
+      "description": "a potion key",
+      "type": "potionkey",
+      "equippable": false
+    },
+    {
+      "id":47,
+      "value": 1,
+      "name": "potionkey",
+      "description": "a potion key",
+      "type": "potionkey",
+      "equippable": false
+    },
+    {
+      "id":48,
+      "value": 1,
+      "name": "potionkey",
+      "description": "a potion key",
+      "type": "potionkey",
+      "equippable": false
+    }
+  ],
   "equippedArmor": null,
   "equippedWeapon": null,
   "currentLocation": 1

@@ -26,7 +26,7 @@
       "exits": {
         "south": 1,
         "east": 3,
-        "north": 5
+        "north": 6
       },
       "npcs": [{
         "name": "Ghost"}],
@@ -38,7 +38,7 @@
       "description": "You are in the Dark Ages Exhibit.\nThere are four exits (North, East, South, and West).",
       "exits": {
         "south": 1,
-        "north": 5,
+        "north": 6,
         "west": 2,
         "east": 4
       },
@@ -51,21 +51,8 @@
       "description": "You are in the Koto Exhibit.\nThere are three exits (North, South, and West).",
       "exits": {
         "south": 1,
-        "north": 5,
-        "west": 3
-      },
-      "npcs": [],
-      "items": []
-    },
-    {
-      "id": 5,
-      "name": "CrossRoads",
-      "description": "You are at a crossroads.\nThere are four hallways (North, East, South, and West).",
-      "exits": {
         "north": 6,
-        "west": 2,
-        "east": 4,
-        "south": 3
+        "west": 3
       },
       "npcs": [],
       "items": []
@@ -83,11 +70,25 @@
       },
       "npcs": [],
       "items": [{
-        "id": 2,
-        "value": 8,
-        "name": "Potion",
-        "description": "A healing potion is a potion that can be healed by a player.",
-        "type": "heal",
+        "id":26,
+        "value": 1,
+        "name": "Left Potion Chest",
+        "description": "A chest with a heavy lock on the lid.",
+        "type": "potion chest",
+        "equippable": false
+      },{
+        "id":27,
+        "value": 1,
+        "name": "Middle Potion Chest",
+        "description": "A chest with a heavy lock on the lid.",
+        "type": "potion chest",
+        "equippable": false
+      },{
+        "id":28,
+        "value": 1,
+        "name": "Right Potion Chest",
+        "description": "A chest with a heavy lock on the lid.",
+        "type": "potion chest",
         "equippable": false
       }]
     },
@@ -97,7 +98,7 @@
       "description": "You are in the Middle Kingdom Exhibit.\nThere are three exits (North, East, and South).",
       "exits": {
         "south": 6,
-        "north": 10,
+        "north": 11,
         "east": 8
       },
       "npcs": [{
@@ -110,7 +111,7 @@
       "description": "You are in the Middle Ages Exhibit.\nThere are four exits (North, East, South, and West).",
       "exits": {
         "west": 7,
-        "north": 10,
+        "north": 11,
         "east": 9,
         "south": 6
       },
@@ -124,21 +125,8 @@
       "description": "You are in the Shinto Exhibit.\nThere are three exits (North, South, and West).",
       "exits": {
         "west": 8,
-        "north": 10,
-        "south": 6
-      },
-      "npcs": [],
-      "items": []
-    },
-    {
-      "id": 10,
-      "name": "Crossroads",
-      "description": "You are at a crossroads.\nThere are four hallways (North, East, South, and West).",
-      "exits": {
-        "west": 7,
         "north": 11,
-        "south": 8,
-        "east": 9
+        "south": 6
       },
       "npcs": [],
       "items": []
@@ -150,33 +138,33 @@
       "exits": {
         "west": 12,
         "north": 13,
-        "south": 10,
+        "south": 8,
         "east": 14
       },
       "npcs": [],
-      "items": [{
-        "id": 3,
-        "value": 10,
-        "name": "Scimitar",
-        "description": "A sword with a curved blade.",
-        "type": "weapon",
-        "equippable": true
-      },
+      "items": [
         {
-          "id": 4,
-          "value": 13,
-          "name": "Longsword",
-          "description": "A blade with long reach",
-          "type": "weapon",
-          "equippable": true
+          "id":20,
+          "value": 1,
+          "name": "Left Weapons Chest",
+          "description": "A chest with a heavy lock on the lid.",
+          "type": "weapon chest",
+          "equippable": false
         },
         {
-          "id": 5,
-          "value": 20,
-          "name": "Katana",
-          "description": "A weapon specialized in mid-range combat and are capable of inflicting slash and thrust",
-          "type": "weapon",
-          "equippable": true
+          "id":21,
+          "value": 1,
+          "name": "Middle Weapons Chest",
+          "description": "A chest with a heavy lock on the lid.",
+          "type": "weapon chest",
+          "equippable": false
+        },{
+          "id":22,
+          "value": 1,
+          "name": "Right Weapons Chest",
+          "description": "A chest with a heavy lock on the lid.",
+          "type": "weapon chest",
+          "equippable": false
         }]
     },
     {
@@ -222,81 +210,35 @@
       "name": "Armor Exhibit",
       "description": "You are in the Armor Exhibit.\nThere are three exits (East, South, and West).\nTo the North there are three doorways. (Door 1, Door 2, and Door 3)",
       "exits": {
-        "1": 16,
-        "2": 17,
-        "3": 18,
         "west": 12,
         "south": 13,
         "east": 14
       },
       "npcs": [{
         "name": "Merchant"}],
-      "items": [{
-        "id": 6,
-        "value": 10,
-        "name": "Jazerant",
-        "description": "A medieval light coat of armour consisting of mail between layers of fabric or leather.",
-        "type": "armor",
-        "equippable": true
-      },
+      "items": [
         {
-          "id": 7,
-          "value": 12,
-          "name": "Chainmail",
-          "description": "A armor consisting of small metal rings linked together in a pattern to form a mesh",
-          "type": "armor",
-          "equippable": true
-        },
-        {
-          "id": 8,
-          "value": 22,
-          "name": "Yoroi",
-          "description": "Armor made of small pieces of lacquered metal that were connected with silk laces and cords",
-          "type": "armor",
-          "equippable": true
+          "id":23,
+          "value": 1,
+          "name": "Left Armor Chest",
+          "description": "A chest with a heavy lock on the lid.",
+          "type": "armor chest",
+          "equippable": false
+        },{
+          "id":24,
+          "value": 1,
+          "name": "Middle Armor Chest",
+          "description": "A chest with a heavy lock on the lid.",
+          "type": "armor chest",
+          "equippable": false
+        },{
+          "id":25,
+          "value": 1,
+          "name": "Right Armor Chest",
+          "description": "A chest with a heavy lock on the lid.",
+          "type": "armor chest",
+          "equippable": false
         }]
-    },
-    {
-      "id": 16,
-      "name": "Modern Egypt Exhibit",
-      "description": "You are in the Modern Egypt Exhibit.\nThere are two exits (North and South).",
-      "exits": {
-        "north": 19,
-        "south": 15
-      },
-      "npcs": [],
-      "items": []
-    },
-    {
-      "id": 17,
-      "name": "Modern Ages Exhibit",
-      "description": "You are in the Modern Ages Exhibit.\nThere are two exits (North and South).",
-      "exits": {
-        "north": 19,
-        "south": 15
-      },
-      "npcs": [],
-      "items": []
-    },
-    {
-      "id": 18,
-      "name": "Modern Japan Exhibit",
-      "description": "You are in the Modern Japan Exhibit.\nThere are two exits (North and South).",
-      "exits": {
-        "north": 19,
-        "south": 15
-      },
-      "npcs": [],
-      "items": []
-    },
-    {
-      "id": 19,
-      "name": "Escaped",
-      "description": "Congratulations! You have escaped the museum.",
-      "exits": {
-      },
-      "npcs": [],
-      "items": []
     }
   ]
 }
