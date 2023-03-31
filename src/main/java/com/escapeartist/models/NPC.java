@@ -7,6 +7,9 @@ public class NPC {
     @SerializedName("interactive")
     private boolean interactive;
 
+    @SerializedName("room_location")
+    private int roomLocation;
+
     @SerializedName("name")
     private String name;
 
@@ -36,6 +39,14 @@ public class NPC {
 
     public void setInteractive(boolean interactive) {
         this.interactive = interactive;
+    }
+
+    public int getRoomLocation() {
+        return roomLocation;
+    }
+
+    public void setRoomLocation(int roomLocation) {
+        this.roomLocation = roomLocation;
     }
 
     public String getName() {

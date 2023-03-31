@@ -28,7 +28,6 @@ public class Location {
         npcs.removeIf(npc -> npc.getName().equalsIgnoreCase(npcName));
     }
 
-
     public void addItemToLocation(Item item) {
         items.add(item);
     }
@@ -59,5 +58,18 @@ public class Location {
 
     public List<NPC> getNpcs() {
         return npcs;
+    }
+
+    public String talkToNPC(String npcName) {
+        for (NPC npc : npcs) {
+            if (npc.getName().equalsIgnoreCase(npcName)) {
+                if (npc.isInteractive()) {
+                    return npc.getReply();
+                } else {
+                    return "This NPC is not interactive.";
+                }
+            }
+        }
+        return "There is no NPC with that name in this location.";
     }
 }
