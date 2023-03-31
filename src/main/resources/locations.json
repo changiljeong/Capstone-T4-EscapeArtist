@@ -10,7 +10,14 @@
         "east": 4
       },
       "npcs": [],
-      "items": [{"name": "Map"}]
+      "items": [{
+        "id": 8,
+        "value": 1,
+        "name": "Map",
+        "description" : "A visitors map...could come in handy.",
+        "type" : "map",
+        "equippable": false
+      }]
     },
     {
       "id": 2,
@@ -75,7 +82,14 @@
 
       },
       "npcs": [],
-      "items": []
+      "items": [{
+        "id": 2,
+        "value": 8,
+        "name": "Potion",
+        "description": "A healing potion is a potion that can be healed by a player.",
+        "type": "heal",
+        "equippable": false
+      }]
     },
     {
       "id": 7,
@@ -140,7 +154,30 @@
         "east": 14
       },
       "npcs": [],
-      "items": []
+      "items": [{
+        "id": 3,
+        "value": 10,
+        "name": "Scimitar",
+        "description": "A sword with a curved blade.",
+        "type": "weapon",
+        "equippable": true
+      },
+        {
+          "id": 4,
+          "value": 13,
+          "name": "Longsword",
+          "description": "A blade with long reach",
+          "type": "weapon",
+          "equippable": true
+        },
+        {
+          "id": 5,
+          "value": 20,
+          "name": "Katana",
+          "description": "A weapon specialized in mid-range combat and are capable of inflicting slash and thrust",
+          "type": "weapon",
+          "equippable": true
+        }]
     },
     {
       "id": 12,
@@ -194,7 +231,30 @@
       },
       "npcs": [{
         "name": "Merchant"}],
-      "items": []
+      "items": [{
+        "id": 6,
+        "value": 10,
+        "name": "Jazerant",
+        "description": "A medieval light coat of armour consisting of mail between layers of fabric or leather.",
+        "type": "armor",
+        "equippable": true
+      },
+        {
+          "id": 7,
+          "value": 12,
+          "name": "Chainmail",
+          "description": "A armor consisting of small metal rings linked together in a pattern to form a mesh",
+          "type": "armor",
+          "equippable": true
+        },
+        {
+          "id": 8,
+          "value": 22,
+          "name": "Yoroi",
+          "description": "Armor made of small pieces of lacquered metal that were connected with silk laces and cords",
+          "type": "armor",
+          "equippable": true
+        }]
     },
     {
       "id": 16,

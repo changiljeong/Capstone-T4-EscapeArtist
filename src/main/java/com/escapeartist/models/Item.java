@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Item {
 
-    public Item(int id, String name, String description) {
+    public Item(int id, int value, String name, String description, String type, Boolean equippable) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -16,6 +16,9 @@ public class Item {
 
     @SerializedName("id")
     private int id;
+
+    @SerializedName(("value"))
+    private int value;
 
     @SerializedName("name")
     private String name;
@@ -36,6 +39,10 @@ public class Item {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getValue() {
+        return value;
     }
 
     public String getName() {

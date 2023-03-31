@@ -28,7 +28,6 @@ public class MainController {
         JsonObject gameData = new JsonObject();
         gameData.add("dialogue", new Gson().toJsonTree(deserializer.deserializeGameDialogue()));
         gameData.add("locations", new Gson().toJsonTree(deserializer.deserializeLocations()));
-        gameData.add("items", new Gson().toJsonTree(deserializer.deserializeItems()));
         gameData.add("npcs", new Gson().toJsonTree(deserializer.deserializeNPCs()));
         gameController = new GameController(gameData, gui);
         displayGameIntro();

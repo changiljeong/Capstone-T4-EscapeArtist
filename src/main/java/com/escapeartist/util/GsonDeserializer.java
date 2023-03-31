@@ -36,19 +36,6 @@ public class GsonDeserializer {
         }
     }
 
-    public static List<Item> deserializeItems() {
-        try (Reader reader = new InputStreamReader(
-            GsonDeserializer.class.getClassLoader().getResourceAsStream("items.json"))) {
-            Gson gson = new Gson();
-            JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
-            JsonArray itemsArray = jsonObject.getAsJsonArray("item");
-            Type listType = new TypeToken<List<Item>>() {
-            }.getType();
-            return gson.fromJson(itemsArray, listType);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public static List<NPC> deserializeNPCs() {
         try (Reader reader = new InputStreamReader(

@@ -146,6 +146,10 @@ public class Player {
         inventory.remove(item);
     }
 
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
     public int getHp() {
         // Get the player's current HP
         return hp;
@@ -156,9 +160,17 @@ public class Player {
         return attack;
     }
 
+    public void setAttack(int attack) {
+        this.attack = attack;
+    }
+
     public int getDefense() {
         // Get the player's current defense stat
         return defense;
+    }
+
+    public void setDefense(int defense) {
+        this.defense = defense;
     }
 
     public List<Item> getInventory() {

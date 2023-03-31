@@ -56,8 +56,6 @@ public class GameController {
     // Deserialize the locations data using the GsonDeserializer object
     locations = deserializer.deserializeLocations();
 
-    // Deserialize the items data using the GsonDeserializer object
-    List<Item> items = deserializer.deserializeItems();
 
     // Deserialize the NPCs data using the GsonDeserializer object
     List<NPC> npcs = deserializer.deserializeNPCs();
@@ -80,7 +78,6 @@ public class GameController {
     gameData.add("player", new Gson().toJsonTree(player));
     gameData.add("dialogue", new Gson().toJsonTree(gameDialogue));
     gameData.add("locations", new Gson().toJsonTree(locations));
-    gameData.add("items", new Gson().toJsonTree(items));
     gameData.add("npcs", new Gson().toJsonTree(npcs));
     gameData.add("unscramble", new Gson().toJsonTree(unscramble));
     gameData.add("riddle", new Gson().toJsonTree(riddles));
@@ -201,6 +198,10 @@ public class GameController {
         // Get the item specified in the user input from the current location
         getItem(userInput, gameData, currentLocation);
         // Check if the user input is a drop command
+      } else if(textParser.isUseCommand(inputElement)) {
+        useItem(userInput);
+      } else if(textParser.isEquipCommand(inputElement)){
+        equipItem(userInput);
       } else if (textParser.isDropCommand(inputElement)) {
         Clear.clearConsole();
 
@@ -485,8 +486,8 @@ public class GameController {
     for (Item item : itemsLocation) {
       if (item.getName().equalsIgnoreCase(itemWord)) {
         itemFound = true;
-        Item itemToAdd = new Item(item.getId(), item.getName(), item.getDescription());
-        player.addItem(itemToAdd);
+        //Item itemToAdd = new Item(item.getId(), item.getName(), item.getDescription());
+        player.addItem(item);
         currentLocation.removeItem(item);
         System.out.println(
             gameData.getAsJsonObject("dialogue").get("player_picked_up_item").getAsString());
@@ -495,6 +496,59 @@ public class GameController {
     }
     if (!itemFound) {
       System.out.println(gameDialogue.getInvalidInput());
+    }
+  }
+
+  public void equipItem(String userInput){
+    String itemUse = textParser.getSecondWord(userInput);
+    List<Item> inventory = player.getInventory();
+    Item itemToEquip = null;
+    for(Item item : inventory){
+      if(item.getName().equalsIgnoreCase(itemUse)){
+        itemToEquip=item;
+        break;
+      }
+    }
+    if(itemToEquip==null){
+      System.out.println("that item is not in your inventory.");
+    }
+    else if(!itemToEquip.getEquippable()){
+      System.out.println("that item cannot be equipped.");
+    }
+    else if(itemToEquip.getEquippable()){
+      if(itemToEquip.getType().equals("weapon")){
+        player.setEquippedWeapon(itemToEquip);
+        player.setAttack(player.getAttack()+itemToEquip.getValue());
+        System.out.println("You have equipped the " + itemToEquip.getName());
+      }
+      else if(itemToEquip.getType().equals("armor")){
+        player.setEquippedArmor(itemToEquip);
+        player.setDefense(player.getDefense()+itemToEquip.getValue());
+        System.out.println("You have equipped the " + itemToEquip.getName());
+      }
+    }
+  }
+
+  public void useItem(String userInput){
+    String itemUse = textParser.getSecondWord(userInput);
+    List<Item> inventory = player.getInventory();
+    Item itemToUse = null;
+    for(Item item : inventory){
+      if(item.getName().equalsIgnoreCase(itemUse)){
+        itemToUse=item;
+        break;
+      }
+    }
+    if(itemToUse == null){
+      System.out.println("That item is not in your inventory.");
+    }
+    else if(itemToUse.getType().equalsIgnoreCase("heal")){
+      player.setHp(player.getHp()+itemToUse.getValue());
+      System.out.println("You used the " + itemToUse.getName() + " and heal yourself by " + itemToUse.getValue() + " points!");
+    }
+    else if(itemToUse.getType().equalsIgnoreCase("map")){
+      //TODO link logic to james' map feature
+      System.out.println("map function");
     }
   }
 
@@ -608,8 +662,9 @@ public class GameController {
   public void gamesCompleted(boolean completed) {
       if (completed){
         System.out.println("You now have access to the key.");
-        Item item = new Item(1, "Key", "A key. Maybe I can use it to unlock something.");
-        player.getInventory().add(item);
+        //TODO: fix this back
+        //Item item = new Item(1, "Key", "A key. Maybe I can use it to unlock something.");
+        //player.getInventory().add(item);
       } else{
         System.out.println("You need to complete the challenge before you can access this key.");
       }

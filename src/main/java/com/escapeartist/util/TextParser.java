@@ -176,6 +176,48 @@ public class TextParser {
     return false;
   }
 
+  public boolean isUseCommand(JsonElement inputElement){
+    if(inputElement == null){
+      return false;
+    }
+    JsonObject dialogue = gameData.getAsJsonObject("dialogue");
+    if(dialogue == null){
+      return false;
+    }
+    JsonObject validInputs = dialogue.getAsJsonObject("valid_inputs");
+    if(validInputs == null){
+      return false;
+    }
+    JsonArray getCommands = validInputs.getAsJsonArray("use");
+    for(JsonElement word : getCommands){
+      if(inputElement.getAsString().startsWith(word.getAsString())){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public boolean isEquipCommand(JsonElement inputElement){
+    if(inputElement == null){
+      return false;
+    }
+    JsonObject dialogue = gameData.getAsJsonObject("dialogue");
+    if(dialogue == null){
+      return false;
+    }
+    JsonObject validInputs = dialogue.getAsJsonObject("valid_inputs");
+    if(validInputs == null){
+      return false;
+    }
+    JsonArray getCommands = validInputs.getAsJsonArray("equip");
+    for(JsonElement word : getCommands){
+      if(inputElement.getAsString().startsWith(word.getAsString())){
+        return true;
+      }
+    }
+    return false;
+  }
+
   public boolean isDropCommand(JsonElement inputElement){
     if (inputElement == null) {
       return false;
