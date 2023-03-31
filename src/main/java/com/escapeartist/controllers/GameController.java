@@ -17,8 +17,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class GameController {
 
@@ -266,14 +268,18 @@ public class GameController {
     // Deserialize the list of NPCs from the game data
     List<NPC> npcs = new Gson().fromJson(gameData.getAsJsonArray("npcs"), new TypeToken<List<NPC>>() {}.getType());
 
+    // Initialize variables to store specific NPCs (if present)
+    NPC ghost = null;
+    NPC knight = null;
+    NPC samurai = null;
+
     // Check if the NPC is in the current location before talking to them
     Location currentLocation = getLocationById(currentLocationId);
-    String npcResponse = currentLocation.talkToNPC(talkWord);
-    if (npcResponse.equals("There is no NPC with that name in this location.") || npcResponse.equals("This NPC is not interactive.")) {
+    if (currentLocation.getNpcs().stream()
+        .noneMatch(npc -> npc.getName().equalsIgnoreCase(talkWord))) {
       System.out.println(gameDialogue.getInvalidInput());
       return;
     }
-    System.out.println(npcResponse);
 
     // Find the specified NPC
     NPC targetNPC = null;
@@ -294,87 +300,106 @@ public class GameController {
       Scanner scanner = new Scanner(System.in);
       String choice = scanner.next();
 
-      // Handle mini-games and responses based on the target NPC's name
-      if (targetNPC.getName().equalsIgnoreCase("ghost")) {
-        handleGhostMinigame(choice, targetNPC, gameData, currentLocation);
-      } else if (targetNPC.getName().equalsIgnoreCase("samurai")) {
-        handleSamuraiMinigame(choice, targetNPC, gameData, currentLocation);
-      } else if (targetNPC.getName().equalsIgnoreCase("knight")) {
-        handleKnightMinigame(choice, targetNPC, gameData, currentLocation);
-      }
-    }
-  }
+      // If the user enters "yes", play the riddle mini-game
+      if (gameDialogue.getValidInputs().get("yes")
+          .contains(choice.toLowerCase())) {
 
-  private void handleGhostMinigame(String choice, NPC ghost, JsonObject gameData, Location currentLocation) {
-    // Your existing code for the ghost mini-game
-    if (gameDialogue.getValidInputs().get("yes").contains(choice.toLowerCase())) {
-
-      // Get the riddle data from the game data
-      int riddleId = 1;
-      JsonArray riddlesJsonArray = gameData.getAsJsonArray("riddle");
-      Type listType = new TypeToken<List<Riddle>>() {}.getType();
-      List<Riddle> riddlesList = new Gson().fromJson(riddlesJsonArray, listType);
-      Riddle riddle = Riddle.getRiddleById(riddlesList, riddleId);
+        // Get the riddle data from the game data
+        int riddleId = 1;
+        JsonArray riddlesJsonArray = gameData.getAsJsonArray("riddle");
+        Type listType = new TypeToken<List<Riddle>>() {
+        }.getType();
+        List<Riddle> riddlesList = new Gson().fromJson(riddlesJsonArray,
+            listType);
+        Riddle riddle = Riddle.getRiddle(riddlesList, riddleId);
 
       // play the riddle mini-game
       boolean riddleSolved = playRiddle(riddle.getId());
 
-      // If the riddle is solved, remove the ghost NPC from the current location and print a message
-      if (riddleSolved) {
-        currentLocation.removeNPC("Ghost");
-        System.out.println(ghost.getGoodbyeMessage2());
-        gamesCompleted(riddleSolved);
+        // If the riddle is solved, remove the ghost NPC from the current location and print a message
+        if (riddleSolved) {
+          currentLocation.removeNPC("Ghost");
+          System.out.println(ghost.getGoodbyeMessage2());
+          gamesCompleted(riddleSolved);
+        }
+      } // If the user enters "no", print a message and continue the game
+      else if (gameDialogue.getValidInputs().get("no")
+          .contains(choice.toLowerCase())) {
+        System.out.println(ghost.getGoodbyeMessage());
+
+        // If the user enters an invalid input, print an error message
+      } else {
+        System.out.println(gameDialogue.getInvalidInput());
       }
-    } // If the user enters "no", print a message and continue the game
-    else if (gameDialogue.getValidInputs().get("no").contains(choice.toLowerCase())) {
-      System.out.println(ghost.getGoodbyeMessage());
+    } else if (samurai != null) {
+      // Display samurai's game invitation
+      System.out.print(samurai.getGameInvitation());
 
-      // If the user enters an invalid input, print an error message
-    } else {
-      System.out.println(gameDialogue.getInvalidInput());
+      // Read user's input
+      Scanner scanner = new Scanner(System.in);
+      String choice = scanner.nextLine();
+
+      // Check if the user inputs a valid response
+      if (gameDialogue.getValidInputs().get("yes")
+          .contains(choice.toLowerCase())) {
+        // Get a list of words to unscramble from the game data
+        JsonArray wordsJsonArray = gameData.getAsJsonObject("unscramble")
+            .getAsJsonArray("words");
+        Type listType = new TypeToken<List<String>>() {
+        }.getType();
+        List<String> wordsList = new Gson().fromJson(wordsJsonArray, listType);
+
+        // Play the unscramble mini-game
+        playUnscramble(wordsList, currentLocation);
+      } else if (gameDialogue.getValidInputs().get("no")
+          .contains(choice.toLowerCase())) {
+        // If the user inputs no, display samurai's goodbye message
+        System.out.println(samurai.getGoodbyeMessage());
+      } else {
+        // If the user inputs an invalid response, display an error message
+        System.out.println(gameDialogue.getInvalidInput());
+      }
+    } else if (knight != null) {
+      // Display knight's game invitation
+      System.out.println(knight.getGameInvitation());
+      System.out.print(gameDialogue.getCommandPrompt());
+
+      // Read user's input
+      Scanner scanner = new Scanner(System.in);
+      String choice = scanner.next();
+
+      // Check if the user inputs a valid response
+      if (gameDialogue.getValidInputs().get("yes")
+          .contains(choice.toLowerCase())) {
+        JsonArray triviasJsonArray = gameData.getAsJsonArray("trivia");
+        Type listType = new TypeToken<List<Trivia>>() {
+        }.getType();
+        List<Trivia> triviaList = new Gson().fromJson(triviasJsonArray,
+            listType);
+        Collections.shuffle(triviaList);
+        Trivia trivia = triviaList.get(
+            0); // Get the first (randomized) trivia question
+
+        // Play the trivia mini-game for the knight
+        if (trivia != null) {
+          playTrivia(trivia.getId(), currentLocation);
+        } else {
+          // Unable to retrieve trivia question
+          System.out.println("Unable to retrieve trivia question.");
+        }
+
+      } else if (gameDialogue.getValidInputs().get("no")
+          .contains(choice.toLowerCase())) {
+        // If the user inputs no, display knight's goodbye message
+        System.out.println(knight.getGoodbyeMessage());
+      } else {
+        // If the user inputs an invalid response, display an error message
+        System.out.println(gameDialogue.getInvalidInput());
+      }
     }
   }
-  private void handleSamuraiMinigame(String choice, NPC samurai, JsonObject gameData, Location currentLocation) {
-// Your existing code for the samurai mini-game
-    if (gameDialogue.getValidInputs().get("yes").contains(choice.toLowerCase())) {
-// Get a list of words to unscramble from the game data
-      JsonArray wordsJsonArray = gameData.getAsJsonObject("unscramble").getAsJsonArray("words");
-      Type listType = new TypeToken<List<String>>() {}.getType();
-      List<String> wordsList = new Gson().fromJson(wordsJsonArray, listType);
-      // Play the unscramble mini-game
-      playUnscramble(wordsList, currentLocation);
-    } else if (gameDialogue.getValidInputs().get("no").contains(choice.toLowerCase())) {
-      // If the user inputs no, display samurai's goodbye message
-      System.out.println(samurai.getGoodbyeMessage());
-    } else {
-      // If the user inputs an invalid response, display an error message
-      System.out.println(gameDialogue.getInvalidInput());
-    }
-  }
 
-  private void handleKnightMinigame(String choice, NPC knight, JsonObject gameData, Location currentLocation) {
-// Your existing code for the knight mini-game
-    if (gameDialogue.getValidInputs().get("yes").contains((choice.toLowerCase()))) {
-// Get a trivia question from the game data, hardcoding to id 1
-      int triviaId = 1;
-      JsonArray triviasJsonArray = gameData.getAsJsonArray("trivia");
-      Type listType = new TypeToken<List<Trivia>>() {
-      }.getType();
-      List<Trivia> triviaList = new Gson().fromJson(triviasJsonArray, listType);
-      Trivia trivia = Trivia.getTriviaByID(triviaList, triviaId);
-      // Play the trivia mini-game for the knight
-      playTrivia(trivia.getId(), currentLocation);
-    } else if (gameDialogue.getValidInputs().get("no").contains(choice.toLowerCase())) {
-      // If the user inputs no, display knight's goodbye message
-      System.out.println(knight.getGoodbyeMessage());
-    } else {
-      // If the user inputs an invalid response, display an error message
-      System.out.println(gameDialogue.getInvalidInput());
-    }
-  }
-
-
-    // This method takes a user input string and a game data JSON object as input parameters.
+      // This method takes a user input string and a game data JSON object as input parameters.
   public void lookItem(String userInput, JsonObject gameData) {
     // Extract the second word from the user input string using a text parser object.
     String itemWord = textParser.getSecondWord(userInput);
@@ -580,7 +605,7 @@ public class GameController {
         }.getType();
         List<Riddle> riddlesList = new Gson().fromJson(riddlesJsonArray, listType);
 
-        Riddle riddle = Riddle.getRiddleById(riddlesList, riddleId);
+        Riddle riddle = Riddle.getRiddle(riddlesList, riddleId);
 
         if (riddle == null) {
             System.out.println("Invalid riddle ID");
@@ -619,36 +644,39 @@ public class GameController {
 
   public void playTrivia(int triviaID, Location currentLocation) {
     JsonArray triviaJsonArray = gameData.getAsJsonArray("trivia");
-    Type listType = new TypeToken<List<Trivia>>() {
-    }.getType();
+    Type listType = new TypeToken<List<Trivia>>() {}.getType();
     List<Trivia> triviasList = new Gson().fromJson(triviaJsonArray, listType);
-    Trivia trivia = Trivia.getTriviaByID(triviasList, triviaID);
-  boolean won = false;
-    if (trivia == null) {
+    List<Trivia> filteredTrivias = triviasList.stream().filter(t -> t.getId() == triviaID).collect(
+        Collectors.toList());
+    if (filteredTrivias.isEmpty()) {
       System.out.println("Invalid Trivia ID");
       return;
     }
+    Collections.shuffle(filteredTrivias);
+    Trivia trivia = filteredTrivias.get(0);
+
+    boolean won = false;
     Scanner scanner = new Scanner(System.in);
+    int numAttempts = 0;
+    while (numAttempts <= 2) {
+      System.out.println(trivia.getQuestion());
+      System.out.print(gameDialogue.getCommandPrompt());
+      String answer = scanner.nextLine().toLowerCase();
 
-        int numAttempts = 0;
-        while (numAttempts <= 2) {
-            System.out.println(trivia.getQuestion());
-            System.out.print(gameDialogue.getCommandPrompt());
-            String answer = scanner.nextLine().toLowerCase();
-
-        if (answer.equalsIgnoreCase(trivia.getAnswer())) {
-          System.out.println(gameDialogue.getPlayerSolvedTrivia());
-          won = true;
-          currentLocation.getNpcs().remove(0);
-          break;
-        } else if (numAttempts == 2) {
-          System.out.println(gameDialogue.getFinalIncorrectAnswer());
-          break;
-        }
-        System.out.println(gameDialogue.getPlayerGaveIncorrectAnswer());
-        numAttempts++;
+      if (answer.equalsIgnoreCase(trivia.getAnswer())) {
+        System.out.println(gameDialogue.getPlayerSolvedTrivia());
+        won = true;
+        currentLocation.getNpcs().remove(0);
+        break;
+      } else if (numAttempts == 2) {
+        System.out.println(gameDialogue.getFinalIncorrectAnswer());
+        break;
       }
-      gamesCompleted(won);
+      System.out.println(gameDialogue.getPlayerGaveIncorrectAnswer());
+      numAttempts++;
+    }
+
+    gamesCompleted(won);
   }
 
   public void gamesCompleted(boolean completed) {
@@ -707,6 +735,7 @@ public class GameController {
       }
     }
     gamesCompleted(won);
+
   }
 }
 

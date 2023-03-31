@@ -17,14 +17,15 @@ public class Riddle {
     private String answer;
 
     // Static Method: Get Riddle by ID
-    public static Riddle getRiddleById(List<Riddle> riddles, int id) {
-        for (Riddle riddle : riddles) {
-            if (riddle.getId() == id) {
-                return riddle;
-            }
+    // Static Method: Get Riddle by ID or random
+    public static Riddle getRiddle(List<Riddle> riddles, int id) {
+        if (id > 0 && id <= riddles.size()) {
+            return riddles.get(id - 1);
+        } else {
+            return riddles.get((int)(Math.random() * riddles.size()));
         }
-        return null;
     }
+
 
     // Getter Methods
     public int getId() {

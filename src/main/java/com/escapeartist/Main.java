@@ -16,5 +16,6 @@ public class Main {
 
     // Display the game's title screen and start the game
     FlashMenuScreen flashmenu = new FlashMenuScreen(game, music );
+
   }
 }
