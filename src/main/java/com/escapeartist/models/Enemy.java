@@ -35,5 +35,7 @@ public class Enemy {
     // Check if the enemy has been defeated (i.e. its health is zero or less)
     return health <= 0;
   }
+
+
 }
 

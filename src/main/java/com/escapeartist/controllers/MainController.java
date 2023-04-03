@@ -3,6 +3,7 @@ package com.escapeartist.controllers;
 import com.escapeartist.models.*;
 import com.escapeartist.util.Clear;
 import com.escapeartist.util.GameMusic;
+import com.escapeartist.util.GameTimer;
 import com.escapeartist.util.GsonDeserializer;
 import com.escapeartist.util.MusicController;
 import com.escapeartist.views.GUI;
@@ -12,25 +13,28 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 public class MainController {
+
     private MainView mainView;
     private GameController gameController;
     private GameMusic gameMusic;
     private MusicController musicController;
     private GUI gui;
+    private JsonObject gameData;
 
     public MainController() {
         mainView = new MainView();
         gameMusic = new GameMusic();
         musicController = new MusicController(gameMusic);
-        gui = new GUI();
+
+        GameTimer gameTimer = new GameTimer(1); // Create a new GameTimer object
+        gui = new GUI(gameTimer);
 
         GsonDeserializer deserializer = new GsonDeserializer();
-        JsonObject gameData = new JsonObject();
+        gameData = new JsonObject();
         gameData.add("dialogue", new Gson().toJsonTree(deserializer.deserializeGameDialogue()));
         gameData.add("locations", new Gson().toJsonTree(deserializer.deserializeLocations()));
         gameData.add("npcs", new Gson().toJsonTree(deserializer.deserializeNPCs()));
         gameController = new GameController(gameData, gui);
-        displayGameIntro();
         startMenu();
     }
 
@@ -42,9 +46,7 @@ public class MainController {
 
         while (!validInput) {
             mainView.showWelcomeMessage();
-
             String userInput = String.valueOf(mainView.getUserInput());
-
             if (userInput.trim().isEmpty()) {
                 Clear.clearConsole(); // Clear the console when "Return" key is pressed.
                 continue;
@@ -82,12 +84,6 @@ public class MainController {
         System.exit(0);
     }
 
-    private void newGame() {
-        mainView.clear();
-        mainView.printMessage("new_game_start");
-        gameController.run();
-    }
-
     public void displayGameIntro() {
         String introText = mainView.readTitleScreenFile() +"\n\n" +
             "Welcome to the Escape Artist! \n\n" +
@@ -98,4 +94,14 @@ public class MainController {
             "Good luck and have fun!";
         gui.showGameIntro(introText);
     }
+
+    private void newGame() {
+        mainView.clear();
+        mainView.printMessage("new_game_start");
+        int defaultDifficulty = 1; // Set a default difficulty, for example, 1 for easy
+        gameController = new GameController(gameData, gui, defaultDifficulty);
+        gameController.run(); // Start the game
+    }
+
 }
+

@@ -3,6 +3,7 @@ package com.escapeartist.controllers;
 import com.escapeartist.models.*;
 import com.escapeartist.util.Clear;
 import com.escapeartist.util.GameMusic;
+import com.escapeartist.util.GameTimer;
 import com.escapeartist.util.GsonDeserializer;
 import com.escapeartist.views.GUI;
 import com.escapeartist.views.GameView;
@@ -12,8 +13,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-
-
 import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -35,52 +34,34 @@ public class GameController {
   private Unscramble unscramble;
   private List<Trivia> trivias;
   private GUI gui;
+  private GameTimer gameTimer;
+  private Boss boss;
 
-
-  // A constructor for the GameController class that takes a JsonObject representing game data
-// and a GUI object as arguments and initializes the corresponding fields of the GameController
-  public GameController(JsonObject gameData, GUI gui) {
+  public GameController(JsonObject gameData, GUI gui, int difficulty) {
     this.gameData = gameData;
     this.gui = gui;
+
+    this.gameTimer = new GameTimer(1);
+    this.boss= new Boss();
   }
 
-  public GameController(JsonObject gameData) {
-
+  public GameController(JsonObject gameData, GUI gui) {
   }
-
   // A method to load game data into the GameController object
   public void loadGameData() {
-    // Create a TextParser object using the gameData field
     textParser = new TextParser(gameData);
-
-    // Create a GameView object using the gameData field
     gameView = new GameView(gameData);
-
-    // Create a GsonDeserializer object
     GsonDeserializer deserializer = new GsonDeserializer();
-
-    // Deserialize the locations data using the GsonDeserializer object
     locations = deserializer.deserializeLocations();
-
-
-    // Deserialize the NPCs data using the GsonDeserializer object
     List<NPC> npcs = deserializer.deserializeNPCs();
-
-    // Deserialize the game dialogue data using the GsonDeserializer object
     gameDialogue = deserializer.deserializeGameDialogue();
-
-    // Deserialize the player data using the GsonDeserializer object
     JsonObject playerJson = deserializer.deserializePlayerJson();
     unscramble = deserializer.deserializeUnscramble();
     player = deserializer.deserializePlayer(playerJson); // Deserialize the player using the JsonObject
 
-    // Deserialize the riddles data using the GsonDeserializer object
     riddles = deserializer.deserializeRiddles();
-
-    // Deserialize the trivia data using the GsonDeserializer object
     trivias = deserializer.deserializeTrivia();
 
-    // Add various deserialized data as JsonElements to the gameData JsonObject
     gameData.add("player", new Gson().toJsonTree(player));
     gameData.add("dialogue", new Gson().toJsonTree(gameDialogue));
     gameData.add("locations", new Gson().toJsonTree(locations));
@@ -89,132 +70,78 @@ public class GameController {
     gameData.add("riddle", new Gson().toJsonTree(riddles));
     gameData.add("trivia", new Gson().toJsonTree(trivias));
 
-    // Set the currentLocationId field to the id of the player's current location
     this.currentLocationId = player.getCurrentLocation();
   }
 
-
-  // A method to set the current location ID field of the GameController object
   public void setCurrentLocationId(int currentLocationId) {
     this.currentLocationId = currentLocationId;
   }
 
-  // The main method that runs the game
   public void run() {
-    // Load game data into the GameController object
     loadGameData();
-
-    // Create a Scanner object to read user input from the console
     Scanner scanner = new Scanner(System.in);
-
-    // Initialize the running flag to true
     boolean running = true;
-
-    // Keep running the game while the running flag is true
     while (running) {
-      // Display the player's current status
+      if (gameTimer.hasTimeExpired()) {
+        System.out.println("Time's up! The main boss appears.");
+        boss.setActive(true);
+        break;
+      }
       player.playerStatus(gameData);
-
-      // Get the current location object based on the current location ID field
       Location currentLocation = getLocationById(currentLocationId);
-
-      // Display the current location object using the gameView object
       gameView.displayLocation(new Gson().toJsonTree(currentLocation).getAsJsonObject());
-
-      // Display the command prompt and read user input from the console
       System.out.print(gameDialogue.getCommandPrompt());
       String userInput = scanner.nextLine();
-
-      // Clean the user input using the textParser object
       String cleanedInput = textParser.cleanUserInput(userInput);
-
-      // Convert the cleaned user input to a JsonElement
       JsonElement inputElement = new Gson().toJsonTree(cleanedInput);
-
-// Check if the user input is a quit command
       if (textParser.isQuitCommand(inputElement)) {
         Clear.clearConsole();
-
-        // Display a confirmation prompt to the user
-        boolean confirmQuit = textParser.getConfirmation(gameData.getAsJsonObject("dialogue").get("quit_confirm").getAsString());
-
-        // Quit the game if the user confirms
+        boolean confirmQuit = textParser.getConfirmation(
+            gameData.getAsJsonObject("dialogue").get("quit_confirm").getAsString());
         if (confirmQuit) {
-          System.out.println(gameData.getAsJsonObject("dialogue").get("goodbye_message").getAsString());
+          System.out.println(
+              gameData.getAsJsonObject("dialogue").get("goodbye_message").getAsString());
           running = false;
         }
-      }
-      // Check if the user input is a help command
-      else if (textParser.isHelpCommand(inputElement)) {
+      } else if (textParser.isHelpCommand(inputElement)) {
         Clear.clearConsole();
-
-        // Display the help menu to the user
         System.out.println(gameData.getAsJsonObject("dialogue").get("help_menu").getAsString());
-      }
-      // Check if the user input is a go command
-      else if (textParser.isGoCommand(inputElement)) {
+      } else if (textParser.isGoCommand(inputElement)) {
         Clear.clearConsole();
-
-        // Move the player to a new location based on the user input
         moveLocation(userInput, currentLocation);
-      }
-      // Check if the user input is a look command
-      else if (textParser.isLookCommand(inputElement)) {
+      } else if (textParser.isLookCommand(inputElement)) {
         Clear.clearConsole();
-
-        // Get the second word of the user input
         String secondWord = textParser.getSecondWord(userInput);
-
-        // Check if the second word matches an NPC name
-        if (currentLocation.getNpcs().stream().anyMatch(npc -> npc.getName().equalsIgnoreCase(secondWord))) {
+        if (currentLocation.getNpcs().stream()
+            .anyMatch(npc -> npc.getName().equalsIgnoreCase(secondWord))) {
           lookNpc(userInput, gameData);
-        }
-        // Check if the second word matches an item name
-        else if (currentLocation.getItems().stream().anyMatch(item -> item.getName().equalsIgnoreCase(secondWord))) {
+        } else if (currentLocation.getItems().stream()
+            .anyMatch(item -> item.getName().equalsIgnoreCase(secondWord))) {
           lookItem(userInput, gameData);
-        }
-        // Check if the second word matches an item in the player's inventory
-        else if (player.getInventory().stream().anyMatch(item -> item.getName().equalsIgnoreCase(secondWord))) {
-
-          // Check if the second word of the user input is "map"
-          if(secondWord.equalsIgnoreCase("map")){
-            // Create a new MapFrame object and read the map
+        } else if (player.getInventory().stream()
+            .anyMatch(item -> item.getName().equalsIgnoreCase(secondWord))) {
+          if (secondWord.equalsIgnoreCase("map")) {
             MapFrame frame = new MapFrame();
             frame.readMap();
           } else {
-            // Otherwise, look at the item in the player's inventory
             lookItemInInventory(userInput);
           }
-        }
-        // If the user input is not recognized as any of the above commands, print an error message
-        else {
+        } else {
           System.out.println(gameDialogue.getInvalidInput());
         }
-
-        // Check if the user input is a talk command
       } else if (textParser.isTalkCommand(inputElement)) {
         Clear.clearConsole();
-
-        // Talk to the NPC specified in the user input
         talkNpc(userInput, gameData);
-
-        // Check if the user input is a get command
       } else if (textParser.isGetCommand(inputElement)) {
         Clear.clearConsole();
-        // Get the item specified in the user input from the current location
         getItem(userInput, gameData, currentLocation);
-        // Check if the user input is a drop command
-      } else if(textParser.isUseCommand(inputElement)) {
+      } else if (textParser.isUseCommand(inputElement)) {
         useItem(userInput);
-      } else if(textParser.isEquipCommand(inputElement)){
+      } else if (textParser.isEquipCommand(inputElement)) {
         equipItem(userInput);
       } else if (textParser.isDropCommand(inputElement)) {
         Clear.clearConsole();
-
-        // Drop the specified item from the player's inventory into the current location
         dropItem(userInput, currentLocation);
-
-        // If none of the above conditions are met, check if the user input is valid
       } else {
         if (!textParser.isValidInput(inputElement)) {
           Clear.clearConsole();
@@ -225,55 +152,34 @@ public class GameController {
     }
   }
 
-  // A private helper method to get a Location object from the locations list based on its ID
   private Location getLocationById(int locationId) {
-    // Iterate through the locations list and check if any location's ID matches the given location ID
     for (Location location : locations) {
       if (location.getId() == locationId) {
         return location;
       }
     }
-    // If no location is found, return null
     return null;
   }
 
-  // A method to move the player to a new location based on the user input and the current location
   public void moveLocation(String userInput, Location currentLocation) {
-    // Get the second word of the user input, assuming it is the direction to move in
     String direction = textParser.getSecondWord(userInput);
-
-    // Get the ID of the new location based on the current location and the direction to move in
     Integer newLocationId = currentLocation.getExits().get(direction);
-
-    // If the new location ID is not null, update the game view with the new location
     if (newLocationId != null) {
       setCurrentLocationId(newLocationId);
-
-      // Get the name of the new location and print a message to the console
       String currentLocationName = getLocationById(currentLocationId).getName();
       System.out.println(gameData.getAsJsonObject("dialogue").get("player_moved_location").getAsString() + currentLocationName);
     }
-    // If the new location ID is null, print an error message to the GUI text area
     else {
       gui.textArea.append(gameDialogue.getInvalidExit() + "\n");
     }
   }
 
-
-  // A method to talk to an NPC in the game based on user input and game data
   public void talkNpc(String userInput, JsonObject gameData) {
-    // Get the second word of the user input, assuming it is the NPC to talk to
     String talkWord = textParser.getSecondWord(userInput);
-
-    // Deserialize the list of NPCs from the game data
     List<NPC> npcs = new Gson().fromJson(gameData.getAsJsonArray("npcs"), new TypeToken<List<NPC>>() {}.getType());
-
-    // Initialize variables to store specific NPCs (if present)
     NPC ghost = null;
     NPC knight = null;
     NPC samurai = null;
-
-    // Check if the NPC is in the current location before talking to them
     Location currentLocation = getLocationById(currentLocationId);
     if (currentLocation.getNpcs().stream()
         .noneMatch(npc -> npc.getName().equalsIgnoreCase(talkWord))) {
@@ -326,19 +232,13 @@ public class GameController {
       else if (gameDialogue.getValidInputs().get("no")
           .contains(choice.toLowerCase())) {
         System.out.println(ghost.getGoodbyeMessage());
-
-        // If the user enters an invalid input, print an error message
       } else {
         System.out.println(gameDialogue.getInvalidInput());
       }
     } else if (samurai != null) {
-      // Display samurai's game invitation
       System.out.print(samurai.getGameInvitation());
-
-      // Read user's input
       Scanner scanner = new Scanner(System.in);
       String choice = scanner.nextLine();
-
       // Check if the user inputs a valid response
       if (gameDialogue.getValidInputs().get("yes")
           .contains(choice.toLowerCase())) {
@@ -347,27 +247,21 @@ public class GameController {
             .getAsJsonArray("words");
         Type listType = new TypeToken<List<String>>() {
         }.getType();
-        List<String> wordsList = new Gson().fromJson(wordsJsonArray, listType);
 
-        // Play the unscramble mini-game
+        List<String> wordsList = new Gson().fromJson(wordsJsonArray, listType);
         playUnscramble(wordsList, currentLocation);
       } else if (gameDialogue.getValidInputs().get("no")
           .contains(choice.toLowerCase())) {
         // If the user inputs no, display samurai's goodbye message
         System.out.println(samurai.getGoodbyeMessage());
       } else {
-        // If the user inputs an invalid response, display an error message
         System.out.println(gameDialogue.getInvalidInput());
       }
     } else if (knight != null) {
-      // Display knight's game invitation
       System.out.println(knight.getGameInvitation());
       System.out.print(gameDialogue.getCommandPrompt());
-
-      // Read user's input
       Scanner scanner = new Scanner(System.in);
       String choice = scanner.next();
-
       // Check if the user inputs a valid response
       if (gameDialogue.getValidInputs().get("yes")
           .contains(choice.toLowerCase())) {
@@ -391,9 +285,9 @@ public class GameController {
       } else if (gameDialogue.getValidInputs().get("no")
           .contains(choice.toLowerCase())) {
         // If the user inputs no, display knight's goodbye message
+
         System.out.println(knight.getGoodbyeMessage());
       } else {
-        // If the user inputs an invalid response, display an error message
         System.out.println(gameDialogue.getInvalidInput());
       }
     }
@@ -401,78 +295,51 @@ public class GameController {
 
       // This method takes a user input string and a game data JSON object as input parameters.
   public void lookItem(String userInput, JsonObject gameData) {
-    // Extract the second word from the user input string using a text parser object.
     String itemWord = textParser.getSecondWord(userInput);
-    // Parse the 'items' JSON array from the game data JSON object into a list of Item objects using Gson library.
     List<Item> items = new Gson().fromJson(gameData.getAsJsonArray("items"),
         new TypeToken<List<Item>>() {
         }.getType());
-
-    // Create a boolean flag to keep track of whether an item was found or not.
     boolean itemFound = false;
-
-    // Loop through each item in the list of items.
     for (Item item : items) {
-      // Check if the item name matches the item word extracted from user input (ignoring case).
       if (item.getName().equalsIgnoreCase(itemWord)) {
-        // If a matching item is found, set the itemFound flag to true and print its description.
         itemFound = true;
         System.out.println(item.getDescription());
       }
     }
-    // If no matching item was found, print an error message using a gameDialogue object.
     if (!itemFound) {
       System.out.println(gameDialogue.getInvalidInput());
     }
   }
 
-  // This method takes a user input string and a game data JSON object as input parameters.
   public void lookNpc(String userInput, JsonObject gameData) {
-    // Extract the second word from the user input string using a text parser object.
     String npcWord = textParser.getSecondWord(userInput);
-    // Parse the 'npcs' JSON array from the game data JSON object into a list of NPC objects using Gson library.
     List<NPC> npcs = new Gson().fromJson(gameData.getAsJsonArray("npcs"), new TypeToken<List<NPC>>() {
     }.getType());
-
-    // Create a boolean flag to keep track of whether an NPC was found or not.
     boolean npcFound = false;
 
-    // Loop through each NPC in the list of NPCs.
     for (NPC npc : npcs) {
-      // Check if the NPC name matches the NPC word extracted from user input (ignoring case).
       if (npc.getName().equalsIgnoreCase(npcWord)) {
-        // If a matching NPC is found, set the npcFound flag to true and print its description.
         npcFound = true;
         System.out.println(npc.getDescription());
       }
     }
-    // If no matching NPC was found, print an error message using a gameDialogue object.
     if (!npcFound) {
       System.out.println(gameDialogue.getInvalidInput());
     }
   }
 
-  // This method takes a user input string as an input parameter.
   public void lookMap(String userInput) {
-    // Extract the second word from the user input string using a text parser object.
     String mapWord = textParser.getSecondWord(userInput);
-    // Get the list of maps from the player's inventory.
     List<Item> maps = player.getInventory();
-
-    // Create a boolean flag to keep track of whether a map was found or not.
     boolean mapFound = false;
 
-    // Loop through each map in the list of maps.
     for (Item map : maps){
-      // Check if the map name matches the map word extracted from user input (ignoring case).
       if(map.getName().equalsIgnoreCase(mapWord)){
-        // If a matching map is found, set the mapFound flag to true and display the map.
         mapFound = true;
         MapFrame frame = new MapFrame();
         frame.readMap();
       }
     }
-    // If no matching map was found, print an error message using a gameDialogue object.
     if(!mapFound){
       System.out.println(gameDialogue.getInvalidInput());
       System.out.println("Map not found in inventory");
@@ -930,5 +797,8 @@ public class GameController {
     gamesCompleted(won);
 
   }
+
+
+
 }
 

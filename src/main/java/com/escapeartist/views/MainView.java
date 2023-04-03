@@ -24,6 +24,7 @@ public class MainView {
     loadMenuData();
   }
 
+
   private void loadMenuData() {
     Gson gson = new Gson();
     InputStream inputStream = getClass().getClassLoader().getResourceAsStream("menu_dialogue.json");
@@ -138,7 +139,6 @@ public class MainView {
     }
   }
 
-
   public void printMessage(String key) {
     System.out.println(menuData.get(key).getAsString());
   }
@@ -146,4 +146,6 @@ public class MainView {
   public String readTitleScreenFile() {
     return "";
   }
+
+
 }

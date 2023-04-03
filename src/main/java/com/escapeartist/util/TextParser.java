@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 import java.util.Scanner;
 
 public class TextParser {
+
   private JsonObject gameData;
 
   public TextParser(JsonObject gameData) {
@@ -16,7 +17,7 @@ public class TextParser {
 
   public String cleanUserInput(String userInput) {
     userInput = userInput.trim().toLowerCase();
-    JsonArray wordsToRemove = gameData.getAsJsonObject("dialogue").getAsJsonArray("words_to_remove");
+    JsonArray wordsToRemove = getDialogueArray("words_to_remove");
 
     if (wordsToRemove != null) {
       for (JsonElement wordToRemove : wordsToRemove) {
@@ -28,9 +29,12 @@ public class TextParser {
     return userInput;
   }
 
-
   public boolean isValidInput(JsonElement inputElement) {
-    JsonObject validInputs = gameData.getAsJsonObject("dialogue").getAsJsonObject("valid_inputs");
+    JsonObject validInputs = getValidInputs();
+    if (validInputs == null) {
+      return false;
+    }
+
     for (String key : validInputs.keySet()) {
       if (validInputs.getAsJsonArray(key).contains(inputElement)) {
         return true;
@@ -39,33 +43,88 @@ public class TextParser {
     return false;
   }
 
-  public boolean isQuitCommand(JsonElement inputElement) {
+  private JsonObject getValidInputs() {
+    return getDialogueObject("valid_inputs");
+  }
+
+  private JsonObject getDialogueObject(String key) {
+    JsonObject dialogue = gameData.getAsJsonObject("dialogue");
+    return dialogue == null ? null : dialogue.getAsJsonObject(key);
+  }
+
+  private JsonArray getDialogueArray(String key) {
+    JsonObject dialogue = gameData.getAsJsonObject("dialogue");
+    return dialogue == null ? null : dialogue.getAsJsonArray(key);
+  }
+
+  public boolean isCommandOfType(JsonElement inputElement, String commandType) {
     if (inputElement == null) {
       return false;
     }
 
-    JsonObject dialogue = gameData.getAsJsonObject("dialogue");
-    if (dialogue == null) {
-      return false;
-    }
-
-    JsonObject validInputs = dialogue.getAsJsonObject("valid_inputs");
+    JsonObject validInputs = getValidInputs();
     if (validInputs == null) {
       return false;
     }
 
-    return validInputs.getAsJsonArray("quit").contains(inputElement);
+    JsonArray commands = validInputs.getAsJsonArray(commandType);
+    if (commands == null) {
+      return false;
+    }
+
+    for (JsonElement word : commands) {
+      if (inputElement.getAsString().startsWith(word.getAsString())) {
+        return true;
+      }
+    }
+    return false;
   }
 
+  public boolean isQuitCommand(JsonElement inputElement) {
+    return isCommandOfType(inputElement, "quit");
+  }
+
+
+  public boolean isHelpCommand(JsonElement inputElement) {
+    return isCommandOfType(inputElement, "help");
+  }
+
+  public boolean isGoCommand(JsonElement inputElement) {
+    return isCommandOfType(inputElement, "go");
+  }
+
+  public boolean isLookCommand(JsonElement inputElement) {
+    return isCommandOfType(inputElement, "look");
+  }
+
+  public boolean isTalkCommand(JsonElement inputElement) {
+    return isCommandOfType(inputElement, "talk");
+  }
+
+  public boolean isGetCommand(JsonElement inputElement) {
+    return isCommandOfType(inputElement, "get");
+  }
+
+  public boolean isUseCommand(JsonElement inputElement) {
+    return isCommandOfType(inputElement, "use");
+  }
+
+  public boolean isEquipCommand(JsonElement inputElement) {
+    return isCommandOfType(inputElement, "equip");
+  }
+
+  public boolean isDropCommand(JsonElement inputElement) {
+    return isCommandOfType(inputElement, "drop");
+  }
 
 
   public boolean getConfirmation(String prompt) {
     Scanner scanner = new Scanner(System.in);
-    JsonObject validInputs = gameData.getAsJsonObject("dialogue").getAsJsonObject("valid_inputs");
+    JsonObject validInputs = getValidInputs();
 
     while (true) {
       System.out.println(prompt);
-      System.out.print(gameData.getAsJsonObject("dialogue").get("command_prompt").getAsString());
+      System.out.print(getDialogueObject("dialogue").get("command_prompt").getAsString());
       String userInput = scanner.nextLine().trim().toLowerCase();
       JsonElement inputElement = new Gson().toJsonTree(userInput);
 
@@ -79,168 +138,6 @@ public class TextParser {
     }
   }
 
-  public boolean isHelpCommand(JsonElement inputElement) {
-    JsonObject validInputs = gameData.getAsJsonObject("dialogue").getAsJsonObject("valid_inputs");
-    return validInputs.getAsJsonArray("help").contains(inputElement);
-  }
-
-  public boolean isGoCommand(JsonElement inputElement) {
-    if (inputElement == null) {
-      return false;
-    }
-
-    JsonObject dialogue = gameData.getAsJsonObject("dialogue");
-    if (dialogue == null) {
-      return false;
-    }
-
-    JsonObject validInputs = dialogue.getAsJsonObject("valid_inputs");
-    if (validInputs == null) {
-      return false;
-    }
-
-    JsonArray goCommands = validInputs.getAsJsonArray("go");
-    for (JsonElement word : goCommands) {
-      if (inputElement.getAsString().startsWith(word.getAsString())) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-
-  public boolean isLookCommand(JsonElement inputElement){
-    if (inputElement == null) {
-      return false;
-    }
-
-    JsonObject dialogue = gameData.getAsJsonObject("dialogue");
-    if (dialogue == null) {
-      return false;
-    }
-
-    JsonObject validInputs = dialogue.getAsJsonObject("valid_inputs");
-    if (validInputs == null) {
-      return false;
-    }
-    JsonArray lookCommands = validInputs.getAsJsonArray("look");
-    for(JsonElement word : lookCommands){
-      if(inputElement.getAsString().startsWith(word.getAsString())){
-        return true;
-      }
-    }
-    return false;
-  }
-
-  public boolean isTalkCommand(JsonElement inputElement){
-    if (inputElement == null) {
-      return false;
-    }
-
-    JsonObject dialogue = gameData.getAsJsonObject("dialogue");
-    if (dialogue == null) {
-      return false;
-    }
-
-    JsonObject validInputs = dialogue.getAsJsonObject("valid_inputs");
-    if (validInputs == null) {
-      return false;
-    }
-    JsonArray lookCommands = validInputs.getAsJsonArray("talk");
-    for(JsonElement word : lookCommands){
-      if(inputElement.getAsString().startsWith(word.getAsString())){
-        return true;
-      }
-    }
-    return false;
-  }
-
-  public boolean isGetCommand(JsonElement inputElement){
-    if(inputElement == null){
-      return false;
-    }
-    JsonObject dialogue = gameData.getAsJsonObject("dialogue");
-    if(dialogue == null){
-      return false;
-    }
-    JsonObject validInputs = dialogue.getAsJsonObject("valid_inputs");
-    if(validInputs == null){
-      return false;
-    }
-    JsonArray getCommands = validInputs.getAsJsonArray("get");
-    for(JsonElement word : getCommands){
-      if(inputElement.getAsString().startsWith(word.getAsString())){
-        return true;
-      }
-    }
-    return false;
-  }
-
-  public boolean isUseCommand(JsonElement inputElement){
-    if(inputElement == null){
-      return false;
-    }
-    JsonObject dialogue = gameData.getAsJsonObject("dialogue");
-    if(dialogue == null){
-      return false;
-    }
-    JsonObject validInputs = dialogue.getAsJsonObject("valid_inputs");
-    if(validInputs == null){
-      return false;
-    }
-    JsonArray getCommands = validInputs.getAsJsonArray("use");
-    for(JsonElement word : getCommands){
-      if(inputElement.getAsString().startsWith(word.getAsString())){
-        return true;
-      }
-    }
-    return false;
-  }
-
-  public boolean isEquipCommand(JsonElement inputElement){
-    if(inputElement == null){
-      return false;
-    }
-    JsonObject dialogue = gameData.getAsJsonObject("dialogue");
-    if(dialogue == null){
-      return false;
-    }
-    JsonObject validInputs = dialogue.getAsJsonObject("valid_inputs");
-    if(validInputs == null){
-      return false;
-    }
-    JsonArray getCommands = validInputs.getAsJsonArray("equip");
-    for(JsonElement word : getCommands){
-      if(inputElement.getAsString().startsWith(word.getAsString())){
-        return true;
-      }
-    }
-    return false;
-  }
-
-  public boolean isDropCommand(JsonElement inputElement){
-    if (inputElement == null) {
-      return false;
-    }
-
-    JsonObject dialogue = gameData.getAsJsonObject("dialogue");
-    if (dialogue == null) {
-      return false;
-    }
-
-    JsonObject validInputs = dialogue.getAsJsonObject("valid_inputs");
-    if (validInputs == null) {
-      return false;
-    }
-    JsonArray lookCommands = validInputs.getAsJsonArray("drop");
-    for(JsonElement word : lookCommands){
-      if(inputElement.getAsString().startsWith(word.getAsString())){
-        return true;
-      }
-    }
-    return false;
-  }
-
   public String getSecondWord(String userInput) {
     String[] words = userInput.split(" ");
     if (words.length > 1) {
@@ -249,3 +146,4 @@ public class TextParser {
     return "";
   }
 }
+
