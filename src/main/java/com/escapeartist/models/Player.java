@@ -88,6 +88,14 @@ public class Player {
         }
     }
 
+    public void attack(Boss boss) {
+        int damage = this.attack;
+        if (equippedWeapon != null) {
+            damage += equippedWeapon.getValue();
+        }
+        boss.takeDamage(damage);
+    }
+
     public List<Item> getInventory() {
         return inventory;
     }

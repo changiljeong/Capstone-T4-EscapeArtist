@@ -1,6 +1,7 @@
 package com.escapeartist.views;
 
 import com.escapeartist.controllers.Game;
+import com.escapeartist.models.Boss;
 import com.escapeartist.models.Item;
 import com.escapeartist.models.Room;
 import com.google.gson.Gson;
@@ -414,7 +415,34 @@ public class GUI extends JFrame {
     } else {
       System.out.println("Boss room not found.");
     }
+    bossFight();
   }
+
+  private void bossFight() {
+    Boss boss = new Boss();
+    boss.setActive(true);
+
+    while (game.getPlayer().getHealth() > 0 && boss.getHealth() > 0) {
+      // Player's turn
+      System.out.println("Player's turn:");
+      // Assuming the player has an attack method that deals damage to the boss
+      game.getPlayer().attack(boss);
+      if (boss.getHealth() <= 0) {
+        System.out.println("You have defeated the boss!");
+        boss.setActive(false);
+        break;
+      }
+
+      // Boss's turn
+      System.out.println("Boss's turn:");
+      boss.attackPlayer(game.getPlayer());
+    }
+
+    if (game.getPlayer().getHealth() <= 0) {
+      System.out.println("You have been defeated by the boss.");
+    }
+  }
+
 
   private void showMap() {
     String location = game.getCurrentRoom().getName();
@@ -485,10 +513,8 @@ public class GUI extends JFrame {
 
     helpFrame.add(helpButtonsPanel, BorderLayout.SOUTH);
 
-
     helpFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     helpFrame.setSize(400, 300);
     helpFrame.setVisible(true);
   }
-
 }
