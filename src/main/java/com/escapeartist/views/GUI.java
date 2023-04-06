@@ -68,12 +68,11 @@ public class GUI extends JFrame {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
           remove(splashScreenPanel);
           // Add code for description panel here
-          JTextArea descriptionArea = new JTextArea(
-              "Welcome to Escape Artist, the exciting text-based adventure game set in a museum where you'll have to solve riddles, puzzles, and battles to gather resources and prepare for an epic battle against the museum curator.\n"
-                  + "\n"
-                  + "As you explore the museum, use your wits and strategic thinking to complete each challenge before moving on to the next one. Remember, time is limited! You have only 5 minutes to gather resources, so act quickly and efficiently.\n"
-                  + "\n"
-                  + "The more resources you gather, the better prepared you'll be for the final battle against the museum curator. With an immersive storyline and intense challenges, Escape Artist is a game that will keep you on the edge of your seat until the very end. Do you have what it takes to gather the resources and defeat the museum curator before time runs out? Play Escape Artist now and find out!");
+          JTextArea descriptionArea = new JTextArea("Welcome to Escape Artist, the exciting text-based adventure game set in a museum where you'll have to solve riddles, puzzles, and battles to gather resources and prepare for an epic battle against the museum curator.\n"
+              + "\n"
+              + "As you explore the museum, use your wits and strategic thinking to complete each challenge before moving on to the next one. Remember, time is limited! You have only 5 minutes to gather resources, so act quickly and efficiently.\n"
+              + "\n"
+              + "The more resources you gather, the better prepared you'll be for the final battle against the museum curator. With an immersive storyline and intense challenges, Escape Artist is a game that will keep you on the edge of your seat until the very end. Do you have what it takes to gather the resources and defeat the museum curator before time runs out? Play Escape Artist now and find out!");
           descriptionArea.setEditable(false);
           descriptionArea.setLineWrap(true);
           descriptionArea.setWrapStyleWord(true);
@@ -94,14 +93,28 @@ public class GUI extends JFrame {
               }
             }
           });
+
+          // Add key listener for the startButton
+          startButton.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+              if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                startButton.doClick(); // Trigger the start button click event
+              }
+            }
+          });
+
           add(startButton, BorderLayout.SOUTH);
+
+          // Make the startButton focusable and set focus to it
+          startButton.setFocusable(true);
+          startButton.requestFocusInWindow();
+
           // End code for description panel
           revalidate();
         }
       }
     });
     setFocusable(true);
-
 
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setSize(580, 580);
