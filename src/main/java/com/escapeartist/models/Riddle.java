@@ -1,52 +1,32 @@
 package com.escapeartist.models;
 
-import com.escapeartist.util.GsonDeserializer;
 import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
+import java.util.Random;
 
 public class Riddle {
-    // Fields
-    @SerializedName("id")
-    private int id;
-
     @SerializedName("question")
-    private String question;
+    private String riddle;
 
     @SerializedName("answer")
     private String answer;
 
-    // Static Method: Get Riddle by ID
-    // Static Method: Get Riddle by ID or random
-    public static Riddle getRiddle(List<Riddle> riddles, int id) {
-        if (id > 0 && id <= riddles.size()) {
-            return riddles.get(id - 1);
-        } else {
-            return riddles.get((int)(Math.random() * riddles.size()));
-        }
+    public Riddle getRiddle(List<Riddle> riddles) {
+        Random rand = new Random();
+        int randNum = rand.nextInt(riddles.size());
+        return riddles.get(randNum);
     }
 
-
-    // Getter Methods
-    public int getId() {
-        return id;
+    public String getRiddle() {
+        return riddle;
     }
 
-    public String getQuestion() {
-        return question;
+    public void setRiddle(String riddle) {
+        this.riddle = riddle;
     }
 
     public String getAnswer() {
         return answer;
-    }
-
-    // Setter Methods
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
     }
 
     public void setAnswer(String answer) {

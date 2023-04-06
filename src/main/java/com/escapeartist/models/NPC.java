@@ -3,51 +3,19 @@ package com.escapeartist.models;
 import com.google.gson.annotations.SerializedName;
 
 public class NPC {
-
-    @SerializedName("interactive")
-    private boolean interactive;
-
-    @SerializedName("room_location")
-    private int roomLocation;
-
     @SerializedName("name")
     private String name;
 
-    @SerializedName("description")
-    private String description;
+    @SerializedName("health")
+    private int health;
 
-    @SerializedName("reply")
-    private String reply;
+    @SerializedName("attackPower")
+    private int attackPower;
 
-    @SerializedName("game_invitation")
-    private String gameInvitation;
+    @SerializedName("defense")
+    private int defense;
 
-    @SerializedName("goodbye_message")
-    private String goodbyeMessage;
 
-    @SerializedName("goodbye_message_2")
-    private String goodbyeMessage2;
-
-    @SerializedName("solved")
-    private boolean solved;
-
-    // Getters, setters, and other methods
-
-    public boolean isInteractive() {
-        return interactive;
-    }
-
-    public void setInteractive(boolean interactive) {
-        this.interactive = interactive;
-    }
-
-    public int getRoomLocation() {
-        return roomLocation;
-    }
-
-    public void setRoomLocation(int roomLocation) {
-        this.roomLocation = roomLocation;
-    }
 
     public String getName() {
         return name;
@@ -57,53 +25,27 @@ public class NPC {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public int getHealth() {
+        return health;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setHealth(int health) {
+        this.health = health;
     }
 
-    public String getReply() {
-        return reply;
+    public int getAttackPower() {
+        return attackPower;
     }
 
-    public void setReply(String reply) {
-        this.reply = reply;
+    public void setAttackPower(int attackPower) {
+        this.attackPower = attackPower;
     }
 
-    public String getGameInvitation() {
-        return gameInvitation;
+    public int getDefense() {
+        return defense;
     }
 
-    public void setGameInvitation(String gameInvitation) {
-        this.gameInvitation = gameInvitation;
+    public void setDefense(int defense) {
+        this.defense = defense;
     }
-
-    public String getGoodbyeMessage() {
-        return goodbyeMessage;
-    }
-
-    public void setGoodbyeMessage(String goodbyeMessage) {
-        this.goodbyeMessage = goodbyeMessage;
-    }
-
-    public String getGoodbyeMessage2() {
-        return goodbyeMessage2;
-    }
-
-    public void setGoodbyeMessage2(String goodbyeMessage2) {
-        this.goodbyeMessage2 = goodbyeMessage2;
-    }
-
-
-    public boolean getSolved() {
-        return solved;
-    }
-
-    public void setSolved(boolean solved) {
-        this.solved = solved;
-    }
-
 }

@@ -1,49 +1,41 @@
 {
-  "trivias": [
+  "trivia": [
     {
-      "id": 1,
       "question": "What is the largest planet in our solar system?",
       "answer": "jupiter",
       "difficulty": "easy"
     },
     {
-      "id": 2,
       "question": "What is the capital of France?",
       "answer": "paris",
       "difficulty": "easy"
     },
     {
-      "id": 3,
       "question": "What is the name of the longest river in the world?",
       "answer": "nile",
       "difficulty": "normal"
     },
     {
-      "id": 4,
       "question": "What color is an emerald?",
       "answer": "green",
       "difficulty": "normal"
     },
     {
-      "id": 5,
       "question": "What is the name of the fairy in Peter Pan?",
       "answer": "tinkerbell",
       "difficulty": "normal"
     },
     {
-      "id": 6,
       "question": "What is the name of the famous toy store in New York City?",
       "answer": "fao schwarz",
       "difficulty": "hard"
     },
     {
-      "id": 7,
       "question": "What is the name of the famous wizard in the Harry Potter books?",
       "answer": "harry potter",
       "difficulty": "easy"
     },
     {
-      "id": 8,
       "question": "What is the name of the famous pirate in the book 'Treasure Island'?",
       "answer": "long john silver",
       "difficulty": "hard"

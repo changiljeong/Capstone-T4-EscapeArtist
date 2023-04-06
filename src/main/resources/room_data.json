@@ -1,0 +1,305 @@
+{
+  "locations": [
+    {
+      "name": "Museum Lobby",
+      "description": "The lobby of the museum.\nThe main entrance is blocked by debris.\nThere are three exits (North, East, and West)",
+      "exits": {
+        "west": "Old Kingdom Exhibit",
+        "north": "Dark Ages Exhibit",
+        "east": "Koto Exhibit"
+      },
+      "npcs": [],
+      "items": [{
+        "value": 1,
+        "name": "Map",
+        "description" : "A visitors map...could come in handy.",
+        "type" : "map",
+        "equable": false
+      }],
+      "spiritImage": "/museum_lobby.png"
+    },
+    {
+      "name": "Old Kingdom Exhibit",
+      "description": "You are in the Old Kingdom Exhibit.\nThere are three exits (North, East, and South).",
+      "exits": {
+        "south": "Museum Lobby",
+        "east": "Dark Ages Exhibit",
+        "north": "Homeopathy crossroads"
+      },
+      "npcs": [{
+        "name": "Ghost",
+        "health": 20,
+        "attackPower": 10,
+        "defense": 10}],
+      "items": [{
+        "value": 1,
+        "name": "Map",
+        "description" : "A visitors map...could come in handy.",
+        "type" : "map",
+        "equable": false
+      }],
+      "spiritImage": "/old_kingdom.png"
+    },
+    {
+      "name": "Dark Ages Exhibit",
+      "description": "You are in the Dark Ages Exhibit.\nThere are four exits (North, East, South, and West).",
+      "exits": {
+        "south": "Museum Lobby",
+        "north": "Homeopathy crossroads",
+        "west": "Old Kingdom Exhibit",
+        "east": "Koto Exhibit"
+      },
+      "npcs": [],
+      "items": [],
+      "spiritImage": "/dark_ages.png"
+    },
+    {
+      "id": 4,
+      "name": "Koto Exhibit",
+      "description": "You are in the Koto Exhibit.\nThere are three exits (North, South, and West).",
+      "exits": {
+        "south": "Museum Lobby",
+        "north": "Homeopathy crossroads",
+        "west": "Dark Ages Exhibit"
+      },
+      "npcs": [],
+      "items": [],
+      "spiritImage": "/koto.png"
+    },
+    {
+      "name": "Homeopathy crossroads",
+      "description": "a room connecting hallways from the exhibits.",
+      "exits": {
+        "south": "Dark Ages Exhibit",
+        "north": "Homeopathy Exhibit",
+        "east": "Koto Exhibit",
+        "west": "Old Kingdom Exhibit"
+      },
+      "npcs": [],
+      "items": [],
+      "spiritImage": "/homeopathy_room.png"
+    },
+    {
+      "name": "Homeopathy Exhibit",
+      "description": "You are in the Homeopathy Exhibit.\nThere are four exits (North, East, South, and West).",
+      "exits": {
+        "south": "Homeopathy crossroads",
+        "west": "Middle Kingdom Exhibit",
+        "north": "Middle Ages Exhibit",
+        "east": "Shinto Exhibit"
+      },
+      "npcs": [],
+      "items": [{
+        "value": 1,
+        "name": "Left Potion Chest",
+        "description": "A chest with a heavy lock on the lid.",
+        "type": "potion chest",
+        "equable": false
+      },{
+        "value": 1,
+        "name": "Middle Potion Chest",
+        "description": "A chest with a heavy lock on the lid.",
+        "type": "potion chest",
+        "equable": false
+      },{
+        "value": 1,
+        "name": "Right Potion Chest",
+        "description": "A chest with a heavy lock on the lid.",
+        "type": "potion chest",
+        "equable": false
+      }],
+      "spiritImage": "/homeopathy_room.png"
+    },
+    {
+      "name": "Middle Kingdom Exhibit",
+      "description": "You are in the Middle Kingdom Exhibit.\nThere are three exits (North, East, and South).",
+      "exits": {
+        "south": "Homeopathy Exhibit",
+        "north": "Weapons crossroads",
+        "east": "Middle Ages Exhibit"
+      },
+      "npcs": [{
+        "name": "Guard",
+        "health": 20,
+        "attackPower": 10,
+        "defense": 10}],
+      "items": [],
+      "spiritImage": "/middle_kingdom.png"
+    },
+    {
+      "name": "Middle Ages Exhibit",
+      "description": "You are in the Middle Ages Exhibit.\nThere are four exits (North, East, South, and West).",
+      "exits": {
+        "west": "Middle Kingdom Exhibit",
+        "north": "Weapons crossroads",
+        "east": "Shinto Exhibit",
+        "south": "Homeopathy Exhibit"
+      },
+      "npcs": [{
+        "name": "Knight",
+        "health": 20,
+        "attackPower": 10,
+        "defense": 10}],
+      "items": [],
+      "spiritImage": "/middle_ages.png"
+    },
+    {
+      "name": "Shinto Exhibit",
+      "description": "You are in the Shinto Exhibit.\nThere are three exits (North, South, and West).",
+      "exits": {
+        "west": "Middle Ages Exhibit",
+        "north": "Weapons crossroads",
+        "south": "Homeopathy Exhibit"
+      },
+      "npcs": [],
+      "items": [],
+      "spiritImage": "/shinto_exhibit.png"
+    },
+    {
+      "name": "Weapons crossroads",
+      "description": "a room connecting hallways from the exhibits.",
+      "exits": {
+        "south": "Middle Ages Exhibit",
+        "north": "Weapons Exhibit",
+        "east": "Shinto Exhibit",
+        "west": "Middle Kingdom Exhibit"
+      },
+      "npcs": [],
+      "items": [],
+      "spiritImage": "/weapons_exhibit.png"
+    },
+    {
+      "name": "Weapons Exhibit",
+      "description": "You are in the Weapons Exhibit.\nThere are four exits (North, East, South, and West).",
+      "exits": {
+        "west": "New Kingdom Exhibit",
+        "north": "Renaissance Ages Exhibit",
+        "south": "Weapons crossroads",
+        "east": "Gendaito Exhibit"
+      },
+      "npcs": [],
+      "items": [
+        {
+          "value": 1,
+          "name": "Left Weapons Chest",
+          "description": "A chest with a heavy lock on the lid.",
+          "type": "weapon chest",
+          "equable": false
+        },
+        {
+          "value": 1,
+          "name": "Middle Weapons Chest",
+          "description": "A chest with a heavy lock on the lid.",
+          "type": "weapon chest",
+          "equable": false
+        },{
+          "value": 1,
+          "name": "Right Weapons Chest",
+          "description": "A chest with a heavy lock on the lid.",
+          "type": "weapon chest",
+          "equable": false
+        }],
+      "spiritImage": "/weapons_exhibit.png"
+    },
+    {
+      "name": "New Kingdom Exhibit",
+      "description": "You are in the New Kingdom Exhibit.\nThere are three exits (North, East, and South).",
+      "exits": {
+        "south": "Weapons Exhibit",
+        "north": "Armor crossroads",
+        "east": "Renaissance Ages Exhibit"
+      },
+      "npcs": [],
+      "items": [],
+      "spiritImage": "/new_kingdom.png"
+    },
+    {
+      "name": "Renaissance Ages Exhibit",
+      "description": "You are in the Renaissance Ages Exhibit.\nThere are four exits (North, East, South, and West).",
+      "exits": {
+        "north": "Armor crossroads",
+        "west": "New Kingdom Exhibit",
+        "south": "Weapons Exhibit",
+        "east": "Gendaito Exhibit"
+      },
+      "npcs": [],
+      "items": [],
+      "spiritImage": "/renaissance_age.png"
+    },
+    {
+      "name": "Gendaito Exhibit",
+      "description": "You are in the Gender Exhibit.\nThere are three exits (North, South, and West).",
+      "exits": {
+        "west": "Renaissance Ages Exhibit",
+        "north": "Armor crossroads",
+        "south": "Weapons Exhibit"
+      },
+      "npcs": [{
+        "name": "Samurai",
+        "health": 20,
+        "attackPower": 10,
+        "defense": 10}],
+      "items": [],
+      "spiritImage": "/samurai_empire.png"
+    },
+    {
+      "name": "Armor crossroads",
+      "description": "a room connecting hallways from the exhibits.",
+      "exits": {
+        "south": "Renaissance Ages Exhibit",
+        "north": "Armor Exhibit",
+        "east": "Gendaito Exhibit",
+        "west":"New Kingdom Exhibit"
+      },
+      "npcs": [],
+      "items": [],
+      "spiritImage": "/armor_exhibit.png"
+    },
+    {
+      "name": "Boss Room",
+      "description": "Death is riding a white horse and hell is following close behind.",
+      "exits": {
+      },
+      "npcs": [{
+        "name": "Boss",
+        "health": 20000000,
+        "attackPower": 10,
+        "defense": 10}],
+      "items": [],
+      "spiritImage": "/boss_room.png"
+    },
+    {
+      "name": "Armor Exhibit",
+      "description": "You are in the Armor Exhibit.\nThere are three exits (East, South, and West).\nTo the North there are three doorways. (Door 1, Door 2, and Door 3)",
+      "exits": {
+        "south": "Armor crossroads"
+      },
+      "npcs": [{
+        "name": "Merchant",
+        "health": 20,
+        "attackPower": 10,
+        "defense": 10}],
+      "items": [
+        {
+          "value": 1,
+          "name": "Left Armor Chest",
+          "description": "A chest with a heavy lock on the lid.",
+          "type": "armor chest",
+          "equable": false
+        },{
+          "value": 1,
+          "name": "Middle Armor Chest",
+          "description": "A chest with a heavy lock on the lid.",
+          "type": "armor chest",
+          "equable": false
+        },{
+          "value": 1,
+          "name": "Right Armor Chest",
+          "description": "A chest with a heavy lock on the lid.",
+          "type": "armor chest",
+          "equable": false
+        }
+      ]
+    }
+  ]
+}

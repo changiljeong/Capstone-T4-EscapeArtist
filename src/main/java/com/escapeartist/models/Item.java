@@ -1,31 +1,9 @@
 package com.escapeartist.models;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.reflect.TypeToken;
-import java.util.List;
 
 public class Item {
-
-    public Item(int id, int value, String name, String description, String type, Boolean equippable) {
-        this.id = id;
-        this.value = value;
-        this.name = name;
-        this.description = description;
-        this.type = type;
-        this.equippable = equippable;
-
-    }
-
-    public Item(int id){
-        this.id =id;
-    }
-
-    @SerializedName("id")
-    private int id;
-
-    @SerializedName(("value"))
+    @SerializedName("value")
     private int value;
 
     @SerializedName("name")
@@ -37,20 +15,28 @@ public class Item {
     @SerializedName("type")
     private String type;
 
-    @SerializedName("equippable")
-    private Boolean equippable;
+    @SerializedName("equable")
+    private Boolean equable;
 
-
-    public int getId() {
-        return id;
+    public Item(int value, String name, String description, String type, Boolean equable) {
+        this.value = value;
+        this.name = name;
+        this.description = description;
+        this.type = type;
+        this.equable = equable;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    public String toString(){
+        return name;
     }
 
     public int getValue() {
         return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 
     public String getName() {
@@ -77,21 +63,11 @@ public class Item {
         this.type = type;
     }
 
-    public Boolean getEquippable() {
-        return equippable;
+    public Boolean getEquable() {
+        return equable;
     }
 
-    public void setEquippable(Boolean equippable) {
-        this.equippable = equippable;
-    }
-
-    // Uses damage from whatever weapons the player uses
-    public int getAttackBonus() {
-        return 0;
-    }
-
-    // Uses the defense from the armor that the player can pick up in the game as seen from previous code
-    public int getDefenseBonus() {
-        return 0;
+    public void setEquable(Boolean equable) {
+        this.equable = equable;
     }
 }

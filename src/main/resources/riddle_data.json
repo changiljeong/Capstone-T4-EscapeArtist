@@ -1,42 +1,34 @@
 {
   "riddles": [
     {
-      "id": 1,
       "question": "What has a face and two hands but no arms or legs?",
       "answer": "clock"
     },
     {
-      "id": 2,
       "question": "What is full of holes but still holds water?",
       "answer": "sponge"
     },
     {
-      "id": 3,
       "question": "What has a tail and a head but no body?",
       "answer": "coin"
     },
     {
-      "id": 4,
       "question": "What has a bed but never sleeps, a mouth but never talks, and runs but never walks?",
       "answer": "river"
     },
     {
-      "id": 5,
       "question": "What has a thumb and four fingers but is not alive?",
       "answer": "glove"
     },
     {
-      "id": 6,
       "question": "What has one eye but cannot see?",
       "answer": "needle"
     },
     {
-      "id": 7,
       "question": "What has a bottom at the top?",
       "answer": "leg"
     },
     {
-      "id": 8,
       "question": "What has a head and a tail, but no body?",
       "answer": "coin"
     }
