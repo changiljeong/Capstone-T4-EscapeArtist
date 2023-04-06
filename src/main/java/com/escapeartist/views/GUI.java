@@ -96,6 +96,7 @@ public class GUI extends JFrame {
     });
     setFocusable(true);
 
+
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setSize(580, 580);
     setVisible(true);
@@ -108,8 +109,7 @@ public class GUI extends JFrame {
     roomDescription.setEditable(false);
 
     JPanel mainContentPanel = new JPanel(new BorderLayout());
-
-
+    
     countdownLabel = new JLabel();
     countdownLabel.setFont(new Font("Arial", Font.BOLD, 24));
     remainingTimeInSeconds = 1 * 60;
@@ -127,6 +127,7 @@ public class GUI extends JFrame {
       }
     });
     countdownTimer.start();
+
 
     JPanel countdownPanel = new JPanel(new BorderLayout());
     countdownPanel.add(countdownLabel, BorderLayout.CENTER);
@@ -184,11 +185,16 @@ public class GUI extends JFrame {
 
     topRightPanel.add(textPanel, BorderLayout.NORTH);
 
+
+    textPanel.add(inputField);
+
+    topRightPanel.add(textPanel, BorderLayout.NORTH);
+
+
     mainContentPanel.add(topRightPanel, BorderLayout.CENTER);
     spiritImageLabel = new JLabel();
     mainContentPanel.add(spiritImageLabel, BorderLayout.WEST);
     add(mainContentPanel, BorderLayout.CENTER);
-
 
     add(mainContentPanel, BorderLayout.SOUTH);
 
@@ -196,7 +202,6 @@ public class GUI extends JFrame {
     spiritImageLabel = new JLabel();
     mainContentPanel.add(spiritImageLabel, BorderLayout.WEST);
     add(mainContentPanel, BorderLayout.CENTER);
-
 
     northButton = new JButton("Go North");
     eastButton = new JButton("Go East");
@@ -247,6 +252,7 @@ public class GUI extends JFrame {
         setButtonEnabled();
       }
     });
+
 
     attackButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
@@ -325,6 +331,25 @@ public class GUI extends JFrame {
     countdownLabel.setText(String.format("Time remaining: %02d:%02d", minutes, seconds));
   }
 
+  private void showMap() {
+    String location = game.getCurrentRoom().getName();
+
+// Create a new JFrame for the child window
+    JFrame mapFrame = new JFrame("Map of " + location);
+    mapFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+// Create the playerMapPanel and add it to the child window
+    JPanel playerMapPanel = new JPanel(new BorderLayout());
+    ImageIcon playerMap = new ImageIcon(getClass().getResource("/" + location + ".png"));
+    JLabel playerMapLabel = new JLabel(playerMap);
+    playerMapPanel.add(playerMapLabel, BorderLayout.CENTER);
+    mapFrame.add(playerMapPanel);
+
+// Set the size and make the child window visible
+    mapFrame.setSize(480, 780);
+    mapFrame.setVisible(true);
+  }
+
   private void fightMainBoss() {
     // Find the boss room
     for (Room room : game.getRoomJSON()) {
@@ -372,6 +397,39 @@ public class GUI extends JFrame {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+
+    // Add buttons and their associated logic to the help popup window
+    JPanel helpButtonsPanel = new JPanel();
+
+    JButton closeButton = new JButton("Close");
+    closeButton.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        helpFrame.dispose();
+      }
+    });
+
+    JButton restartButton = new JButton("Restart");
+    restartButton.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        helpFrame.dispose();
+        dispose();
+        new GUI();
+      }
+    });
+
+    JButton quitButton = new JButton("Quit");
+    quitButton.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        System.exit(0);
+      }
+    });
+
+    helpButtonsPanel.add(closeButton);
+    helpButtonsPanel.add(restartButton);
+    helpButtonsPanel.add(quitButton);
+
+    helpFrame.add(helpButtonsPanel, BorderLayout.SOUTH);
+
 
     helpFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     helpFrame.setSize(400, 300);
