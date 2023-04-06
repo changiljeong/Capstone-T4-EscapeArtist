@@ -9,10 +9,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.Locale;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
 
 public class GUI extends JFrame {
 
@@ -264,7 +269,14 @@ public class GUI extends JFrame {
 
     talkButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        game.talkNPC();
+        String npcQuestion = game.getNPCQuestion(); // Replace this with a method from your Game class that retrieves the NPC's question
+        com.escapeartist.views.AnswerDialog answerDialog = new com.escapeartist.views.AnswerDialog(GUI.this, npcQuestion);
+        answerDialog.setVisible(true);
+
+        String playerAnswer = answerDialog.getAnswer();
+
+        String interactionResult = game.talkNPC(playerAnswer);
+        roomDescription.setText(game.getCurrentRoom().getDescription() + "\nItems in the room: \n" + game.getCurrentRoom().getItems().toString() + "\n\n" + interactionResult);
         setButtonEnabled();
       }
     });
@@ -345,7 +357,7 @@ public class GUI extends JFrame {
     countdownLabel.setText(String.format("Time remaining: %02d:%02d", minutes, seconds));
   }
 
-  private void showMap() {
+  private void Map() {
     String location = game.getCurrentRoom().getName();
 
 // Create a new JFrame for the child window

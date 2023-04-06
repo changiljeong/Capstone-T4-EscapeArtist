@@ -90,7 +90,7 @@ public class Game {
     }
   }
 
-  public void talkNPC(){
+  public String talkNPC(String playerAnswer){
     if(!currentRoom.getNpc().isEmpty()){
       if(triviaRooms.contains(currentRoom.getName())){
         System.out.println("answer my trivia question and you will get a key!");
@@ -102,6 +102,7 @@ public class Game {
     } else{
       System.out.println("No NPC to talk to in this room.");
     }
+    return playerAnswer;
   }
 
   public void fightNPC(){
@@ -141,6 +142,11 @@ public class Game {
     }else{
       System.out.println("No chests in this room");
     }
+  }
+
+  public String getNPCQuestion() {
+    // Return the NPC's question
+    return null;
   }
 
   public void askRiddle(){
@@ -185,7 +191,6 @@ public class Game {
     player.getInventory().add(addItem);
     currentRoom.removeItem(addItem);
   }
-
 
 
   public Room getCurrentRoom() {
