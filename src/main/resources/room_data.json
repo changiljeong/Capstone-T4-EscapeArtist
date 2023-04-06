@@ -228,7 +228,7 @@
     },
     {
       "name": "Gendaito Exhibit",
-      "description": "You are in the Gender Exhibit.\nThere are three exits (North, South, and West).",
+      "description": "You are in the Gendaito Exhibit.\nThere are three exits (North, South, and West).",
       "exits": {
         "west": "Renaissance Ages Exhibit",
         "north": "Armor crossroads",

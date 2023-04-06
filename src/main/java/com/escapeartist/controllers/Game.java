@@ -186,6 +186,8 @@ public class Game {
     currentRoom.removeItem(addItem);
   }
 
+
+
   public Room getCurrentRoom() {
     return currentRoom;
   }

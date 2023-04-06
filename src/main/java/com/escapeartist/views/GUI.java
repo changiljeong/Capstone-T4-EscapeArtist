@@ -1,6 +1,7 @@
 package com.escapeartist.views;
 
 import com.escapeartist.controllers.Game;
+import com.escapeartist.models.Item;
 import com.escapeartist.models.Room;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -285,6 +286,19 @@ public class GUI extends JFrame {
       }
     });
 
+    useButton.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        String selectedItem = inventoryList.getSelectedValue();
+        if(selectedItem != null){
+          for(Item item : game.getPlayer().getInventory()){
+            if(item.getType().equalsIgnoreCase("map")){
+              showMap();
+            }
+          }
+        }
+      }
+    });
+
     helpButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         showHelpWindow();
@@ -375,6 +389,22 @@ public class GUI extends JFrame {
     } else {
       System.out.println("Boss room not found.");
     }
+  }
+
+  private void showMap() {
+    String location = game.getCurrentRoom().getName();
+
+    JFrame mapFrame = new JFrame("Map of " + location);
+    mapFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+    JPanel playerMapPanel = new JPanel(new BorderLayout());
+    ImageIcon playerMap = new ImageIcon(getClass().getResource("/" + location + ".png"));
+    JLabel playerMapLabel = new JLabel(playerMap);
+    playerMapPanel.add(playerMapLabel, BorderLayout.CENTER);
+    mapFrame.add(playerMapPanel);
+
+    mapFrame.setSize(480, 780);
+    mapFrame.setVisible(true);
   }
 
   private void showHelpWindow() {
