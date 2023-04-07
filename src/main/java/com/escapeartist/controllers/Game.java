@@ -48,26 +48,42 @@ public class Game {
     currentRoom = roomJSON.get(0);
     boss = new Boss();
 
-    backgroundMusic = new AudioPlayer("soft-piano.wav");
+    backgroundMusic = new AudioPlayer("background_music.wav");
     bossMusic = new AudioPlayer("boss_music.wav");
     backgroundMusic.play();
   }
+  public void toggleMute() {
+    backgroundMusic.toggleMute();
+    bossMusic.toggleMute();
+  }
+
 
   private boolean isBossInCurrentRoom() {
     return currentRoom.getName().equals(getCurrentRoom());
   }
-
-  public void bossEnters() {
-    backgroundMusic.stop();
-    bossMusic.play();
+  public void checkAndPlayBossMusic() {
+    if (boss.isActive()) {
+      backgroundMusic.stop();
+      bossMusic.play();
+    } else {
+      bossMusic.stop();
+      backgroundMusic.play();
+    }
   }
 
+
+  public void bossEnters() {
+    checkAndPlayBossMusic();
+  }
   public void checkForBoss() {
     if (isBossInCurrentRoom() && !boss.isActive()) {
       boss.setActive(true);
-      bossEnters();
+    } else if (!isBossInCurrentRoom() && boss.isActive()) {
+      boss.setActive(false);
     }
+    checkAndPlayBossMusic();
   }
+
 
   public void moveNorth() {
     if(currentRoom.getExits().containsKey("north")){

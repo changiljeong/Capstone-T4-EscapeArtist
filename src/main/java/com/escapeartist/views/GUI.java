@@ -39,6 +39,7 @@ public class GUI extends JFrame {
   private JLabel spiritImageLabel;
   private JTextField inputField;
 
+  private boolean musicMuted = false;
 
   private Game game;
   private JTextArea roomDescription;
@@ -149,6 +150,7 @@ public class GUI extends JFrame {
           JOptionPane.showMessageDialog(GUI.this, "The boss fight has begun! Prepare for battle!",
               "Boss Fight", JOptionPane.WARNING_MESSAGE);
           fightMainBoss();
+          game.checkAndPlayBossMusic();
         }
       }
     });
@@ -652,6 +654,14 @@ public class GUI extends JFrame {
       }
     });
 
+      JButton muteUnmuteButton = new JButton(musicMuted ? "Unmute" : "Mute");
+      muteUnmuteButton.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+          toggleMusic();
+          muteUnmuteButton.setText(musicMuted ? "Unmute" : "Mute");
+        }
+      });
+
     JButton quitButton = new JButton("Quit");
     quitButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
@@ -662,6 +672,7 @@ public class GUI extends JFrame {
     helpButtonsPanel.add(closeButton);
     helpButtonsPanel.add(restartButton);
     helpButtonsPanel.add(quitButton);
+    helpButtonsPanel.add(muteUnmuteButton);
 
     helpFrame.add(helpButtonsPanel, BorderLayout.SOUTH);
 
@@ -669,6 +680,10 @@ public class GUI extends JFrame {
     helpFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     helpFrame.setSize(400, 300);
     helpFrame.setVisible(true);
+  }
+  private void toggleMusic() {
+    game.toggleMute();
+    musicMuted = !musicMuted;
   }
 
   public static JTextArea getGameTextDisplayArea() {

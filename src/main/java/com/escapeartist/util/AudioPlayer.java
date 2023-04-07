@@ -1,13 +1,13 @@
 package com.escapeartist.util;
+
 import java.io.BufferedInputStream;
 import java.io.InputStream;
-import java.net.URL;
 import javax.sound.sampled.*;
-import java.io.File;
 import java.io.IOException;
 
 public class AudioPlayer {
   private Clip clip;
+  private boolean muted = false;
 
   public AudioPlayer(String fileName) {
     try {
@@ -18,19 +18,30 @@ public class AudioPlayer {
 
       clip = AudioSystem.getClip();
       clip.open(audioInputStream);
+      muted = false;
     } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
       e.printStackTrace();
     }
   }
 
-
   public void play() {
-    clip.start();
-    clip.loop(Clip.LOOP_CONTINUOUSLY);
+    if (!muted) {
+      clip.start();
+      clip.loop(Clip.LOOP_CONTINUOUSLY);
+    }
   }
 
   public void stop() {
     clip.stop();
+  }
+
+  public void toggleMute() {
+    muted = !muted;
+    if (muted) {
+      clip.stop();
+    } else {
+      clip.loop(Clip.LOOP_CONTINUOUSLY);
+    }
   }
 }
 
