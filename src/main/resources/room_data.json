@@ -83,7 +83,7 @@
       "npcs": [],
       "items": [],
       "chests": [],
-      "spiritImage": "/homeopathy_room.png"
+      "spiritImage": "/homeopathy_exhibit_crossroads.png"
     },
     {
       "name": "Homeopathy Exhibit",
@@ -173,7 +173,7 @@
       "npcs": [],
       "items": [],
       "chests": [],
-      "spiritImage": "/weapons_exhibit.png"
+      "spiritImage": "/weapons_exhibit_crossroads.png"
     },
     {
       "name": "Weapons Exhibit",
@@ -259,7 +259,7 @@
       "npcs": [],
       "items": [],
       "chests": [],
-      "spiritImage": "/armor_exhibit.png"
+      "spiritImage": "/armor_exhibit_crossroads.png"
     },
     {
       "name": "Boss Room",
@@ -268,7 +268,7 @@
       },
       "npcs": [{
         "name": "Boss",
-        "health": 20000000,
+        "health": 200,
         "attackPower": 10,
         "defense": 10}],
       "items": [],
@@ -301,7 +301,8 @@
           "description": "A chest with a heavy lock on the lid.",
           "opened": false
         }
-      ]
+      ],
+      "spiritImage": "/armor_exhibit.png"
     }
   ]
 }

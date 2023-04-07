@@ -229,8 +229,6 @@ public class Game {
     }
   }
 
-
-
   public boolean askRiddle(String playerAnswer){
     Riddle riddle = new Riddle();
     riddle = riddle.getRiddle(riddleJSON);

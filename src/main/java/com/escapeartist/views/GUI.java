@@ -66,7 +66,7 @@ public class GUI extends JFrame {
     add(splashScreenPanel, BorderLayout.CENTER);
 
     //method to initialize the music when game starts
-    
+
 
     // Create enter key listener for clearing the splash screen
     addKeyListener(new KeyAdapter() {
@@ -586,26 +586,25 @@ public class GUI extends JFrame {
     Boss boss = new Boss();
     boss.setActive(true);
 
-    while (game.getPlayer().getHealth() > 0 && boss.getHealth() > 0) {
-      // Player's turn
-      System.out.println("Player's turn:");
+  }
+
+    private void playerTurn(Boss boss) {
       // Assuming the player has an attack method that deals damage to the boss
       game.getPlayer().attack(boss);
       if (boss.getHealth() <= 0) {
         System.out.println("You have defeated the boss!");
         boss.setActive(false);
-        break;
+        // TODO: Handle victory, e.g. enable buttons, show a victory message
+      } else {
+        // Boss's turn
+        boss.attackPlayer(game.getPlayer());
+        if (game.getPlayer().getHealth() <= 0) {
+          System.out.println("You have been defeated by the boss.");
+          // TODO: Handle defeat, e.g. disable buttons, show a defeat message
+        }
       }
-
-      // Boss's turn
-      System.out.println("Boss's turn:");
-      boss.attackPlayer(game.getPlayer());
     }
 
-    if (game.getPlayer().getHealth() <= 0) {
-      System.out.println("You have been defeated by the boss.");
-    }
-  }
 
 
 
