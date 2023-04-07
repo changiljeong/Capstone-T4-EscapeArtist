@@ -58,4 +58,8 @@ public class Boss {
       this.health = 0;
     }
   }
+
+  public boolean isActive() {
+    return true;
+  }
 }

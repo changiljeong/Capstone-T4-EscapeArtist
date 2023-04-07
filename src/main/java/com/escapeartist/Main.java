@@ -2,6 +2,8 @@ package com.escapeartist;
 
 import com.escapeartist.views.GUI;
 import java.io.IOException;
+import com.escapeartist.util.AudioPlayer;
+
 
 public class Main {
 

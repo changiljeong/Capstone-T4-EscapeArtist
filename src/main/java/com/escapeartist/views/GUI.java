@@ -63,6 +63,9 @@ public class GUI extends JFrame {
     splashScreenPanel.add(splashScreenLabel, BorderLayout.CENTER);
     add(splashScreenPanel, BorderLayout.CENTER);
 
+    //method to initialize the music when game starts
+    
+
     // Create enter key listener for clearing the splash screen
     addKeyListener(new KeyAdapter() {
       public void keyPressed(KeyEvent e) {
@@ -283,17 +286,18 @@ public class GUI extends JFrame {
 
     talkButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        String npcQuestion = game.getNPCQuestion(); // Replace this with a method from your Game class that retrieves the NPC's question
+        String npcQuestion = game.getNPCQuestion();
         com.escapeartist.views.AnswerDialog answerDialog = new com.escapeartist.views.AnswerDialog(GUI.this, npcQuestion);
         answerDialog.setVisible(true);
 
         String playerAnswer = answerDialog.getAnswer();
 
-        String interactionResult = game.talkNPC(playerAnswer);
+        String interactionResult = game.talkNPC(npcQuestion, playerAnswer);
         roomDescription.setText(game.getCurrentRoom().getDescription() + "\nItems in the room: \n" + game.getCurrentRoom().getItems().toString() + "\n\n" + interactionResult);
         setButtonEnabled();
       }
     });
+
 
     pickUpButton.addActionListener(new ActionListener() {
 

@@ -7,6 +7,10 @@ import com.escapeartist.models.Riddle;
 import com.escapeartist.models.Room;
 import com.escapeartist.models.Trivia;
 import com.escapeartist.util.Deserializer;
+import com.escapeartist.util.AudioPlayer;
+import com.escapeartist.models.Boss;
+
+
 import java.util.List;
 import java.util.Random;
 
@@ -14,6 +18,11 @@ public class Game {
   private Room currentRoom;
   private Player player= new Player();
   private NPC npc;
+  private AudioPlayer backgroundMusic;
+  private AudioPlayer bossMusic;
+  private Boss boss;
+
+
 
   private final List<String> triviaRooms = List.of(
       new String[]{"Shinto Exhibit", "Middle Ages Exhibit", "Middle Kingdom Exhibit"});
@@ -36,6 +45,27 @@ public class Game {
     triviaJSON = jsonData.deserializeTrivia();
     riddleJSON = jsonData.deserializeRiddles();
     currentRoom = roomJSON.get(0);
+    boss = new Boss();
+
+    backgroundMusic = new AudioPlayer("soft-piano.wav");
+    bossMusic = new AudioPlayer("boss_music.wav");
+    backgroundMusic.play();
+  }
+
+  private boolean isBossInCurrentRoom() {
+    return currentRoom.getName().equals(getCurrentRoom());
+  }
+
+  public void bossEnters() {
+    backgroundMusic.stop();
+    bossMusic.play();
+  }
+
+  public void checkForBoss() {
+    if (isBossInCurrentRoom() && !boss.isActive()) {
+      boss.setActive(true);
+      bossEnters();
+    }
   }
 
   public void moveNorth() {
@@ -49,6 +79,7 @@ public class Game {
     } else{
       System.out.println("You cannot go that way.");
     }
+    checkForBoss();
   }
 
   public void moveSouth() {
@@ -62,6 +93,7 @@ public class Game {
     } else{
       System.out.println("You cannot go that way.");
     }
+    checkForBoss();
   }
 
   public void moveEast() {
@@ -75,6 +107,7 @@ public class Game {
     } else{
       System.out.println("You cannot go that way.");
     }
+    checkForBoss();
   }
 
   public void moveWest() {
@@ -88,22 +121,82 @@ public class Game {
     } else{
       System.out.println("You cannot go that way.");
     }
+    checkForBoss();
   }
 
-  public String talkNPC(String playerAnswer){
-    if(!currentRoom.getNpc().isEmpty()){
-      if(triviaRooms.contains(currentRoom.getName())){
-        System.out.println("answer my trivia question and you will get a key!");
-        askTrivia();
-      } else if(riddleRooms.contains(currentRoom.getName())){
-        System.out.println("solve my riddle and you will get a key!");
-        askRiddle();
+  public String getNPCQuestion() {
+    String question = "";
+    if (!currentRoom.getNpc().isEmpty()) {
+      if (triviaRooms.contains(currentRoom.getName())) {
+        question = getTriviaQuestion();
+      } else if (riddleRooms.contains(currentRoom.getName())) {
+        question = getRiddleQuestion();
       }
-    } else{
-      System.out.println("No NPC to talk to in this room.");
+    } else {
+      question = "No NPC to talk to in this room.";
     }
-    return playerAnswer;
+    return question;
   }
+
+  public String talkNPC(String question, String playerAnswer) {
+    String result = "";
+    if (!currentRoom.getNpc().isEmpty()) {
+      if (triviaRooms.contains(currentRoom.getName())) {
+        result = handleTriviaAnswer(question, playerAnswer);
+      } else if (riddleRooms.contains(currentRoom.getName())) {
+        result = handleRiddleAnswer(question, playerAnswer);
+      }
+    } else {
+      result = "No NPC to talk to in this room.";
+    }
+    return result;
+  }
+
+
+  public String handleTriviaAnswer(String question, String playerAnswer) {
+    Trivia trivia = triviaJSON.stream()
+        .filter(t -> t.getQuestion().equals(question))
+        .findFirst()
+        .orElse(null);
+
+    if (trivia != null && playerAnswer.equalsIgnoreCase(trivia.getAnswer())) {
+      currentRoom.addKey();
+      currentRoom.getNpc().remove(currentRoom.getNpc().get(0));
+      triviaJSON.remove(trivia);
+      return "Correct! A key drops to the ground as the NPC begins to disappear.";
+    } else {
+      return "Incorrect. You will have to try again.";
+    }
+  }
+
+  public String handleRiddleAnswer(String question, String playerAnswer) {
+    Riddle riddle = riddleJSON.stream()
+        .filter(r -> r.getRiddle().equals(question))
+        .findFirst()
+        .orElse(null);
+
+    if (riddle != null && playerAnswer.equalsIgnoreCase(riddle.getAnswer())) {
+      currentRoom.addKey();
+      currentRoom.getNpc().remove(currentRoom.getNpc().get(0));
+      riddleJSON.remove(riddle);
+      return "Correct! A key drops to the ground as the NPC begins to disappear.";
+    } else {
+      return "Incorrect. You will have to try again.";
+    }
+  }
+
+  public String getTriviaQuestion() {
+    Trivia trivia = new Trivia();
+    trivia = trivia.getQuestion(triviaJSON);
+    return trivia.getQuestion();
+  }
+
+  public String getRiddleQuestion() {
+    Riddle riddle = new Riddle();
+    riddle = riddle.getRiddle(riddleJSON);
+    return riddle.getRiddle();
+  }
+
 
   public void fightNPC(){
     if(!currentRoom.getNpc().isEmpty()){
@@ -144,44 +237,43 @@ public class Game {
     }
   }
 
-  public String getNPCQuestion() {
-    // Return the NPC's question
-    return null;
-  }
 
-  public void askRiddle(){
+  public boolean askRiddle(String playerAnswer){
     Riddle riddle = new Riddle();
     riddle = riddle.getRiddle(riddleJSON);
     System.out.println(riddle.getRiddle());
-    String userInput = "testing- REMOVE THIS WHEN YOU FIGURE OUT INPUT";
-    if(userInput.equalsIgnoreCase(riddle.getAnswer())){
+    if(playerAnswer.equalsIgnoreCase(riddle.getAnswer())){
       System.out.println("Correct!");
       System.out.println("A key drops to the ground as the " + npc.getName() + " begins to disappear.");
       currentRoom.addKey();
       System.out.println("The final boss has trouble hitting chain mail armor.....");
       currentRoom.setNpc(null);
       riddleJSON.remove(riddle);
+      return true;
     } else{
       System.out.println("Incorrect. You will have to try again.");
+      return false;
     }
   }
 
-  public void askTrivia(){
+  public boolean askTrivia(String playerAnswer){
     Trivia trivia = new Trivia();
     trivia = trivia.getQuestion(triviaJSON);
     System.out.println(trivia.getQuestion());
-    String userInput = "testing- REMOVE THIS WHEN YOU FIGURE OUT INPUT";
-    if(userInput.equalsIgnoreCase(trivia.getAnswer())){
+    if(playerAnswer.equalsIgnoreCase(trivia.getAnswer())){
       System.out.println("Correct!");
       System.out.println("A key drops to the ground as the " + npc.getName() + " begins to disappear.");
       currentRoom.addKey();
       System.out.println("The final boss has trouble dodging the scimitar.....");
       currentRoom.setNpc(null);
       triviaJSON.remove(trivia);
+      return true;
     } else{
       System.out.println("Incorrect. You will have to try again.");
+      return false;
     }
   }
+
 
   public void pickUpItem(){
     if(currentRoom.getItems().isEmpty()){
