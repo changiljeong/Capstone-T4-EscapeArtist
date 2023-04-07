@@ -21,15 +21,19 @@ public class Room {
     @SerializedName("items")
     private List<Item> items;
 
+    @SerializedName("chests")
+    private List<Chest> chests;
+
     @SerializedName("spiritImage")
     private String spiritImage;
 
-    public Room(String name, String description, Map<String, String> exits, List<NPC> npcs, List<Item> items) {
+    public Room(String name, String description, Map<String, String> exits, List<NPC> npcs, List<Item> items, List<Chest> chests) {
         this.name = name;
         this.description = description;
         this.exits = exits;
         this.npcs = npcs;
         this.items = items;
+        this.chests = chests;
     }
 
     public String getName() {
@@ -74,6 +78,14 @@ public class Room {
     public void addKey(){
         Item key = new Item(1,"Key", "A small brass key.", "key", false);
         items.add(0, key);
+    }
+
+    public List<Chest> getChests() {
+        return chests;
+    }
+
+    public void setChests(List<Chest> chests) {
+        this.chests = chests;
     }
 
     public void removeItem(Item item){

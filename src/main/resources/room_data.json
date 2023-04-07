@@ -16,6 +16,7 @@
         "type" : "map",
         "equable": false
       }],
+      "chests": [],
       "spiritImage": "/museum_lobby.png"
     },
     {
@@ -53,6 +54,7 @@
       },
       "npcs": [],
       "items": [],
+      "chests": [],
       "spiritImage": "/dark_ages.png"
     },
     {
@@ -66,6 +68,7 @@
       },
       "npcs": [],
       "items": [],
+      "chests": [],
       "spiritImage": "/koto.png"
     },
     {
@@ -79,6 +82,7 @@
       },
       "npcs": [],
       "items": [],
+      "chests": [],
       "spiritImage": "/homeopathy_room.png"
     },
     {
@@ -91,25 +95,22 @@
         "east": "Shinto Exhibit"
       },
       "npcs": [],
-      "items": [{
-        "value": 1,
-        "name": "Left Potion Chest",
-        "description": "A chest with a heavy lock on the lid.",
-        "type": "potion chest",
-        "equable": false
-      },{
-        "value": 1,
-        "name": "Middle Potion Chest",
-        "description": "A chest with a heavy lock on the lid.",
-        "type": "potion chest",
-        "equable": false
-      },{
-        "value": 1,
-        "name": "Right Potion Chest",
-        "description": "A chest with a heavy lock on the lid.",
-        "type": "potion chest",
-        "equable": false
-      }],
+      "items": [],
+      "chests": [
+        {
+          "name": "Left Potion Chest",
+          "description": "A chest with a heavy lock on the lid.",
+          "opened": false
+        },{
+          "name": "Middle Potion Chest",
+          "description": "A chest with a heavy lock on the lid.",
+          "opened": false
+        },{
+          "name": "Right Potion Chest",
+          "description": "A chest with a heavy lock on the lid.",
+          "opened": false
+        }
+      ],
       "spiritImage": "/homeopathy_room.png"
     },
     {
@@ -126,6 +127,7 @@
         "attackPower": 10,
         "defense": 10}],
       "items": [],
+      "chests": [],
       "spiritImage": "/middle_kingdom.png"
     },
     {
@@ -143,6 +145,7 @@
         "attackPower": 10,
         "defense": 10}],
       "items": [],
+      "chests": [],
       "spiritImage": "/middle_ages.png"
     },
     {
@@ -155,6 +158,7 @@
       },
       "npcs": [],
       "items": [],
+      "chests": [],
       "spiritImage": "/shinto_exhibit.png"
     },
     {
@@ -168,6 +172,7 @@
       },
       "npcs": [],
       "items": [],
+      "chests": [],
       "spiritImage": "/weapons_exhibit.png"
     },
     {
@@ -180,27 +185,22 @@
         "east": "Gendaito Exhibit"
       },
       "npcs": [],
-      "items": [
+      "items": [],
+      "chests": [
         {
-          "value": 1,
-          "name": "Left Weapons Chest",
+          "name": "Left Weapon Chest",
           "description": "A chest with a heavy lock on the lid.",
-          "type": "weapon chest",
-          "equable": false
-        },
-        {
-          "value": 1,
-          "name": "Middle Weapons Chest",
-          "description": "A chest with a heavy lock on the lid.",
-          "type": "weapon chest",
-          "equable": false
+          "opened": false
         },{
-          "value": 1,
-          "name": "Right Weapons Chest",
+          "name": "Middle Weapon Chest",
           "description": "A chest with a heavy lock on the lid.",
-          "type": "weapon chest",
-          "equable": false
-        }],
+          "opened": false
+        },{
+          "name": "Right Weapon Chest",
+          "description": "A chest with a heavy lock on the lid.",
+          "opened": false
+        }
+      ],
       "spiritImage": "/weapons_exhibit.png"
     },
     {
@@ -213,6 +213,7 @@
       },
       "npcs": [],
       "items": [],
+      "chests": [],
       "spiritImage": "/new_kingdom.png"
     },
     {
@@ -226,6 +227,7 @@
       },
       "npcs": [],
       "items": [],
+      "chests": [],
       "spiritImage": "/renaissance_age.png"
     },
     {
@@ -242,6 +244,7 @@
         "attackPower": 10,
         "defense": 10}],
       "items": [],
+      "chests": [],
       "spiritImage": "/samurai_empire.png"
     },
     {
@@ -255,6 +258,7 @@
       },
       "npcs": [],
       "items": [],
+      "chests": [],
       "spiritImage": "/armor_exhibit.png"
     },
     {
@@ -268,6 +272,7 @@
         "attackPower": 10,
         "defense": 10}],
       "items": [],
+      "chests": [],
       "spiritImage": "/boss_room.png"
     },
     {
@@ -281,25 +286,20 @@
         "health": 20,
         "attackPower": 10,
         "defense": 10}],
-      "items": [
+      "items": [],
+      "chests": [
         {
-          "value": 1,
           "name": "Left Armor Chest",
           "description": "A chest with a heavy lock on the lid.",
-          "type": "armor chest",
-          "equable": false
+          "opened": false
         },{
-          "value": 1,
           "name": "Middle Armor Chest",
           "description": "A chest with a heavy lock on the lid.",
-          "type": "armor chest",
-          "equable": false
+          "opened": false
         },{
-          "value": 1,
           "name": "Right Armor Chest",
           "description": "A chest with a heavy lock on the lid.",
-          "type": "armor chest",
-          "equable": false
+          "opened": false
         }
       ]
     }

@@ -51,6 +51,8 @@ public class GUI extends JFrame {
   private JButton useButton;
   private JButton equipButton;
 
+  private JFrame mapFrame;
+
   public GUI() {
     game = new Game();
 
@@ -341,13 +343,51 @@ public class GUI extends JFrame {
     useButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         String selectedItem = inventoryList.getSelectedValue();
-        if(selectedItem != null){
-          for(Item item : game.getPlayer().getInventory()){
-            if(item.getType().equalsIgnoreCase("map")){
-              showMap();
-            }
-          }
+        if (selectedItem == null) {
+//          JOptionPane.showMessageDialog(this, "Please select an item to use.");
+          return;
         }
+        Item itemToUse = null;
+        for(Item item : game.getPlayer().getInventory()){
+          if(item.getName().equalsIgnoreCase(selectedItem));
+          itemToUse=item;
+        }
+
+        switch (itemToUse.getType()) {
+          case "weapon":
+            break;
+          case "key":
+            if(game.getChestRooms().contains(game.getCurrentRoom().getName())){
+              openChest();
+              game.getPlayer().getInventory().remove(itemToUse);
+              game.getPlayer().getInventory().remove(itemToUse);
+              DefaultListModel<String> listModel = (DefaultListModel<String>) inventoryList.getModel();
+              listModel.removeElement(itemToUse.getName());
+              setButtonEnabled();
+              break;
+            }
+            else{
+              System.out.println("No effect");
+            }
+          case "armor":
+            break;
+          case "heal":
+            System.out.println("You used the " + itemToUse.getName() + ".");
+            game.getPlayer().setHealth(itemToUse.getValue()+game.getPlayer().getHealth());
+            game.getPlayer().getInventory().remove(itemToUse);
+            DefaultListModel<String> listModel = (DefaultListModel<String>) inventoryList.getModel();
+            listModel.removeElement(itemToUse.getName());
+            setButtonEnabled();
+            break;
+          case "map":
+            System.out.println( "You used the " + itemToUse.getName() + ".");
+            showMap();
+            break;
+          default:
+            System.out.println("You cannot use this item.");
+            break;
+        }
+        setButtonEnabled();
       }
     });
 
@@ -397,11 +437,11 @@ public class GUI extends JFrame {
     countdownLabel.setText(String.format("Time remaining: %02d:%02d", minutes, seconds));
   }
 
-  private void Map() {
+  private JFrame showMap() {
     String location = game.getCurrentRoom().getName();
 
 // Create a new JFrame for the child window
-    JFrame mapFrame = new JFrame("Map of " + location);
+    mapFrame = new JFrame("Map of " + location);
     mapFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 // Create the playerMapPanel and add it to the child window
@@ -414,7 +454,105 @@ public class GUI extends JFrame {
 // Set the size and make the child window visible
     mapFrame.setSize(480, 780);
     mapFrame.setVisible(true);
+
+    return mapFrame;
   }
+
+  private void openChest(){
+
+    if(game.getChestRooms().contains(game.getCurrentRoom().getName())){
+      JFrame helpFrame = new JFrame("Open Chest");
+
+      // Add buttons and their associated logic to the help popup window
+      JPanel openChestButtonsPanel = new JPanel();
+
+      JButton leftChest = new JButton("Open " + game.getCurrentRoom().getChests().get(0).getName() + "?");
+      leftChest.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+          game.getCurrentRoom().getChests().get(0).setOpened(true);
+          if(game.getCurrentRoom().getName().equalsIgnoreCase("weapon exhibit")){
+            Item scimitar = new Item(10, "Scimitar", "A curved sword.", "weapon", true);
+            game.getCurrentRoom().getItems().add(scimitar);
+            setButtonEnabled();
+          }else if(game.getCurrentRoom().getName().equalsIgnoreCase("armor exhibit")){
+            Item chainMail = new Item(10, "Chainmail", "Interlocking rings that block attacks.", "armor", true);
+            game.getCurrentRoom().getItems().add(chainMail);
+            setButtonEnabled();
+          }else if(game.getCurrentRoom().getName().equalsIgnoreCase("Homeopathy Exhibit")){
+            Item largePotion = new Item(30, "Large Potion", "A potion to heal health", "heal", false);
+            game.getCurrentRoom().getItems().add(largePotion);
+            setButtonEnabled();
+          }
+          JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(leftChest);
+          frame.dispose();
+        }
+      });
+
+      JButton middleChest = new JButton("Open " + game.getCurrentRoom().getChests().get(1).getName() + "?");
+      middleChest.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+          game.getCurrentRoom().getChests().get(1).setOpened(true);
+          if(game.getCurrentRoom().getName().equalsIgnoreCase("weapon exhibit")){
+            Item katana = new Item(15, "Katana", "An ancient sword.", "weapon", true);
+            game.getCurrentRoom().getItems().add(katana);
+            setButtonEnabled();
+          }else if(game.getCurrentRoom().getName().equalsIgnoreCase("armor exhibit")) {
+            Item yori = new Item(20, "Yori",
+                "Elaborate woven cloth meant to give the user ease of movement", "armor", true);
+            game.getCurrentRoom().getItems().add(yori);
+            setButtonEnabled();
+          }else if(game.getCurrentRoom().getName().equalsIgnoreCase("Homeopathy Exhibit")){
+            Item smallPotion = new Item(5, "Small Potion", "A potion to heal health", "heal", false);
+            game.getCurrentRoom().getItems().add(smallPotion);
+            setButtonEnabled();
+          }
+          JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(middleChest);
+          frame.dispose();
+        }
+      });
+
+      JButton rightChest = new JButton("Open " + game.getCurrentRoom().getChests().get(2).getName() + "?");
+      rightChest.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+          game.getCurrentRoom().getChests().get(2).setOpened(true);
+          if(game.getCurrentRoom().getName().equalsIgnoreCase("weapon exhibit")){
+            Item longsword = new Item(20, "Longsword", "A straight blade from ancient times.", "weapon", true);
+            game.getCurrentRoom().getItems().add(longsword);
+            setButtonEnabled();
+          }else if(game.getCurrentRoom().getName().equalsIgnoreCase("armor exhibit")) {
+            Item plateArmor = new Item(15, "Plate Armor",
+                "Heavy and thick plates meant to deflect away blows.", "armor", true);
+            game.getCurrentRoom().getItems().add(plateArmor);
+            setButtonEnabled();
+          }else if(game.getCurrentRoom().getName().equalsIgnoreCase("Homeopathy Exhibit")){
+            Item potion = new Item(20, "Potion", "A potion to heal health", "heal", false);
+            game.getCurrentRoom().getItems().add(potion);
+            setButtonEnabled();
+          }
+          JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rightChest);
+          frame.dispose();
+        }
+      });
+
+      openChestButtonsPanel.add(leftChest);
+      openChestButtonsPanel.add(middleChest);
+      openChestButtonsPanel.add(rightChest);
+
+      leftChest.setEnabled(!game.getCurrentRoom().getChests().get(0).getOpened());
+      middleChest.setEnabled(!game.getCurrentRoom().getChests().get(1).getOpened());
+      rightChest.setEnabled(!game.getCurrentRoom().getChests().get(2).getOpened());
+
+      helpFrame.add(openChestButtonsPanel, BorderLayout.CENTER);
+
+
+      helpFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+      helpFrame.setSize(400, 300);
+      helpFrame.setVisible(true);
+    }else{
+      System.out.println("cannot use key in this room.");
+    }
+  }
+
 
   private void fightMainBoss() {
     // Find the boss room
@@ -470,21 +608,6 @@ public class GUI extends JFrame {
   }
 
 
-  private void showMap() {
-    String location = game.getCurrentRoom().getName();
-
-    JFrame mapFrame = new JFrame("Map of " + location);
-    mapFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-    JPanel playerMapPanel = new JPanel(new BorderLayout());
-    ImageIcon playerMap = new ImageIcon(getClass().getResource("/" + location + ".png"));
-    JLabel playerMapLabel = new JLabel(playerMap);
-    playerMapPanel.add(playerMapLabel, BorderLayout.CENTER);
-    mapFrame.add(playerMapPanel);
-
-    mapFrame.setSize(480, 780);
-    mapFrame.setVisible(true);
-  }
 
   private void showHelpWindow() {
     JFrame helpFrame = new JFrame("Help");
@@ -539,8 +662,10 @@ public class GUI extends JFrame {
 
     helpFrame.add(helpButtonsPanel, BorderLayout.SOUTH);
 
+
     helpFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     helpFrame.setSize(400, 300);
     helpFrame.setVisible(true);
   }
+
 }

@@ -229,13 +229,6 @@ public class Game {
     }
   }
 
-  public void openChest(){
-    if(chestRooms.contains(currentRoom.getName())){
-      System.out.println("Chest room");
-    }else{
-      System.out.println("No chests in this room");
-    }
-  }
 
 
   public boolean askRiddle(String playerAnswer){
@@ -300,4 +293,8 @@ public class Game {
   public List<Room> getRoomJSON() {
     return roomJSON;
   }
+
+  public List<String> getChestRooms() {
+    return chestRooms;
   }
+}
