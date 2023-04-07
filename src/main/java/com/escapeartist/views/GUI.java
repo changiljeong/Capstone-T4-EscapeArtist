@@ -22,6 +22,7 @@ import java.awt.event.*;
 
 public class GUI extends JFrame {
 
+  private static JTextArea gameTextDisplayArea;
   private JPanel buttonPanel;
   private JButton northButton;
   private JButton eastButton;
@@ -179,7 +180,6 @@ public class GUI extends JFrame {
     sidePanel.setPreferredSize(new Dimension(200, sidePanel.getPreferredSize().height));
     add(sidePanel, BorderLayout.EAST);
 
-    JPanel textPanel = new JPanel();
 
     JPanel topRightPanel = new JPanel(new BorderLayout());
     topRightPanel.add(sidePanel, BorderLayout.SOUTH);
@@ -194,24 +194,18 @@ public class GUI extends JFrame {
 
     topRightPanel.add(textPanel, BorderLayout.NORTH);
 
-    inputField = new JTextField(10);
-    Dimension currentPreferredSize = inputField.getPreferredSize();
-    Dimension newPreferredSize = new Dimension(currentPreferredSize.width * 3, currentPreferredSize.height * 2); // Change the multiplier for the desired height
-    inputField.setPreferredSize(newPreferredSize);
-    inputField.setMaximumSize(newPreferredSize);
-    inputField.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        String input = inputField.getText();
-        inputField.setText("");
 
-      }
-    });
-    textPanel.add(inputField);
+    //Text area that the game output will append to
+    gameTextDisplayArea = new JTextArea(15, 40); // Set the rows and columns for the JTextArea
+    gameTextDisplayArea.setEditable(false); // Set the JTextArea to be non-editable
+    textPanel.add(gameTextDisplayArea); // Add the JTextArea to the panel
+    gameTextDisplayArea.setLineWrap(true);
+    gameTextDisplayArea.setWrapStyleWord(true);
+    gameTextDisplayArea.setText("Items in room: \n" + game.getCurrentRoom().getItems());
+
 
     topRightPanel.add(textPanel, BorderLayout.NORTH);
 
-
-    textPanel.add(inputField);
 
     topRightPanel.add(textPanel, BorderLayout.NORTH);
 
@@ -240,9 +234,8 @@ public class GUI extends JFrame {
     northButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         game.moveNorth();
-        roomDescription.setText(game.getCurrentRoom().getDescription() + "\nItems in the room: \n"
-            + game.getCurrentRoom().getItems().toString());
         textArea.setText(game.getCurrentRoom().getDescription());
+        gameTextDisplayArea.setText("Items in room: \n" + game.getCurrentRoom().getItems()+ "\n\nNPCs in the room:\n" + game.getCurrentRoom().getNpc().get(0).getName()+ "\n");
         setButtonEnabled();
       }
     });
@@ -250,9 +243,8 @@ public class GUI extends JFrame {
     southButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         game.moveSouth();
-        roomDescription.setText(game.getCurrentRoom().getDescription() + "\nItems in the room: \n"
-            + game.getCurrentRoom().getItems().toString());
         textArea.setText(game.getCurrentRoom().getDescription());
+        gameTextDisplayArea.setText("Items in room: \n" + game.getCurrentRoom().getItems()+ "\n\nNPCs in the room:\n" + game.getCurrentRoom().getNpc().get(0).getName()+ "\n");
         setButtonEnabled();
       }
     });
@@ -261,9 +253,8 @@ public class GUI extends JFrame {
     eastButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         game.moveEast();
-        roomDescription.setText(game.getCurrentRoom().getDescription() + "\nItems in the room: \n"
-            + game.getCurrentRoom().getItems().toString());
         textArea.setText(game.getCurrentRoom().getDescription());
+        gameTextDisplayArea.setText("Items in room: \n" + game.getCurrentRoom().getItems()+ "\n\nNPCs in the room:\n" + game.getCurrentRoom().getNpc().get(0).getName()+ "\n");
         setButtonEnabled();
       }
     });
@@ -271,9 +262,8 @@ public class GUI extends JFrame {
     westButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         game.moveWest();
-        roomDescription.setText(game.getCurrentRoom().getDescription() + "\nItems in the room: \n"
-            + game.getCurrentRoom().getItems().toString());
         textArea.setText(game.getCurrentRoom().getDescription());
+        gameTextDisplayArea.setText("Items in room: \n" + game.getCurrentRoom().getItems()+ "\n\nNPCs in the room:\n" + game.getCurrentRoom().getNpc().get(0).getName() + "\n");
         setButtonEnabled();
       }
     });
@@ -296,6 +286,7 @@ public class GUI extends JFrame {
 
         String interactionResult = game.talkNPC(npcQuestion, playerAnswer);
         roomDescription.setText(game.getCurrentRoom().getDescription() + "\nItems in the room: \n" + game.getCurrentRoom().getItems().toString() + "\n\n" + interactionResult);
+        gameTextDisplayArea.append(interactionResult + "\n");
         setButtonEnabled();
       }
     });
@@ -321,6 +312,7 @@ public class GUI extends JFrame {
             String selectedItem = (String) itemsComboBox.getSelectedItem();
             inventoryModel.addElement(selectedItem);
             game.pickUpItem();
+            gameTextDisplayArea.append("You picked up the " + selectedItem + "\n");
             setButtonEnabled();
             pickUpFrame.dispose();
           }
@@ -336,6 +328,7 @@ public class GUI extends JFrame {
         String selectedItem = inventoryList.getSelectedValue();
         if (selectedItem != null) {
           game.getPlayer().setEquippedItem(selectedItem);
+          gameTextDisplayArea.append("You equip the " + selectedItem + "\n");
         }
       }
     });
@@ -355,6 +348,7 @@ public class GUI extends JFrame {
 
         switch (itemToUse.getType()) {
           case "weapon":
+            gameTextDisplayArea.append("You try to use the " + itemToUse.getName() + ". It has no effect.\n");
             break;
           case "key":
             if(game.getChestRooms().contains(game.getCurrentRoom().getName())){
@@ -370,9 +364,10 @@ public class GUI extends JFrame {
               System.out.println("No effect");
             }
           case "armor":
+            gameTextDisplayArea.append("You try to use the " + itemToUse.getName() + ". It has no effect.\n");
             break;
           case "heal":
-            System.out.println("You used the " + itemToUse.getName() + ".");
+            gameTextDisplayArea.append("You used the " + itemToUse.getName() + ".\n");
             game.getPlayer().setHealth(itemToUse.getValue()+game.getPlayer().getHealth());
             game.getPlayer().getInventory().remove(itemToUse);
             DefaultListModel<String> listModel = (DefaultListModel<String>) inventoryList.getModel();
@@ -380,13 +375,13 @@ public class GUI extends JFrame {
             setButtonEnabled();
             break;
           case "map":
-            System.out.println( "You used the " + itemToUse.getName() + ".");
             showMap();
             break;
           default:
-            System.out.println("You cannot use this item.");
+            gameTextDisplayArea.append("You cannot use this item.\n");
             break;
         }
+        inventoryList.clearSelection();
         setButtonEnabled();
       }
     });
@@ -470,17 +465,20 @@ public class GUI extends JFrame {
       leftChest.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           game.getCurrentRoom().getChests().get(0).setOpened(true);
-          if(game.getCurrentRoom().getName().equalsIgnoreCase("weapon exhibit")){
+          if(game.getCurrentRoom().getName().equalsIgnoreCase("weapons exhibit")){
             Item scimitar = new Item(10, "Scimitar", "A curved sword.", "weapon", true);
             game.getCurrentRoom().getItems().add(scimitar);
+            gameTextDisplayArea.append("A weapon emerges from the chest, a Scimitar!\n");
             setButtonEnabled();
           }else if(game.getCurrentRoom().getName().equalsIgnoreCase("armor exhibit")){
             Item chainMail = new Item(10, "Chainmail", "Interlocking rings that block attacks.", "armor", true);
             game.getCurrentRoom().getItems().add(chainMail);
+            gameTextDisplayArea.append("Armor emerges from the chest, its Chainmail!\n");
             setButtonEnabled();
           }else if(game.getCurrentRoom().getName().equalsIgnoreCase("Homeopathy Exhibit")){
             Item largePotion = new Item(30, "Large Potion", "A potion to heal health", "heal", false);
             game.getCurrentRoom().getItems().add(largePotion);
+            gameTextDisplayArea.append("A potion emerges from the chest, its a Large Potion!\n");
             setButtonEnabled();
           }
           JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(leftChest);
@@ -492,18 +490,21 @@ public class GUI extends JFrame {
       middleChest.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           game.getCurrentRoom().getChests().get(1).setOpened(true);
-          if(game.getCurrentRoom().getName().equalsIgnoreCase("weapon exhibit")){
+          if(game.getCurrentRoom().getName().equalsIgnoreCase("weapons exhibit")){
             Item katana = new Item(15, "Katana", "An ancient sword.", "weapon", true);
             game.getCurrentRoom().getItems().add(katana);
+            gameTextDisplayArea.append("A weapon emerges from the chest, a Katana!\n");
             setButtonEnabled();
           }else if(game.getCurrentRoom().getName().equalsIgnoreCase("armor exhibit")) {
             Item yori = new Item(20, "Yori",
                 "Elaborate woven cloth meant to give the user ease of movement", "armor", true);
             game.getCurrentRoom().getItems().add(yori);
+            gameTextDisplayArea.append("Armor emerges from the chest, its a Yori!\n");
             setButtonEnabled();
           }else if(game.getCurrentRoom().getName().equalsIgnoreCase("Homeopathy Exhibit")){
             Item smallPotion = new Item(5, "Small Potion", "A potion to heal health", "heal", false);
             game.getCurrentRoom().getItems().add(smallPotion);
+            gameTextDisplayArea.append("A potion emerges from the chest, its a Small Potion!\n");
             setButtonEnabled();
           }
           JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(middleChest);
@@ -515,18 +516,21 @@ public class GUI extends JFrame {
       rightChest.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           game.getCurrentRoom().getChests().get(2).setOpened(true);
-          if(game.getCurrentRoom().getName().equalsIgnoreCase("weapon exhibit")){
+          if(game.getCurrentRoom().getName().equalsIgnoreCase("weapons exhibit")){
             Item longsword = new Item(20, "Longsword", "A straight blade from ancient times.", "weapon", true);
             game.getCurrentRoom().getItems().add(longsword);
+            gameTextDisplayArea.append("A weapon emerges from the chest, a Longsword!\n");
             setButtonEnabled();
           }else if(game.getCurrentRoom().getName().equalsIgnoreCase("armor exhibit")) {
             Item plateArmor = new Item(15, "Plate Armor",
                 "Heavy and thick plates meant to deflect away blows.", "armor", true);
             game.getCurrentRoom().getItems().add(plateArmor);
+            gameTextDisplayArea.append("Armor emerges from the chest, its Plate Armor!\n");
             setButtonEnabled();
           }else if(game.getCurrentRoom().getName().equalsIgnoreCase("Homeopathy Exhibit")){
             Item potion = new Item(20, "Potion", "A potion to heal health", "heal", false);
             game.getCurrentRoom().getItems().add(potion);
+            gameTextDisplayArea.append("A potion emerges from the chest, its a Medium Potion!\n");
             setButtonEnabled();
           }
           JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rightChest);
@@ -549,9 +553,9 @@ public class GUI extends JFrame {
       helpFrame.setSize(400, 300);
       helpFrame.setVisible(true);
     }else{
-      System.out.println("cannot use key in this room.");
+      gameTextDisplayArea.append("Cannot use key in this room.\n");
+      }
     }
-  }
 
 
   private void fightMainBoss() {
@@ -667,4 +671,11 @@ public class GUI extends JFrame {
     helpFrame.setVisible(true);
   }
 
+  public static JTextArea getGameTextDisplayArea() {
+    return gameTextDisplayArea;
+  }
+
+  public void setGameTextDisplayArea(JTextArea gameTextDisplayArea) {
+    this.gameTextDisplayArea = gameTextDisplayArea;
+  }
 }

@@ -9,6 +9,7 @@ import com.escapeartist.models.Trivia;
 import com.escapeartist.util.Deserializer;
 import com.escapeartist.util.AudioPlayer;
 import com.escapeartist.models.Boss;
+import com.escapeartist.views.GUI;
 
 
 import java.util.List;
@@ -206,26 +207,26 @@ public class Game {
       NPC enemy = currentRoom.getNpc().get(0);
 
       if(playerAttackChance>5){
-        System.out.println("You hit " + enemy.getName() + " and do " + player.getAttack() + " points of damage.");
+        GUI.getGameTextDisplayArea().append("You hit " + enemy.getName() + " and do " + player.getAttack() + " points of damage.\n");
         enemy.setHealth(enemy.getHealth()-player.getAttack());
         if(enemy.getHealth()<1){
-          System.out.println("You defeat the " + enemy.getName());
+          GUI.getGameTextDisplayArea().append("You defeat the " + enemy.getName() + "\n");
           currentRoom.getNpc().remove(enemy);
           currentRoom.addKey();
-          System.out.println("A small key drops to the floor as the " + enemy.getName() + "dissolves into thin air.");
+          GUI.getGameTextDisplayArea().append("A small key drops to the floor as the " + enemy.getName() + " dissolves into thin air.\n");
         }
       } else{
-        System.out.println("You try to attack " + enemy.getName() + " but miss!");
+        GUI.getGameTextDisplayArea().append("You try to attack " + enemy.getName() + " but miss!\n");
       }
 
-      if(enemyAttackChance>6 && enemy.getHealth()>0){
-        System.out.println("The " + enemy.getName() + " attacks you back for " + enemy.getAttackPower() + " points of damage.");
-      } else{
-        System.out.println("The " + enemy.getName() + " tries to hit you back but misses.");
+      if(enemyAttackChance>6 & !currentRoom.getNpc().isEmpty()){
+        GUI.getGameTextDisplayArea().append("The " + enemy.getName() + " attacks you back for " + enemy.getAttackPower() + " points of damage.\n");
+      } else if(enemyAttackChance<6 & !currentRoom.getNpc().isEmpty()){
+        GUI.getGameTextDisplayArea().append("The " + enemy.getName() + " tries to hit you back but misses.\n");
       }
 
     } else{
-      System.out.println("No NPC to fight in this room.");
+      GUI.getGameTextDisplayArea().append("No NPC to fight in this room.\n");
     }
   }
 
