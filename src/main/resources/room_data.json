@@ -2,7 +2,7 @@
   "locations": [
     {
       "name": "Museum Lobby",
-      "description": "The lobby of the museum.\nThe main entrance is blocked by debris.\nThere are three exits (North, East, and West)",
+      "description": "You find yourself standing in the grand lobby of the museum, surrounded by towering walls adorned with priceless works of art. The space is dimly lit, with only the faint glow of emergency lights piercing the gloom. You notice that the main entrance is blocked by debris, leaving you with only three exits to choose from. To the north, a narrow hallway leads to the Old Kingdom Exhibit, where the mysteries of the past await. To the east, a grand archway beckons you towards the Dark Ages Exhibit, shrouded in shadow and secrecy. And to the west, a mysterious passage leads to the Koto Exhibit, where the exotic and the unknown hold sway. Which way will you go?",
       "exits": {
         "west": "Old Kingdom Exhibit",
         "north": "Dark Ages Exhibit",
@@ -20,29 +20,31 @@
     },
     {
       "name": "Old Kingdom Exhibit",
-      "description": "You are in the Old Kingdom Exhibit.\nThere are three exits (North, East, and South).",
+      "description": "You are in the Old Kingdom Exhibit, surrounded by ancient relics and artifacts that speak of a bygone era. The air is thick with the scent of aged parchment and dust, and shafts of sunlight filter through the stained-glass windows. As you look around, you notice a shadowy figure lurking in the corner - a ghostly apparition with glowing eyes and a haunting aura. Your heart races as you realize you are not alone in this ancient tomb. There are three exits (North, East, and South).",
       "exits": {
-        "south": "Museum Lobby",
+        "north": "Homeopathy Crossroads",
         "east": "Dark Ages Exhibit",
-        "north": "Homeopathy crossroads"
+        "south": "Museum Lobby"
       },
       "npcs": [{
         "name": "Ghost",
         "health": 20,
         "attackPower": 10,
-        "defense": 10}],
+        "defense": 10,
+        "description": "A ghostly apparition with glowing eyes and a haunting aura. It lingers in the shadows, watching your every move."
+      }],
       "items": [{
-        "value": 1,
         "name": "Map",
-        "description" : "A visitors map...could come in handy.",
-        "type" : "map",
-        "equable": false
+        "description": "A visitor's map of the museum, complete with markings and notes. It could come in handy.",
+        "type": "map",
+        "equippable": false,
+        "value": 1
       }],
       "spiritImage": "/old_kingdom.png"
     },
     {
       "name": "Dark Ages Exhibit",
-      "description": "You are in the Dark Ages Exhibit.\nThere are four exits (North, East, South, and West).",
+      "description": "You step into the Dark Ages Exhibit, a dimly lit room that evokes memories of a bygone era. The air is thick with the scent of musty tomes and ancient leather. The walls are adorned with weapons and armor that speak of past battles and long-forgotten conflicts. As you look around, you notice four exits leading in different directions. To the north, a narrow passageway leads to the Homeopathy Crossroads, shrouded in mystery and intrigue. To the east, the winding corridors of the Old Kingdom Exhibit await, filled with ancient relics and treasures. To the south, the Museum Lobby beckons, offering glimpses of the grandeur of the past. And to the west, a dark and foreboding doorway leads to the unknown depths of the museum. Which path will you choose?",
       "exits": {
         "south": "Museum Lobby",
         "north": "Homeopathy crossroads",
@@ -56,7 +58,7 @@
     {
       "id": 4,
       "name": "Koto Exhibit",
-      "description": "You are in the Koto Exhibit.\nThere are three exits (North, South, and West).",
+      "description": "You enter the Koto Exhibit, a tranquil oasis amidst the chaos of the museum. The soft sound of traditional Japanese music fills the air, transporting you to another time and place. The walls are adorned with intricate paintings and carvings, depicting scenes of life in ancient Japan. As you look around, you notice three exits leading in different directions. To the north, a hidden pathway leads to the Homeopathy Crossroads, promising untold mysteries and wonders. To the south, the grandeur of the Museum Lobby beckons, with its towering walls and priceless art. And to the west, the winding corridors of the Dark Ages Exhibit await, shrouded in shadow and secrecy. Which path will you choose?",
       "exits": {
         "south": "Museum Lobby",
         "north": "Homeopathy crossroads",
@@ -68,7 +70,7 @@
     },
     {
       "name": "Homeopathy crossroads",
-      "description": "a room connecting hallways from the exhibits.",
+      "description": "You find yourself standing in the Homeopathy Crossroads, a nexus point where the paths of the museum intersect. This spacious room connects hallways from various exhibits, each promising a unique and wondrous adventure. The walls are adorned with mystical symbols and arcane writings, hinting at the secrets that may lie beyond. As you look around, you notice four exits leading in different directions. To the north, a narrow pathway leads to the ancient relics of the Old Kingdom Exhibit. To the east, the winding corridors of the Koto Exhibit await, with its tranquil atmosphere and intricate artwork. To the south, the shadowy secrets of the Dark Ages Exhibit beckon, filled with tales of bygone eras. And to the west, the grandeur of the Museum Lobby awaits, with its towering walls and priceless works of art. Which path will you choose?",
       "exits": {
         "south": "Dark Ages Exhibit",
         "north": "Homeopathy Exhibit",
@@ -81,7 +83,7 @@
     },
     {
       "name": "Homeopathy Exhibit",
-      "description": "You are in the Homeopathy Exhibit.\nThere are four exits (North, East, South, and West).",
+      "description": "You find yourself standing in the Homeopathy Exhibit, surrounded by the delicate scents of herbal remedies and natural medicine. The walls are adorned with ancient apothecary tools and traditional remedies, hinting at the secrets of the natural world that lie within. As you look around, you notice four exits leading in different directions. To the south, a doorway leads back to the Homeopathy Crossroads, the nexus point of the museum. To the west, the mysterious corridors of the Middle Kingdom Exhibit await, promising tales of ancient empires and dynasties. To the north, the Middle Ages Exhibit beckons, filled with legends of knights and dragons. And to the east, the tranquil atmosphere of the Shinto Exhibit awaits, with its intricate artwork and spiritual ambiance. As you explore the exhibit, you notice three locked chests, hinting at the valuable treasures that may lie within. Which path will you choose?",
       "exits": {
         "south": "Homeopathy crossroads",
         "west": "Middle Kingdom Exhibit",
@@ -112,7 +114,7 @@
     },
     {
       "name": "Middle Kingdom Exhibit",
-      "description": "You are in the Middle Kingdom Exhibit.\nThere are three exits (North, East, and South).",
+      "description": "You find yourself standing in the heart of the Middle Kingdom Exhibit, surrounded by the majesty of ancient China. The room is adorned with priceless artifacts and treasures, including ancient scrolls and ornate statues. As you look around, you notice three exits leading in different directions. To the south, a doorway leads to the Homeopathy Exhibit, filled with the secrets of natural remedies. To the north, the Weapons Crossroads beckons, promising tales of battles and heroes. And to the east, the Middle Ages Exhibit awaits, with its tales of knights and legends. As you explore the exhibit, you notice a guard stationed at the entrance, watching your every move with a stern gaze. You can feel the weight of their suspicion, and you wonder what secrets they might be hiding. Which path will you choose?",
       "exits": {
         "south": "Homeopathy Exhibit",
         "north": "Weapons crossroads",
@@ -128,7 +130,7 @@
     },
     {
       "name": "Middle Ages Exhibit",
-      "description": "You are in the Middle Ages Exhibit.\nThere are four exits (North, East, South, and West).",
+      "description": "You step into the Middle Ages Exhibit, a dimly lit room that evokes memories of knights, dragons, and medieval castles. The air is thick with the scent of incense, and the sound of Gregorian chants fills the room. The walls are adorned with suits of armor and ancient weapons, hinting at the battles and legends of the past. As you look around, you notice four exits leading in different directions. To the north, a narrow pathway leads to the Homeopathy Crossroads, shrouded in mystery and intrigue. To the east, the winding corridors of the Middle Kingdom Exhibit await, filled with tales of ancient China. To the south, the Museum Lobby beckons, offering glimpses of the grandeur of the past. And to the west, a mysterious passage leads to the unknown depths of the museum. As you explore the exhibit, you notice a knight in full armor, standing guard over the treasures of the past. You can feel the weight of their stare, and you wonder what secrets they might be keeping. Which path will you choose?",
       "exits": {
         "west": "Middle Kingdom Exhibit",
         "north": "Weapons crossroads",
@@ -145,7 +147,7 @@
     },
     {
       "name": "Shinto Exhibit",
-      "description": "You are in the Shinto Exhibit.\nThere are three exits (North, South, and West).",
+      "description": "You step into the Shinto Exhibit, a serene and tranquil room that celebrates the rich spiritual traditions of Japan. The air is thick with the scent of incense and the sound of chanting monks fills the room. The walls are adorned with intricate tapestries and ornate statues, depicting scenes from the ancient tales of Japan. As you look around, you notice three exits leading in different directions. To the north, a hidden passageway leads to the Homeopathy Crossroads, promising untold mysteries and wonders. To the south, the Museum Lobby beckons, with its towering walls and priceless art. And to the west, the winding corridors of the Middle Kingdom Exhibit await, filled with the majesty of ancient China. Which path will you choose?",
       "exits": {
         "west": "Middle Ages Exhibit",
         "north": "Weapons crossroads",
@@ -157,7 +159,7 @@
     },
     {
       "name": "Weapons crossroads",
-      "description": "a room connecting hallways from the exhibits.",
+      "description": "You find yourself standing in the Weapons Crossroads, a room that connects the various exhibits of the museum with tales of battles and warriors. The air is thick with the scent of metal and leather, and the walls are adorned with weapons from around the world, from ancient swords to modern firearms. As you look around, you notice four exits leading in different directions. To the south, the Middle Ages Exhibit beckons, filled with tales of knights and legends. To the north, the Weapons Exhibit promises a deeper dive into the art and science of weaponry. To the east, the Shinto Exhibit awaits, with its intricate tapestries and ornate statues. And to the west, the winding corridors of the Middle Kingdom Exhibit lead to ancient Chinese treasures. Which path will you choose?",
       "exits": {
         "south": "Middle Ages Exhibit",
         "north": "Weapons Exhibit",
@@ -170,7 +172,7 @@
     },
     {
       "name": "Weapons Exhibit",
-      "description": "You are in the Weapons Exhibit.\nThere are four exits (North, East, South, and West).",
+      "description": "You step into the Weapons Exhibit, a room that celebrates the art and science of weaponry from around the world. The air is thick with the scent of metal and gunpowder, and the walls are adorned with weapons of all shapes and sizes, from ancient swords to modern firearms. As you look around, you notice four exits leading in different directions. To the west, the New Kingdom Exhibit awaits, with its tales of pharaohs and pyramids. To the north, the Renaissance Ages Exhibit beckons, filled with the beauty and brilliance of the Italian Renaissance. To the south, the Weapons Crossroads leads to other exhibits with tales of battles and warriors. And to the east, the Gendaito Exhibit awaits, filled with the elegance and precision of Japanese swords. Which path will you choose?\n As you explore the exhibit, you notice three large chests, each intricately decorated and locked tight. You wonder what treasures might be hidden inside. Which path will you choose?",
       "exits": {
         "west": "New Kingdom Exhibit",
         "north": "Renaissance Ages Exhibit",
@@ -203,7 +205,7 @@
     },
     {
       "name": "New Kingdom Exhibit",
-      "description": "You are in the New Kingdom Exhibit.\nThere are three exits (North, East, and South).",
+      "description": "You step into the New Kingdom Exhibit, a room that showcases the wealth and power of the pharaohs of ancient Egypt. The air is thick with the scent of incense and the walls are adorned with hieroglyphics and precious jewels. As you look around, you notice three exits leading in different directions. To the south, the Weapons Exhibit awaits, with its array of weaponry from around the world. To the north, the Armor Crossroads beckons, filled with tales of knights and their protective gear. And to the east, the Renaissance Ages Exhibit awaits, filled with the beauty and brilliance of the Italian Renaissance. Which path will you choose?",
       "exits": {
         "south": "Weapons Exhibit",
         "north": "Armor crossroads",
@@ -215,7 +217,7 @@
     },
     {
       "name": "Renaissance Ages Exhibit",
-      "description": "You are in the Renaissance Ages Exhibit.\nThere are four exits (North, East, South, and West).",
+      "description": "You step into the Renaissance Ages Exhibit, a room that celebrates the beauty and brilliance of the Italian Renaissance. The air is filled with the sounds of lutes and harpsichords, and the walls are adorned with paintings, sculptures, and tapestries from the era. As you look around, you notice four exits leading in different directions. To the north, the Armor Crossroads beckons, filled with tales of knights and their protective gear. To the west, the New Kingdom Exhibit awaits, showcasing the wealth and power of the pharaohs of ancient Egypt. To the south, the Weapons Exhibit awaits, with its array of weaponry from around the world. And to the east, the Gendaito Exhibit awaits, filled with the elegance and precision of Japanese swords. Which path will you choose?",
       "exits": {
         "north": "Armor crossroads",
         "west": "New Kingdom Exhibit",
@@ -228,7 +230,7 @@
     },
     {
       "name": "Gendaito Exhibit",
-      "description": "You are in the Gendaito Exhibit.\nThere are three exits (North, South, and West).",
+      "description": "You step into the Gendaito Exhibit, a room that showcases the elegance and precision of Japanese swords. The air is filled with the sounds of koto and shakuhachi, and the walls are adorned with beautifully crafted blades and fittings. As you look around, you notice three exits leading in different directions. To the west, the Renaissance Ages Exhibit awaits, filled with the beauty and brilliance of the Italian Renaissance. To the north, the Armor Crossroads beckons, filled with tales of knights and their protective gear. And to the south, the Weapons Exhibit awaits, with its array of weaponry from around the world.\n As you take in the beauty of the exhibit, you notice a samurai standing in the corner, studying a particularly impressive blade. He nods at you as you approach, but continues his examination without interruption. Which path will you choose?",
       "exits": {
         "west": "Renaissance Ages Exhibit",
         "north": "Armor crossroads",
@@ -244,7 +246,7 @@
     },
     {
       "name": "Armor crossroads",
-      "description": "a room connecting hallways from the exhibits.",
+      "description": "You find yourself at the Armor crossroads, a room that connects the various exhibits of the museum. The air is filled with the scent of polished metal and leather, and the walls are adorned with suits of armor from different eras and cultures. As you look around, you notice four exits leading in different directions. To the south, the Renaissance Ages Exhibit awaits, filled with the beauty and brilliance of the Italian Renaissance. To the north, the Armor Exhibit beckons, showcasing various types of armor from different periods of history. To the east, the Gendaito Exhibit awaits, filled with the elegance and precision of Japanese swords. And to the west, the New Kingdom Exhibit awaits, showcasing the wealth and power of the pharaohs of ancient Egypt. Which path will you choose?",
       "exits": {
         "south": "Renaissance Ages Exhibit",
         "north": "Armor Exhibit",
@@ -257,7 +259,7 @@
     },
     {
       "name": "Boss Room",
-      "description": "Death is riding a white horse and hell is following close behind.",
+      "description": "You hear a noise behind you and turn around to see the curator charging towards you, his face contorted in anger. You quickly ready yourself for the confrontation, knowing that the fight will be tough but determined to emerge victorious.",
       "exits": {
       },
       "npcs": [{
@@ -270,7 +272,7 @@
     },
     {
       "name": "Armor Exhibit",
-      "description": "You are in the Armor Exhibit.\nThere are three exits (East, South, and West).\nTo the North there are three doorways. (Door 1, Door 2, and Door 3)",
+      "description": "You enter the Armor Exhibit, a dimly lit room filled with suits of armor, shields, and weapons of various eras and cultures. As you take in your surroundings, you notice a mysterious merchant in the corner of the room, standing guard over three locked chests. The air is thick with anticipation, and you can't help but wonder what secrets the chests might hold.",
       "exits": {
         "south": "Armor crossroads"
       },

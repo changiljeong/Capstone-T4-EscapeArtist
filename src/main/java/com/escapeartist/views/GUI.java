@@ -296,10 +296,32 @@ public class GUI extends JFrame {
     });
 
     pickUpButton.addActionListener(new ActionListener() {
+
       public void actionPerformed(ActionEvent e) {
-        inventoryModel.addElement(game.getCurrentRoom().getItems().get(0).getName());
-        game.pickUpItem();
-        setButtonEnabled();
+        JFrame pickUpFrame = new JFrame("Pick Up Item");
+        pickUpFrame.setSize(300, 200);
+        pickUpFrame.setLocationRelativeTo(null);
+        JPanel pickUpPanel = new JPanel();
+        JLabel pickUpLabel = new JLabel("Please select an item to pick up:");
+        pickUpPanel.add(pickUpLabel);
+        JComboBox<String> itemsComboBox = new JComboBox<String>();
+        for (Item item : game.getCurrentRoom().getItems()) {
+          itemsComboBox.addItem(item.getName());
+        }
+        pickUpPanel.add(itemsComboBox);
+        JButton pickUpButton = new JButton("Pick Up");
+        pickUpButton.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent e) {
+            String selectedItem = (String) itemsComboBox.getSelectedItem();
+            inventoryModel.addElement(selectedItem);
+            game.pickUpItem();
+            setButtonEnabled();
+            pickUpFrame.dispose();
+          }
+        });
+        pickUpPanel.add(pickUpButton);
+        pickUpFrame.add(pickUpPanel);
+        pickUpFrame.setVisible(true);
       }
     });
 
