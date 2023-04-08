@@ -2,6 +2,7 @@ package com.escapeartist.views;
 
 import com.escapeartist.controllers.Game;
 import com.escapeartist.models.Boss;
+import com.escapeartist.models.Chest;
 import com.escapeartist.models.Item;
 import com.escapeartist.models.Room;
 import com.google.gson.Gson;
@@ -37,7 +38,6 @@ public class GUI extends JFrame {
   private JButton helpButton;
   private Room bossRoom;
   private JLabel spiritImageLabel;
-  private JTextField inputField;
 
   private boolean musicMuted = false;
 
@@ -139,7 +139,7 @@ public class GUI extends JFrame {
     
     countdownLabel = new JLabel();
     countdownLabel.setFont(new Font("Arial", Font.BOLD, 24));
-    remainingTimeInSeconds = 1 * 60;
+    remainingTimeInSeconds = 1 * 300;
     updateCountdownLabel();
     countdownTimer = new Timer(1000, new ActionListener() {
       public void actionPerformed(ActionEvent e) {
@@ -203,7 +203,7 @@ public class GUI extends JFrame {
     textPanel.add(gameTextDisplayArea); // Add the JTextArea to the panel
     gameTextDisplayArea.setLineWrap(true);
     gameTextDisplayArea.setWrapStyleWord(true);
-    gameTextDisplayArea.setText("Items in room: \n" + game.getCurrentRoom().getItems());
+    gameTextDisplayArea.setText("Items in room: \n" + game.getCurrentRoom().getItems() + "\n");
 
 
     topRightPanel.add(textPanel, BorderLayout.NORTH);
@@ -237,7 +237,24 @@ public class GUI extends JFrame {
       public void actionPerformed(ActionEvent e) {
         game.moveNorth();
         textArea.setText(game.getCurrentRoom().getDescription());
-        gameTextDisplayArea.setText("Items in room: \n" + game.getCurrentRoom().getItems()+ "\n\nNPCs in the room:\n" + game.getCurrentRoom().getNpc().get(0).getName()+ "\n");
+        if(game.getCurrentRoom().getItems().isEmpty()){
+          gameTextDisplayArea.setText("Items in room: \n");
+        }else {
+          gameTextDisplayArea.setText("Items in room: \n" + game.getCurrentRoom().getItems());
+        }
+        if(game.getCurrentRoom().getNpc().isEmpty()){
+          gameTextDisplayArea.append("NPCs in the room: \n");
+        }else{
+          gameTextDisplayArea.append("\n\nNPCs in the room:\n" + game.getCurrentRoom().getNpc().get(0).getName()+ "\n");
+        }
+        if(!game.getCurrentRoom().getChests().isEmpty()){
+          gameTextDisplayArea.append("\n\nUnopened chests in the room: \n");
+          for(Chest chest : game.getCurrentRoom().getChests()){
+            if(!chest.getOpened()) {
+              gameTextDisplayArea.append(chest.getName()+ "\n");
+            }
+          }
+        }
         setButtonEnabled();
       }
     });
@@ -246,7 +263,24 @@ public class GUI extends JFrame {
       public void actionPerformed(ActionEvent e) {
         game.moveSouth();
         textArea.setText(game.getCurrentRoom().getDescription());
-        gameTextDisplayArea.setText("Items in room: \n" + game.getCurrentRoom().getItems()+ "\n\nNPCs in the room:\n" + game.getCurrentRoom().getNpc().get(0).getName()+ "\n");
+        if(game.getCurrentRoom().getItems().isEmpty()){
+          gameTextDisplayArea.setText("Items in room: \n");
+        }else {
+          gameTextDisplayArea.setText("Items in room: \n" + game.getCurrentRoom().getItems());
+        }
+        if(game.getCurrentRoom().getNpc().isEmpty()){
+          gameTextDisplayArea.append("NPCs in the room: \n");
+        }else{
+          gameTextDisplayArea.append("\n\nNPCs in the room:\n" + game.getCurrentRoom().getNpc().get(0).getName()+ "\n");
+        }
+        if(!game.getCurrentRoom().getChests().isEmpty()){
+          gameTextDisplayArea.append("\n\nUnopened chests in the room: \n");
+          for(Chest chest : game.getCurrentRoom().getChests()){
+            if(!chest.getOpened()) {
+              gameTextDisplayArea.append(chest.getName()+ "\n");
+            }
+          }
+        }
         setButtonEnabled();
       }
     });
@@ -256,7 +290,24 @@ public class GUI extends JFrame {
       public void actionPerformed(ActionEvent e) {
         game.moveEast();
         textArea.setText(game.getCurrentRoom().getDescription());
-        gameTextDisplayArea.setText("Items in room: \n" + game.getCurrentRoom().getItems()+ "\n\nNPCs in the room:\n" + game.getCurrentRoom().getNpc().get(0).getName()+ "\n");
+        if(game.getCurrentRoom().getItems().isEmpty()){
+          gameTextDisplayArea.setText("Items in room: \n");
+        }else {
+          gameTextDisplayArea.setText("Items in room: \n" + game.getCurrentRoom().getItems());
+        }
+        if(game.getCurrentRoom().getNpc().isEmpty()){
+          gameTextDisplayArea.append("NPCs in the room: \n");
+        }else{
+          gameTextDisplayArea.append("\n\nNPCs in the room:\n" + game.getCurrentRoom().getNpc().get(0).getName()+ "\n");
+        }
+        if(!game.getCurrentRoom().getChests().isEmpty()){
+          gameTextDisplayArea.append("\n\nUnopened chests in the room: \n");
+          for(Chest chest : game.getCurrentRoom().getChests()){
+            if(!chest.getOpened()) {
+              gameTextDisplayArea.append(chest.getName()+ "\n");
+            }
+          }
+        }
         setButtonEnabled();
       }
     });
@@ -265,7 +316,24 @@ public class GUI extends JFrame {
       public void actionPerformed(ActionEvent e) {
         game.moveWest();
         textArea.setText(game.getCurrentRoom().getDescription());
-        gameTextDisplayArea.setText("Items in room: \n" + game.getCurrentRoom().getItems()+ "\n\nNPCs in the room:\n" + game.getCurrentRoom().getNpc().get(0).getName() + "\n");
+        if(game.getCurrentRoom().getItems().isEmpty()){
+          gameTextDisplayArea.setText("Items in room: \n");
+        }else {
+          gameTextDisplayArea.setText("Items in room: \n" + game.getCurrentRoom().getItems());
+        }
+        if(game.getCurrentRoom().getNpc().isEmpty()){
+          gameTextDisplayArea.append("NPCs in the room: \n");
+        }else{
+          gameTextDisplayArea.append("\n\nNPCs in the room:\n" + game.getCurrentRoom().getNpc().get(0).getName()+ "\n");
+        }
+        if(!game.getCurrentRoom().getChests().isEmpty()){
+          gameTextDisplayArea.append("\n\nUnopened chests in the room: \n");
+          for(Chest chest : game.getCurrentRoom().getChests()){
+            if(!chest.getOpened()) {
+              gameTextDisplayArea.append(chest.getName()+ "\n");
+            }
+        }
+        }
         setButtonEnabled();
       }
     });
@@ -328,10 +396,8 @@ public class GUI extends JFrame {
     equipButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         String selectedItem = inventoryList.getSelectedValue();
-        if (selectedItem != null) {
-          game.getPlayer().setEquippedItem(selectedItem);
-          gameTextDisplayArea.append("You equip the " + selectedItem + "\n");
-        }
+        if (selectedItem != null)
+          gameTextDisplayArea.append((game.getPlayer().setEquippedItem(selectedItem)));
       }
     });
 
@@ -343,11 +409,11 @@ public class GUI extends JFrame {
           return;
         }
         Item itemToUse = null;
-        for(Item item : game.getPlayer().getInventory()){
-          if(item.getName().equalsIgnoreCase(selectedItem));
-          itemToUse=item;
+        for (Item item : game.getPlayer().getInventory()) {
+          if (item.getName().equalsIgnoreCase(selectedItem)){
+          itemToUse = item;
         }
-
+      }
         switch (itemToUse.getType()) {
           case "weapon":
             gameTextDisplayArea.append("You try to use the " + itemToUse.getName() + ". It has no effect.\n");
@@ -383,7 +449,6 @@ public class GUI extends JFrame {
             gameTextDisplayArea.append("You cannot use this item.\n");
             break;
         }
-        inventoryList.clearSelection();
         setButtonEnabled();
       }
     });
@@ -435,24 +500,31 @@ public class GUI extends JFrame {
   }
 
   private JFrame showMap() {
-    String location = game.getCurrentRoom().getName();
+    try {
+      String location = game.getCurrentRoom().getName().toLowerCase(Locale.ROOT);
+      System.out.println(location);
 
-// Create a new JFrame for the child window
-    mapFrame = new JFrame("Map of " + location);
-    mapFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+      // Create a new JFrame for the child window
+      mapFrame = new JFrame("Map of " + location);
+      mapFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-// Create the playerMapPanel and add it to the child window
-    JPanel playerMapPanel = new JPanel(new BorderLayout());
-    ImageIcon playerMap = new ImageIcon(getClass().getResource("/" + location + ".png"));
-    JLabel playerMapLabel = new JLabel(playerMap);
-    playerMapPanel.add(playerMapLabel, BorderLayout.CENTER);
-    mapFrame.add(playerMapPanel);
+      // Create the playerMapPanel and add it to the child window
+      JPanel playerMapPanel = new JPanel(new BorderLayout());
+      InputStream stream = getClass().getResourceAsStream("/" + location + ".png");
+      ImageIcon playerMap = new ImageIcon(ImageIO.read(stream));
+      JLabel playerMapLabel = new JLabel(playerMap);
+      playerMapPanel.add(playerMapLabel, BorderLayout.CENTER);
+      mapFrame.add(playerMapPanel);
 
-// Set the size and make the child window visible
-    mapFrame.setSize(480, 780);
-    mapFrame.setVisible(true);
+      // Set the size and make the child window visible
+      mapFrame.setSize(480, 780);
+      mapFrame.setVisible(true);
 
-    return mapFrame;
+      return mapFrame;
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
   }
 
   private void openChest(){
@@ -574,14 +646,15 @@ public class GUI extends JFrame {
       roomDescription.setText(
           game.getCurrentRoom().getDescription() + "\nThe Boss is very Mad at you! \n"
               + game.getCurrentRoom().getItems().toString());
-      setButtonEnabled();
+      gameTextDisplayArea.append("this is the fighting method");
+      attackButton.setEnabled(true);
       northButton.setEnabled(false);
       eastButton.setEnabled(false);
       westButton.setEnabled(false);
       southButton.setEnabled(false);
       talkButton.setEnabled(false);
       pickUpButton.setEnabled(false);
-      useButton.setEnabled(false);
+      useButton.setEnabled(true);
     } else {
       System.out.println("Boss room not found.");
     }
@@ -589,7 +662,7 @@ public class GUI extends JFrame {
   }
 
   private void bossFight() {
-    Boss boss = new Boss();
+    Boss boss = new Boss(game.getPlayer());
     boss.setActive(true);
 
   }

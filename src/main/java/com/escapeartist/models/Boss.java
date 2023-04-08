@@ -19,7 +19,7 @@ public class Boss {
   private boolean isActive;
   private List<String> taunts;
 
-  public Boss() {
+  public Boss(Player player) {
     this.health = 300;
     this.baseAttack = 30;
     this.baseDefense = 40;

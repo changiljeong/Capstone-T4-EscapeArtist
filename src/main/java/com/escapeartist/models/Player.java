@@ -59,7 +59,7 @@ public class Player {
         this.equippedArmor = equippedArmor;
     }
 
-    public void setEquippedItem(String itemString) {
+    public String setEquippedItem(String itemString) {
         Item itemToEquip = null;
         for (Item item : inventory) {
             if (item.getName().equalsIgnoreCase(itemString)) {
@@ -74,17 +74,19 @@ public class Player {
                 }
                 this.equippedWeapon = itemToEquip;
                 setAttack(getAttack() + getEquippedWeapon().getValue());
+                return itemToEquip.getName()+ " equipped.";
             } else if (itemToEquip.getEquable() && itemToEquip.getType().equalsIgnoreCase("armor")) {
                 if (getEquippedArmor() != null) {
                     setDefense(getDefense() - getEquippedArmor().getValue());
                 }
                 this.equippedArmor = itemToEquip;
                 setDefense(getDefense() + getEquippedArmor().getValue());
+                return itemToEquip.getName()+ " equipped.";
             } else {
-                System.out.println("Cannot equip " + itemToEquip.getName());
+                return "Cannot equip " + itemToEquip.getName();
             }
         } else {
-            System.out.println("Item not found in inventory.");
+            return "Item not found in inventory.";
         }
     }
 

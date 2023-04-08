@@ -46,7 +46,7 @@ public class Game {
     triviaJSON = jsonData.deserializeTrivia();
     riddleJSON = jsonData.deserializeRiddles();
     currentRoom = roomJSON.get(0);
-    boss = new Boss();
+    boss = new Boss(player);
 
     backgroundMusic = new AudioPlayer("background_music.wav");
     bossMusic = new AudioPlayer("boss_music.wav");
