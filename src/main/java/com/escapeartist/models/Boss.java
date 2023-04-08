@@ -20,7 +20,7 @@ public class Boss {
   private List<String> taunts;
 
   public Boss(Player player) {
-    this.health = 300;
+    this.health = 40;
     this.baseAttack = 30;
     this.baseDefense = 40;
     this.attackDamageRange = new int[]{10, 50};
@@ -71,7 +71,6 @@ public class Boss {
       this.health = 0;
     }
   }
-
 
   private void loadTaunts() {
     try {

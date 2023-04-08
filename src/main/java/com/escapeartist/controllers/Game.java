@@ -71,10 +71,10 @@ public class Game {
     }
   }
 
-
   public void bossEnters() {
     checkAndPlayBossMusic();
   }
+
   public void checkForBoss() {
     if (isBossInCurrentRoom() && !boss.isActive()) {
       boss.setActive(true);

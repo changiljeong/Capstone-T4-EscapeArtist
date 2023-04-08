@@ -16,6 +16,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -38,6 +40,7 @@ public class GUI extends JFrame {
   private JButton helpButton;
   private Room bossRoom;
   private JLabel spiritImageLabel;
+  private boolean isFighting = false;
 
   private boolean musicMuted = false;
 
@@ -69,18 +72,18 @@ public class GUI extends JFrame {
 
     //method to initialize the music when game starts
 
-
     // Create enter key listener for clearing the splash screen
     addKeyListener(new KeyAdapter() {
       public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
           remove(splashScreenPanel);
           // Add code for description panel here
-          JTextArea descriptionArea = new JTextArea("Welcome to Escape Artist, the exciting text-based adventure game set in a museum where you'll have to solve riddles, puzzles, and battles to gather resources and prepare for an epic battle against the museum curator.\n"
-              + "\n"
-              + "As you explore the museum, use your wits and strategic thinking to complete each challenge before moving on to the next one. Remember, time is limited! You have only 5 minutes to gather resources, so act quickly and efficiently.\n"
-              + "\n"
-              + "The more resources you gather, the better prepared you'll be for the final battle against the museum curator. With an immersive storyline and intense challenges, Escape Artist is a game that will keep you on the edge of your seat until the very end. Do you have what it takes to gather the resources and defeat the museum curator before time runs out? Play Escape Artist now and find out!");
+          JTextArea descriptionArea = new JTextArea(
+              "Welcome to Escape Artist, the exciting text-based adventure game set in a museum where you'll have to solve riddles, puzzles, and battles to gather resources and prepare for an epic battle against the museum curator.\n"
+                  + "\n"
+                  + "As you explore the museum, use your wits and strategic thinking to complete each challenge before moving on to the next one. Remember, time is limited! You have only 5 minutes to gather resources, so act quickly and efficiently.\n"
+                  + "\n"
+                  + "The more resources you gather, the better prepared you'll be for the final battle against the museum curator. With an immersive storyline and intense challenges, Escape Artist is a game that will keep you on the edge of your seat until the very end. Do you have what it takes to gather the resources and defeat the museum curator before time runs out? Play Escape Artist now and find out!");
           descriptionArea.setEditable(false);
           descriptionArea.setLineWrap(true);
           descriptionArea.setWrapStyleWord(true);
@@ -136,17 +139,19 @@ public class GUI extends JFrame {
     roomDescription.setEditable(false);
 
     JPanel mainContentPanel = new JPanel(new BorderLayout());
-    
+
     countdownLabel = new JLabel();
     countdownLabel.setFont(new Font("Arial", Font.BOLD, 24));
-    remainingTimeInSeconds = 1 * 300;
+    remainingTimeInSeconds = 1 * 30;
     updateCountdownLabel();
     countdownTimer = new Timer(1000, new ActionListener() {
+
       public void actionPerformed(ActionEvent e) {
         remainingTimeInSeconds--;
         updateCountdownLabel();
         if (remainingTimeInSeconds <= 0) {
           countdownTimer.stop();
+          setBossSpiritImage(); // Set the boss spirit image
           JOptionPane.showMessageDialog(GUI.this, "The boss fight has begun! Prepare for battle!",
               "Boss Fight", JOptionPane.WARNING_MESSAGE);
           fightMainBoss();
@@ -155,7 +160,6 @@ public class GUI extends JFrame {
       }
     });
     countdownTimer.start();
-
 
     JPanel countdownPanel = new JPanel(new BorderLayout());
     countdownPanel.add(countdownLabel, BorderLayout.CENTER);
@@ -182,7 +186,6 @@ public class GUI extends JFrame {
     sidePanel.setPreferredSize(new Dimension(200, sidePanel.getPreferredSize().height));
     add(sidePanel, BorderLayout.EAST);
 
-
     JPanel topRightPanel = new JPanel(new BorderLayout());
     topRightPanel.add(sidePanel, BorderLayout.SOUTH);
     textPanel = new JPanel();
@@ -196,7 +199,6 @@ public class GUI extends JFrame {
 
     topRightPanel.add(textPanel, BorderLayout.NORTH);
 
-
     //Text area that the game output will append to
     gameTextDisplayArea = new JTextArea(15, 40); // Set the rows and columns for the JTextArea
     gameTextDisplayArea.setEditable(false); // Set the JTextArea to be non-editable
@@ -205,12 +207,9 @@ public class GUI extends JFrame {
     gameTextDisplayArea.setWrapStyleWord(true);
     gameTextDisplayArea.setText("Items in room: \n" + game.getCurrentRoom().getItems() + "\n");
 
-
     topRightPanel.add(textPanel, BorderLayout.NORTH);
 
-
     topRightPanel.add(textPanel, BorderLayout.NORTH);
-
 
     mainContentPanel.add(topRightPanel, BorderLayout.CENTER);
     spiritImageLabel = new JLabel();
@@ -237,21 +236,22 @@ public class GUI extends JFrame {
       public void actionPerformed(ActionEvent e) {
         game.moveNorth();
         textArea.setText(game.getCurrentRoom().getDescription());
-        if(game.getCurrentRoom().getItems().isEmpty()){
+        if (game.getCurrentRoom().getItems().isEmpty()) {
           gameTextDisplayArea.setText("Items in room: \n");
-        }else {
+        } else {
           gameTextDisplayArea.setText("Items in room: \n" + game.getCurrentRoom().getItems());
         }
-        if(game.getCurrentRoom().getNpc().isEmpty()){
+        if (game.getCurrentRoom().getNpc().isEmpty()) {
           gameTextDisplayArea.append("NPCs in the room: \n");
-        }else{
-          gameTextDisplayArea.append("\n\nNPCs in the room:\n" + game.getCurrentRoom().getNpc().get(0).getName()+ "\n");
+        } else {
+          gameTextDisplayArea.append(
+              "\n\nNPCs in the room:\n" + game.getCurrentRoom().getNpc().get(0).getName() + "\n");
         }
-        if(!game.getCurrentRoom().getChests().isEmpty()){
+        if (!game.getCurrentRoom().getChests().isEmpty()) {
           gameTextDisplayArea.append("\n\nUnopened chests in the room: \n");
-          for(Chest chest : game.getCurrentRoom().getChests()){
-            if(!chest.getOpened()) {
-              gameTextDisplayArea.append(chest.getName()+ "\n");
+          for (Chest chest : game.getCurrentRoom().getChests()) {
+            if (!chest.getOpened()) {
+              gameTextDisplayArea.append(chest.getName() + "\n");
             }
           }
         }
@@ -263,21 +263,22 @@ public class GUI extends JFrame {
       public void actionPerformed(ActionEvent e) {
         game.moveSouth();
         textArea.setText(game.getCurrentRoom().getDescription());
-        if(game.getCurrentRoom().getItems().isEmpty()){
+        if (game.getCurrentRoom().getItems().isEmpty()) {
           gameTextDisplayArea.setText("Items in room: \n");
-        }else {
+        } else {
           gameTextDisplayArea.setText("Items in room: \n" + game.getCurrentRoom().getItems());
         }
-        if(game.getCurrentRoom().getNpc().isEmpty()){
+        if (game.getCurrentRoom().getNpc().isEmpty()) {
           gameTextDisplayArea.append("NPCs in the room: \n");
-        }else{
-          gameTextDisplayArea.append("\n\nNPCs in the room:\n" + game.getCurrentRoom().getNpc().get(0).getName()+ "\n");
+        } else {
+          gameTextDisplayArea.append(
+              "\n\nNPCs in the room:\n" + game.getCurrentRoom().getNpc().get(0).getName() + "\n");
         }
-        if(!game.getCurrentRoom().getChests().isEmpty()){
+        if (!game.getCurrentRoom().getChests().isEmpty()) {
           gameTextDisplayArea.append("\n\nUnopened chests in the room: \n");
-          for(Chest chest : game.getCurrentRoom().getChests()){
-            if(!chest.getOpened()) {
-              gameTextDisplayArea.append(chest.getName()+ "\n");
+          for (Chest chest : game.getCurrentRoom().getChests()) {
+            if (!chest.getOpened()) {
+              gameTextDisplayArea.append(chest.getName() + "\n");
             }
           }
         }
@@ -285,26 +286,26 @@ public class GUI extends JFrame {
       }
     });
 
-
     eastButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         game.moveEast();
         textArea.setText(game.getCurrentRoom().getDescription());
-        if(game.getCurrentRoom().getItems().isEmpty()){
+        if (game.getCurrentRoom().getItems().isEmpty()) {
           gameTextDisplayArea.setText("Items in room: \n");
-        }else {
+        } else {
           gameTextDisplayArea.setText("Items in room: \n" + game.getCurrentRoom().getItems());
         }
-        if(game.getCurrentRoom().getNpc().isEmpty()){
+        if (game.getCurrentRoom().getNpc().isEmpty()) {
           gameTextDisplayArea.append("NPCs in the room: \n");
-        }else{
-          gameTextDisplayArea.append("\n\nNPCs in the room:\n" + game.getCurrentRoom().getNpc().get(0).getName()+ "\n");
+        } else {
+          gameTextDisplayArea.append(
+              "\n\nNPCs in the room:\n" + game.getCurrentRoom().getNpc().get(0).getName() + "\n");
         }
-        if(!game.getCurrentRoom().getChests().isEmpty()){
+        if (!game.getCurrentRoom().getChests().isEmpty()) {
           gameTextDisplayArea.append("\n\nUnopened chests in the room: \n");
-          for(Chest chest : game.getCurrentRoom().getChests()){
-            if(!chest.getOpened()) {
-              gameTextDisplayArea.append(chest.getName()+ "\n");
+          for (Chest chest : game.getCurrentRoom().getChests()) {
+            if (!chest.getOpened()) {
+              gameTextDisplayArea.append(chest.getName() + "\n");
             }
           }
         }
@@ -316,28 +317,28 @@ public class GUI extends JFrame {
       public void actionPerformed(ActionEvent e) {
         game.moveWest();
         textArea.setText(game.getCurrentRoom().getDescription());
-        if(game.getCurrentRoom().getItems().isEmpty()){
+        if (game.getCurrentRoom().getItems().isEmpty()) {
           gameTextDisplayArea.setText("Items in room: \n");
-        }else {
+        } else {
           gameTextDisplayArea.setText("Items in room: \n" + game.getCurrentRoom().getItems());
         }
-        if(game.getCurrentRoom().getNpc().isEmpty()){
+        if (game.getCurrentRoom().getNpc().isEmpty()) {
           gameTextDisplayArea.append("NPCs in the room: \n");
-        }else{
-          gameTextDisplayArea.append("\n\nNPCs in the room:\n" + game.getCurrentRoom().getNpc().get(0).getName()+ "\n");
+        } else {
+          gameTextDisplayArea.append(
+              "\n\nNPCs in the room:\n" + game.getCurrentRoom().getNpc().get(0).getName() + "\n");
         }
-        if(!game.getCurrentRoom().getChests().isEmpty()){
+        if (!game.getCurrentRoom().getChests().isEmpty()) {
           gameTextDisplayArea.append("\n\nUnopened chests in the room: \n");
-          for(Chest chest : game.getCurrentRoom().getChests()){
-            if(!chest.getOpened()) {
-              gameTextDisplayArea.append(chest.getName()+ "\n");
+          for (Chest chest : game.getCurrentRoom().getChests()) {
+            if (!chest.getOpened()) {
+              gameTextDisplayArea.append(chest.getName() + "\n");
             }
-        }
+          }
         }
         setButtonEnabled();
       }
     });
-
 
     attackButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
@@ -349,18 +350,19 @@ public class GUI extends JFrame {
     talkButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         String npcQuestion = game.getNPCQuestion();
-        com.escapeartist.views.AnswerDialog answerDialog = new com.escapeartist.views.AnswerDialog(GUI.this, npcQuestion);
+        com.escapeartist.views.AnswerDialog answerDialog = new com.escapeartist.views.AnswerDialog(
+            GUI.this, npcQuestion);
         answerDialog.setVisible(true);
 
         String playerAnswer = answerDialog.getAnswer();
 
         String interactionResult = game.talkNPC(npcQuestion, playerAnswer);
-        roomDescription.setText(game.getCurrentRoom().getDescription() + "\nItems in the room: \n" + game.getCurrentRoom().getItems().toString() + "\n\n" + interactionResult);
+        roomDescription.setText(game.getCurrentRoom().getDescription() + "\nItems in the room: \n"
+            + game.getCurrentRoom().getItems().toString() + "\n\n" + interactionResult);
         gameTextDisplayArea.append(interactionResult + "\n");
         setButtonEnabled();
       }
     });
-
 
     pickUpButton.addActionListener(new ActionListener() {
 
@@ -410,16 +412,17 @@ public class GUI extends JFrame {
         }
         Item itemToUse = null;
         for (Item item : game.getPlayer().getInventory()) {
-          if (item.getName().equalsIgnoreCase(selectedItem)){
-          itemToUse = item;
+          if (item.getName().equalsIgnoreCase(selectedItem)) {
+            itemToUse = item;
+          }
         }
-      }
         switch (itemToUse.getType()) {
           case "weapon":
-            gameTextDisplayArea.append("You try to use the " + itemToUse.getName() + ". It has no effect.\n");
+            gameTextDisplayArea.append(
+                "You try to use the " + itemToUse.getName() + ". It has no effect.\n");
             break;
           case "key":
-            if(game.getChestRooms().contains(game.getCurrentRoom().getName())){
+            if (game.getChestRooms().contains(game.getCurrentRoom().getName())) {
               openChest();
               game.getPlayer().getInventory().remove(itemToUse);
               game.getPlayer().getInventory().remove(itemToUse);
@@ -427,16 +430,16 @@ public class GUI extends JFrame {
               listModel.removeElement(itemToUse.getName());
               setButtonEnabled();
               break;
-            }
-            else{
+            } else {
               System.out.println("No effect");
             }
           case "armor":
-            gameTextDisplayArea.append("You try to use the " + itemToUse.getName() + ". It has no effect.\n");
+            gameTextDisplayArea.append(
+                "You try to use the " + itemToUse.getName() + ". It has no effect.\n");
             break;
           case "heal":
             gameTextDisplayArea.append("You used the " + itemToUse.getName() + ".\n");
-            game.getPlayer().setHealth(itemToUse.getValue()+game.getPlayer().getHealth());
+            game.getPlayer().setHealth(itemToUse.getValue() + game.getPlayer().getHealth());
             game.getPlayer().getInventory().remove(itemToUse);
             DefaultListModel<String> listModel = (DefaultListModel<String>) inventoryList.getModel();
             listModel.removeElement(itemToUse.getName());
@@ -527,30 +530,33 @@ public class GUI extends JFrame {
     }
   }
 
-  private void openChest(){
+  private void openChest() {
 
-    if(game.getChestRooms().contains(game.getCurrentRoom().getName())){
+    if (game.getChestRooms().contains(game.getCurrentRoom().getName())) {
       JFrame helpFrame = new JFrame("Open Chest");
 
       // Add buttons and their associated logic to the help popup window
       JPanel openChestButtonsPanel = new JPanel();
 
-      JButton leftChest = new JButton("Open " + game.getCurrentRoom().getChests().get(0).getName() + "?");
+      JButton leftChest = new JButton(
+          "Open " + game.getCurrentRoom().getChests().get(0).getName() + "?");
       leftChest.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           game.getCurrentRoom().getChests().get(0).setOpened(true);
-          if(game.getCurrentRoom().getName().equalsIgnoreCase("weapons exhibit")){
+          if (game.getCurrentRoom().getName().equalsIgnoreCase("weapons exhibit")) {
             Item scimitar = new Item(10, "Scimitar", "A curved sword.", "weapon", true);
             game.getCurrentRoom().getItems().add(scimitar);
             gameTextDisplayArea.append("A weapon emerges from the chest, a Scimitar!\n");
             setButtonEnabled();
-          }else if(game.getCurrentRoom().getName().equalsIgnoreCase("armor exhibit")){
-            Item chainMail = new Item(10, "Chainmail", "Interlocking rings that block attacks.", "armor", true);
+          } else if (game.getCurrentRoom().getName().equalsIgnoreCase("armor exhibit")) {
+            Item chainMail = new Item(10, "Chainmail", "Interlocking rings that block attacks.",
+                "armor", true);
             game.getCurrentRoom().getItems().add(chainMail);
             gameTextDisplayArea.append("Armor emerges from the chest, its Chainmail!\n");
             setButtonEnabled();
-          }else if(game.getCurrentRoom().getName().equalsIgnoreCase("Homeopathy Exhibit")){
-            Item largePotion = new Item(30, "Large Potion", "A potion to heal health", "heal", false);
+          } else if (game.getCurrentRoom().getName().equalsIgnoreCase("Homeopathy Exhibit")) {
+            Item largePotion = new Item(30, "Large Potion", "A potion to heal health", "heal",
+                false);
             game.getCurrentRoom().getItems().add(largePotion);
             gameTextDisplayArea.append("A potion emerges from the chest, its a Large Potion!\n");
             setButtonEnabled();
@@ -560,23 +566,25 @@ public class GUI extends JFrame {
         }
       });
 
-      JButton middleChest = new JButton("Open " + game.getCurrentRoom().getChests().get(1).getName() + "?");
+      JButton middleChest = new JButton(
+          "Open " + game.getCurrentRoom().getChests().get(1).getName() + "?");
       middleChest.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           game.getCurrentRoom().getChests().get(1).setOpened(true);
-          if(game.getCurrentRoom().getName().equalsIgnoreCase("weapons exhibit")){
+          if (game.getCurrentRoom().getName().equalsIgnoreCase("weapons exhibit")) {
             Item katana = new Item(15, "Katana", "An ancient sword.", "weapon", true);
             game.getCurrentRoom().getItems().add(katana);
             gameTextDisplayArea.append("A weapon emerges from the chest, a Katana!\n");
             setButtonEnabled();
-          }else if(game.getCurrentRoom().getName().equalsIgnoreCase("armor exhibit")) {
+          } else if (game.getCurrentRoom().getName().equalsIgnoreCase("armor exhibit")) {
             Item yori = new Item(20, "Yori",
                 "Elaborate woven cloth meant to give the user ease of movement", "armor", true);
             game.getCurrentRoom().getItems().add(yori);
             gameTextDisplayArea.append("Armor emerges from the chest, its a Yori!\n");
             setButtonEnabled();
-          }else if(game.getCurrentRoom().getName().equalsIgnoreCase("Homeopathy Exhibit")){
-            Item smallPotion = new Item(5, "Small Potion", "A potion to heal health", "heal", false);
+          } else if (game.getCurrentRoom().getName().equalsIgnoreCase("Homeopathy Exhibit")) {
+            Item smallPotion = new Item(5, "Small Potion", "A potion to heal health", "heal",
+                false);
             game.getCurrentRoom().getItems().add(smallPotion);
             gameTextDisplayArea.append("A potion emerges from the chest, its a Small Potion!\n");
             setButtonEnabled();
@@ -586,22 +594,24 @@ public class GUI extends JFrame {
         }
       });
 
-      JButton rightChest = new JButton("Open " + game.getCurrentRoom().getChests().get(2).getName() + "?");
+      JButton rightChest = new JButton(
+          "Open " + game.getCurrentRoom().getChests().get(2).getName() + "?");
       rightChest.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
           game.getCurrentRoom().getChests().get(2).setOpened(true);
-          if(game.getCurrentRoom().getName().equalsIgnoreCase("weapons exhibit")){
-            Item longsword = new Item(20, "Longsword", "A straight blade from ancient times.", "weapon", true);
+          if (game.getCurrentRoom().getName().equalsIgnoreCase("weapons exhibit")) {
+            Item longsword = new Item(20, "Longsword", "A straight blade from ancient times.",
+                "weapon", true);
             game.getCurrentRoom().getItems().add(longsword);
             gameTextDisplayArea.append("A weapon emerges from the chest, a Longsword!\n");
             setButtonEnabled();
-          }else if(game.getCurrentRoom().getName().equalsIgnoreCase("armor exhibit")) {
+          } else if (game.getCurrentRoom().getName().equalsIgnoreCase("armor exhibit")) {
             Item plateArmor = new Item(15, "Plate Armor",
                 "Heavy and thick plates meant to deflect away blows.", "armor", true);
             game.getCurrentRoom().getItems().add(plateArmor);
             gameTextDisplayArea.append("Armor emerges from the chest, its Plate Armor!\n");
             setButtonEnabled();
-          }else if(game.getCurrentRoom().getName().equalsIgnoreCase("Homeopathy Exhibit")){
+          } else if (game.getCurrentRoom().getName().equalsIgnoreCase("Homeopathy Exhibit")) {
             Item potion = new Item(20, "Potion", "A potion to heal health", "heal", false);
             game.getCurrentRoom().getItems().add(potion);
             gameTextDisplayArea.append("A potion emerges from the chest, its a Medium Potion!\n");
@@ -622,14 +632,13 @@ public class GUI extends JFrame {
 
       helpFrame.add(openChestButtonsPanel, BorderLayout.CENTER);
 
-
       helpFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
       helpFrame.setSize(400, 300);
       helpFrame.setVisible(true);
-    }else{
+    } else {
       gameTextDisplayArea.append("Cannot use key in this room.\n");
-      }
     }
+  }
 
 
   private void fightMainBoss() {
@@ -664,28 +673,46 @@ public class GUI extends JFrame {
   private void bossFight() {
     Boss boss = new Boss(game.getPlayer());
     boss.setActive(true);
-
+    playerTurn(boss);
   }
 
-    private void playerTurn(Boss boss) {
-      // Assuming the player has an attack method that deals damage to the boss
-      game.getPlayer().attack(boss);
-      if (boss.getHealth() <= 0) {
-        System.out.println("You have defeated the boss!");
-        boss.setActive(false);
-        // TODO: Handle victory, e.g. enable buttons, show a victory message
-      } else {
-        // Boss's turn
-        boss.attackPlayer(game.getPlayer());
-        if (game.getPlayer().getHealth() <= 0) {
-          System.out.println("You have been defeated by the boss.");
-          // TODO: Handle defeat, e.g. disable buttons, show a defeat message
+  private void playerTurn(Boss boss) {
+    isFighting = true;
+
+    attackButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        if (isFighting) {
+          game.getPlayer().attack(boss);
+          if (boss.getHealth() <= 0) {
+            handleVictory(boss);
+            isFighting = false;
+          } else {
+            boss.attackPlayer(game.getPlayer());
+            if (game.getPlayer().getHealth() <= 0) {
+              handleDefeat();
+              isFighting = false;
+            }
+          }
         }
       }
-    }
+    });
+  }
 
+  private void handleVictory(Boss boss) {
+    ImageIcon victoryIcon = new ImageIcon(getClass().getResource("/Ending_Victorious.png"));
+    showEndGameDialog("Victory", "Congratulations! You have defeated the boss!", victoryIcon,
+        false);
+    boss.setActive(false);
+    attackButton.setEnabled(true);
+  }
 
-
+  private void handleDefeat() {
+    ImageIcon defeatIcon = new ImageIcon(getClass().getResource("/Ending_Defeated.png"));
+    showEndGameDialog("Defeat", "You have been defeated by the boss. Better luck next time.",
+        defeatIcon, true);
+    attackButton.setEnabled(true);
+  }
 
   private void showHelpWindow() {
     JFrame helpFrame = new JFrame("Help");
@@ -727,13 +754,13 @@ public class GUI extends JFrame {
       }
     });
 
-      JButton muteUnmuteButton = new JButton(musicMuted ? "Unmute" : "Mute");
-      muteUnmuteButton.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-          toggleMusic();
-          muteUnmuteButton.setText(musicMuted ? "Unmute" : "Mute");
-        }
-      });
+    JButton muteUnmuteButton = new JButton(musicMuted ? "Unmute" : "Mute");
+    muteUnmuteButton.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        toggleMusic();
+        muteUnmuteButton.setText(musicMuted ? "Unmute" : "Mute");
+      }
+    });
 
     JButton quitButton = new JButton("Quit");
     quitButton.addActionListener(new ActionListener() {
@@ -749,11 +776,11 @@ public class GUI extends JFrame {
 
     helpFrame.add(helpButtonsPanel, BorderLayout.SOUTH);
 
-
     helpFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     helpFrame.setSize(400, 300);
     helpFrame.setVisible(true);
   }
+
   private void toggleMusic() {
     game.toggleMute();
     musicMuted = !musicMuted;
@@ -765,5 +792,65 @@ public class GUI extends JFrame {
 
   public void setGameTextDisplayArea(JTextArea gameTextDisplayArea) {
     this.gameTextDisplayArea = gameTextDisplayArea;
+  }
+
+  private void showEndGameDialog(String title, String message, ImageIcon icon, boolean isDefeat) {
+    {
+      JDialog endGameDialog = new JDialog();
+      endGameDialog.setTitle(title);
+      endGameDialog.setModal(true);
+      endGameDialog.setLayout(new BorderLayout());
+      endGameDialog.setSize(800, 800);
+
+      if (isDefeat) {
+        endGameDialog.setSize(600, 700);
+      } else {
+        endGameDialog.setSize(600, 700);
+      }
+
+      JPanel messagePanel = new JPanel(new BorderLayout());
+      messagePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+      JLabel messageLabel = new JLabel(message, JLabel.CENTER);
+      messagePanel.add(messageLabel, BorderLayout.NORTH);
+
+      JLabel iconLabel = new JLabel(icon, JLabel.CENTER);
+      messagePanel.add(iconLabel, BorderLayout.CENTER);
+
+      JPanel buttonPanel = new JPanel(new FlowLayout());
+      JButton restartButton = new JButton("Restart");
+      JButton quitButton = new JButton("Quit");
+
+      restartButton.addActionListener(e -> {
+        endGameDialog.dispose();
+        restartGame();
+      });
+
+      quitButton.addActionListener(e -> {
+        endGameDialog.dispose();
+        System.exit(0);
+      });
+
+      buttonPanel.add(restartButton);
+      buttonPanel.add(quitButton);
+
+      endGameDialog.add(messagePanel, BorderLayout.CENTER);
+      endGameDialog.add(buttonPanel, BorderLayout.SOUTH);
+      endGameDialog.setLocationRelativeTo(null);
+      endGameDialog.setVisible(true);
+    }
+  }
+    private void restartGame() {
+      getContentPane().removeAll();
+      game = new Game();
+      initGUI();
+      revalidate();
+      repaint();
+    }
+
+    private void setBossSpiritImage() {
+      ImageIcon bossSpiritImage = new ImageIcon(getClass().getResource("/boss_room.png"));
+      spiritImageLabel.setIcon(bossSpiritImage);
+
   }
 }

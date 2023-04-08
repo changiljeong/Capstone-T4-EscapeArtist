@@ -18,12 +18,16 @@ public class Item {
     @SerializedName("equable")
     private Boolean equable;
 
+    @SerializedName("effect")
+    private String effect;
+
     public Item(int value, String name, String description, String type, Boolean equable) {
         this.value = value;
         this.name = name;
         this.description = description;
         this.type = type;
         this.equable = equable;
+        this.effect = effect;
     }
 
     @Override
@@ -70,4 +74,14 @@ public class Item {
     public void setEquable(Boolean equable) {
         this.equable = equable;
     }
+
+    public String getEffect() {
+        return effect;
+    }
+
+    public void setEffect(String effect) {
+        this.effect = effect;
+    }
+
+
 }
