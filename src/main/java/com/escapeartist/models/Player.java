@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
+
     private int health;
     private int attack;
     private int defense;
@@ -13,9 +14,9 @@ public class Player {
     private List<Item> inventory;
 
     public Player() {
-        this.health = 100;
+        this.health = 50;
         this.attack = 20;
-        this.defense = 50;
+        this.defense = 20;
         this.inventory = new ArrayList<Item>();
     }
 
@@ -74,14 +75,15 @@ public class Player {
                 }
                 this.equippedWeapon = itemToEquip;
                 setAttack(getAttack() + getEquippedWeapon().getValue());
-                return itemToEquip.getName()+ " equipped.";
-            } else if (itemToEquip.getEquable() && itemToEquip.getType().equalsIgnoreCase("armor")) {
+                return itemToEquip.getName() + " equipped.";
+            } else if (itemToEquip.getEquable() && itemToEquip.getType()
+                .equalsIgnoreCase("armor")) {
                 if (getEquippedArmor() != null) {
                     setDefense(getDefense() - getEquippedArmor().getValue());
                 }
                 this.equippedArmor = itemToEquip;
                 setDefense(getDefense() + getEquippedArmor().getValue());
-                return itemToEquip.getName()+ " equipped.";
+                return itemToEquip.getName() + " equipped.";
             } else {
                 return "Cannot equip " + itemToEquip.getName();
             }
@@ -90,13 +92,22 @@ public class Player {
         }
     }
 
-    public void attack(Boss boss) {
+    public String attack(Boss boss) {
         int damage = this.attack;
         if (equippedWeapon != null) {
             damage += equippedWeapon.getValue();
         }
         boss.takeDamage(damage);
+        return"You dealt "+damage +" damage to the boss.";
     }
+
+    public void takeDamage(int damage) {
+        this.health -= damage;
+        if (this.health < 0) {
+            this.health = 0;
+        }
+    }
+
 
     public List<Item> getInventory() {
         return inventory;

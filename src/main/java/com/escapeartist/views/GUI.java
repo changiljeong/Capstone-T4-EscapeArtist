@@ -207,6 +207,23 @@ public class GUI extends JFrame {
     gameTextDisplayArea.setWrapStyleWord(true);
     gameTextDisplayArea.setText("Items in room: \n" + game.getCurrentRoom().getItems() + "\n");
 
+// Create a JScrollPane with the JTextArea
+    JScrollPane scrollPane = new JScrollPane(gameTextDisplayArea);
+    scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+// Add the JScrollPane (with the JTextArea inside) to the panel instead of adding the JTextArea directly
+    textPanel.add(scrollPane);
+
+
+    topRightPanel.add(textPanel, BorderLayout.NORTH);
+
+
+
+
+    topRightPanel.add(textPanel, BorderLayout.NORTH);
+
+    topRightPanel.add(textPanel, BorderLayout.NORTH);
+
     topRightPanel.add(textPanel, BorderLayout.NORTH);
 
     topRightPanel.add(textPanel, BorderLayout.NORTH);
@@ -679,15 +696,22 @@ public class GUI extends JFrame {
   private void playerTurn(Boss boss) {
     isFighting = true;
 
+    attackButton.removeActionListener(attackButton.getActionListeners()[0]); // Remove any existing action listeners
     attackButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
         if (isFighting) {
+          String playerAttackMessage = game.getPlayer().attack(boss);
+          gameTextDisplayArea.append("\n" + playerAttackMessage + "\n"); // append the player's attack message
+
           game.getPlayer().attack(boss);
           if (boss.getHealth() <= 0) {
             handleVictory(boss);
             isFighting = false;
           } else {
+            String bossTaunt = boss.attackPlayer(game.getPlayer());
+            gameTextDisplayArea.append("\n" + bossTaunt + "\n"); // append the taunt to the JTextArea
+
             boss.attackPlayer(game.getPlayer());
             if (game.getPlayer().getHealth() <= 0) {
               handleDefeat();

@@ -24,7 +24,6 @@ public class Game {
   private Boss boss;
 
 
-
   private final List<String> triviaRooms = List.of(
       new String[]{"Shinto Exhibit", "Middle Ages Exhibit", "Middle Kingdom Exhibit"});
 
@@ -38,7 +37,6 @@ public class Game {
   List<Room> roomJSON;
   List<Trivia> triviaJSON;
   List<Riddle> riddleJSON;
-
 
   public Game() {
     jsonData = new Deserializer();
@@ -56,7 +54,6 @@ public class Game {
     backgroundMusic.toggleMute();
     bossMusic.toggleMute();
   }
-
 
   private boolean isBossInCurrentRoom() {
     return currentRoom.getName().equals(getCurrentRoom());
@@ -83,7 +80,6 @@ public class Game {
     }
     checkAndPlayBossMusic();
   }
-
 
   public void moveNorth() {
     if(currentRoom.getExits().containsKey("north")){
@@ -169,7 +165,6 @@ public class Game {
     return result;
   }
 
-
   public String handleTriviaAnswer(String question, String playerAnswer) {
     Trivia trivia = triviaJSON.stream()
         .filter(t -> t.getQuestion().equals(question))
@@ -213,7 +208,6 @@ public class Game {
     riddle = riddle.getRiddle(riddleJSON);
     return riddle.getRiddle();
   }
-
 
   public void fightNPC(){
     if(!currentRoom.getNpc().isEmpty()){

@@ -29,8 +29,8 @@
       },
       "npcs": [{
         "name": "Ghost",
-        "health": 20,
-        "attackPower": 10,
+        "health": 50,
+        "attackPower": 20,
         "defense": 10,
         "description": "A ghostly apparition with glowing eyes and a haunting aura. It lingers in the shadows, watching your every move."
       }],
@@ -124,9 +124,9 @@
       },
       "npcs": [{
         "name": "Guard",
-        "health": 20,
-        "attackPower": 10,
-        "defense": 10}],
+        "health": 80,
+        "attackPower": 30,
+        "defense": 20}],
       "items": [],
       "chests": [],
       "spiritImage": "/middle_kingdom.png"
@@ -142,8 +142,8 @@
       },
       "npcs": [{
         "name": "Knight",
-        "health": 20,
-        "attackPower": 10,
+        "health": 90,
+        "attackPower": 15,
         "defense": 10}],
       "items": [],
       "chests": [],
@@ -241,9 +241,9 @@
       },
       "npcs": [{
         "name": "Samurai",
-        "health": 20,
-        "attackPower": 10,
-        "defense": 10}],
+        "health": 40,
+        "attackPower": 30,
+        "defense": 25}],
       "items": [],
       "chests": [],
       "spiritImage": "/samurai_empire.png"
@@ -270,8 +270,8 @@
       "npcs": [{
         "name": "Boss",
         "health": 200,
-        "attackPower": 10,
-        "defense": 10}],
+        "attackPower": 50,
+        "defense": 50}],
       "items": [],
       "chests": [],
       "spiritImage": "/boss_room.png"
@@ -284,9 +284,9 @@
       },
       "npcs": [{
         "name": "Merchant",
-        "health": 20,
+        "health": 10,
         "attackPower": 10,
-        "defense": 10}],
+        "defense": 70}],
       "items": [],
       "chests": [
         {
