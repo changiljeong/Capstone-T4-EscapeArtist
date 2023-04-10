@@ -65,7 +65,7 @@ public class GUI extends JFrame {
 
     // Create splash screen panel
     JPanel splashScreenPanel = new JPanel(new BorderLayout());
-    ImageIcon splashScreenIcon = new ImageIcon(getClass().getResource("/EscapeArtistTitle.png"));
+    ImageIcon splashScreenIcon = new ImageIcon(getClass().getResource("/Escape_Artist2.png"));
     JLabel splashScreenLabel = new JLabel(splashScreenIcon);
     splashScreenPanel.add(splashScreenLabel, BorderLayout.CENTER);
     add(splashScreenPanel, BorderLayout.CENTER);
