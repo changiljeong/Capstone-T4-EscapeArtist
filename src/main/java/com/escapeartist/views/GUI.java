@@ -5,6 +5,7 @@ import com.escapeartist.models.Boss;
 import com.escapeartist.models.Chest;
 import com.escapeartist.models.Item;
 import com.escapeartist.models.Room;
+import com.escapeartist.util.AudioPlayer;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import java.io.IOException;

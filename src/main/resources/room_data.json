@@ -19,6 +19,7 @@
       "chests": [],
       "spiritImage": "/museum_lobby.png"
     },
+
     {
       "name": "Old Kingdom Exhibit",
       "description": "You are in the Old Kingdom Exhibit, surrounded by ancient relics and artifacts that speak of a bygone era. The air is thick with the scent of aged parchment and dust, and shafts of sunlight filter through the stained-glass windows. As you look around, you notice a shadowy figure lurking in the corner - a ghostly apparition with glowing eyes and a haunting aura. Your heart races as you realize you are not alone in this ancient tomb. There are three exits (North, East, and South).",
@@ -53,7 +54,13 @@
         "west": "Old Kingdom Exhibit",
         "east": "Koto Exhibit"
       },
-      "npcs": [],
+      "npcs": [{
+        "name": "Knight",
+        "health": 50,
+        "attackPower": 20,
+        "defense": 15,
+        "description": "An darkly armored figure with steel and rust"
+      }],
       "items": [],
       "chests": [],
       "spiritImage": "/dark_ages.png"
@@ -67,7 +74,13 @@
         "north": "Homeopathy crossroads",
         "west": "Dark Ages Exhibit"
       },
-      "npcs": [],
+      "npcs": [{
+        "name": "Samurai",
+        "health": 50,
+        "attackPower": 15,
+        "defense": 20,
+        "description": "A samurai, clad in intricate armor, stands tall with an air of unwavering focus"
+      }],
       "items": [],
       "chests": [],
       "spiritImage": "/koto.png"
@@ -157,7 +170,13 @@
         "north": "Weapons crossroads",
         "south": "Homeopathy Exhibit"
       },
-      "npcs": [],
+      "npcs": [{
+        "name": "Samurai",
+        "health": 50,
+        "attackPower": 15,
+        "defense": 20,
+        "description": "This noble warrior's eyes glisten with wisdom, reflecting a lifetime of discipline and adherence to the sacred code of bushido"
+      }],
       "items": [],
       "chests": [],
       "spiritImage": "/shinto_exhibit.png"
@@ -185,7 +204,12 @@
         "south": "Weapons crossroads",
         "east": "Gendaito Exhibit"
       },
-      "npcs": [],
+      "npcs": [{
+        "name": "Guard",
+        "health": 80,
+        "attackPower": 30,
+        "defense": 20
+      }],
       "items": [],
       "chests": [
         {
@@ -212,7 +236,13 @@
         "north": "Armor crossroads",
         "east": "Renaissance Ages Exhibit"
       },
-      "npcs": [],
+      "npcs": [{
+        "name": "Knight",
+        "health": 50,
+        "attackPower": 25,
+        "defense": 10,
+        "description": "A valiant knight, adorned in gleaming plate armor, exudes an aura of chivalry and honor"
+      }],
       "items": [],
       "chests": [],
       "spiritImage": "/new_kingdom.png"
@@ -243,7 +273,9 @@
         "name": "Samurai",
         "health": 40,
         "attackPower": 30,
-        "defense": 25}],
+        "defense": 25,
+        "description": "A formidable samurai, garbed in intricate armor, emanates a powerful presence of discipline and skill"
+      }],
       "items": [],
       "chests": [],
       "spiritImage": "/samurai_empire.png"
@@ -257,7 +289,13 @@
         "east": "Gendaito Exhibit",
         "west":"New Kingdom Exhibit"
       },
-      "npcs": [],
+      "npcs": [{
+        "name": "Guard",
+        "health": 25,
+        "attackPower": 20,
+        "defense": 15,
+        "description": "A stalwart guard, clad in imposing armor, stands watch with unwavering vigilance"
+      }],
       "items": [],
       "chests": [],
       "spiritImage": "/armor_exhibit_crossroads.png"

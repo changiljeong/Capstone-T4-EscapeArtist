@@ -2,8 +2,7 @@ package com.escapeartist.views;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 public class AnswerDialog extends JDialog {
 
@@ -26,6 +25,22 @@ public class AnswerDialog extends JDialog {
     panel.add(questionLabel, cs);
 
     answerField = new JTextField(20);
+    answerField.addKeyListener(new KeyListener() {
+      @Override
+      public void keyTyped(KeyEvent e) {
+      }
+
+      @Override
+      public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+          submitAnswer();
+        }
+      }
+
+      @Override
+      public void keyReleased(KeyEvent e) {
+      }
+    });
     cs.gridx = 0;
     cs.gridy = 1;
     cs.gridwidth = 2;
@@ -34,8 +49,7 @@ public class AnswerDialog extends JDialog {
     submitButton = new JButton("Submit");
     submitButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        answer = answerField.getText();
-        dispose();
+        submitAnswer();
       }
     });
     cs.gridx = 1;
@@ -53,4 +67,10 @@ public class AnswerDialog extends JDialog {
   public String getAnswer() {
     return answer;
   }
+
+  private void submitAnswer() {
+    answer = answerField.getText();
+    dispose();
+  }
 }
+
